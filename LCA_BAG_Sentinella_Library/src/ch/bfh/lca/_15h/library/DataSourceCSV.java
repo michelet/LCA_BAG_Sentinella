@@ -5,6 +5,7 @@
  */
 package ch.bfh.lca._15h.library;
 
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -25,10 +26,12 @@ public class DataSourceCSV implements DataSource {
     }
     
     @Override
-    public ArrayList<Patient>  parsePatients() throws Exception {
+    public ArrayList<Patient> parsePatients() throws Exception {
         ArrayList<Patient> aPatients = new ArrayList<Patient>();
         Patient p;
         String[] pCSV;
+        String[] csvHeaders = null;
+        int i;
         
         BufferedReader br = null;
         String line = "";
@@ -40,10 +43,19 @@ public class DataSourceCSV implements DataSource {
         while ((line = br.readLine()) != null) {
             if (isFirstLine) {
                 isFirstLine = false;
+                csvHeaders = line.split(cvsSplitBy);
             } else {
                 pCSV = line.split(cvsSplitBy);
                 p = new Patient();
-                p.setPatID(pCSV[0]);
+                
+                for(i=0; i<csvHeaders.length; i++) {
+                    //String propertyName = csvHeaders[i];
+                    //String methodName = "set" + StringUtils.capitalize(propertyName);
+                    //String methodName = "set" + propertyName.replaceAll("\"", "");
+                    if(i < pCSV.length) //make sure data line as enought column
+                        p.getClass().getMethod("set" + csvHeaders[i].replaceAll("\"", ""), String.class).invoke(p, pCSV[i].replaceAll("\"", ""));
+                }
+                
                 aPatients.add(p);
             }
         }
