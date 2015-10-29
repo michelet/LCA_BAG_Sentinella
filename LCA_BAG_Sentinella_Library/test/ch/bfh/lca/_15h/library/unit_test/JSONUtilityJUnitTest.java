@@ -7,7 +7,10 @@ package ch.bfh.lca._15h.library.unit_test;
 
 import ch.bfh.lca._15h.library.DataSourceCSV;
 import ch.bfh.lca._15h.library.Patient;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -45,10 +48,17 @@ public class JSONUtilityJUnitTest {
     //
      @Test
      public void testDataSourceCSVPatient() {
-         //DataSourceCSV ds = new DataSourceCSV(null, null);
-         //ArrayList<Patient> ap = ds.parsePatients();
+         URL csvURL = JSONUtilityJUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-patient.csv");
+
+         DataSourceCSV ds = new DataSourceCSV(csvURL.getPath(), null);
          
-         
+         ArrayList<Patient> ap;
+        try {
+            ap = ds.parsePatients();
+            assertEquals("DataSourceCSV read 1st line","1",ap.get(0).getPatID());
+        } catch (Exception ex) {
+            fail("DataSourceCSV exception: " + ex.getLocalizedMessage());
+        }
      }
     
 }
