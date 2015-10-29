@@ -33,16 +33,21 @@ public class DataSourceCSV implements DataSource {
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
+        Boolean isFirstLine = true;
 
         br = new BufferedReader(new FileReader(this.patientsCSVPath));
-        
+
         while ((line = br.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false;
+            } else {
                 pCSV = line.split(cvsSplitBy);
                 p = new Patient();
-                p.setPatID(pCSV[1]);
+                p.setPatID(pCSV[0]);
                 aPatients.add(p);
             }
-        
+        }
+
         br.close();
         
         return aPatients;
