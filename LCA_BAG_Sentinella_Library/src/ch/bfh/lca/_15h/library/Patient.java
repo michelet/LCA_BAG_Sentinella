@@ -73,7 +73,7 @@ public class Patient {
     private String billTypeVers2;
     private String defaultBilling;
     private String adrNumReferrer;
-    private String ean;
+    private String EAN;
     private String reserve;
     private String adrNumStammGarant;
     private String flag;
@@ -589,12 +589,12 @@ public class Patient {
         this.adrNumReferrer = adrNumReferrer;
     }
 
-    public String getEan() {
-        return ean;
+    public String getEAN() {
+        return EAN;
     }
 
-    public void setEan(String ean) {
-        this.ean = ean;
+    public void setEAN(String ean) {
+        this.EAN = ean;
     }
 
     public String getReserve() {
