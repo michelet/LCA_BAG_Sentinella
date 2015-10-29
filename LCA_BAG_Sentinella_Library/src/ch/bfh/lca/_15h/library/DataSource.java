@@ -5,10 +5,13 @@
  */
 package ch.bfh.lca._15h.library;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author micheletc
  */
 public interface DataSource {
-    
+    public ArrayList<Patient> parsePatients() throws Exception;
+    public ArrayList<Activity>  parseActivities() throws Exception;
 }
