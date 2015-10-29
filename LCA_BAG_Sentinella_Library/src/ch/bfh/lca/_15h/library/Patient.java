@@ -10,5 +10,13 @@ package ch.bfh.lca._15h.library;
  * @author micheletc
  */
 public class Patient {
-    
+    private String patID;
+
+    public String getPatID() {
+        return patID;
+    }
+
+    public void setPatID(String patID) {
+        this.patID = patID;
+    }
 }
