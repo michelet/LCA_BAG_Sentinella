@@ -5,6 +5,9 @@
  */
 package ch.bfh.lca._15h.library.unit_test;
 
+import ch.bfh.lca._15h.library.DataSourceCSV;
+import ch.bfh.lca._15h.library.Patient;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -41,6 +44,11 @@ public class JSONUtilityJUnitTest {
     // The methods must be annotated with annotation @Test. For example:
     //
      @Test
-     public void hello() {}
+     public void testDataSourceCSVPatient() {
+         //DataSourceCSV ds = new DataSourceCSV(null, null);
+         //ArrayList<Patient> ap = ds.parsePatients();
+         
+         
+     }
     
 }
