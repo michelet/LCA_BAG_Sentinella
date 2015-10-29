@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lca_bag_sentinella_server;
+package ch.bfh.lca._15h.server;
 
 /**
  *
