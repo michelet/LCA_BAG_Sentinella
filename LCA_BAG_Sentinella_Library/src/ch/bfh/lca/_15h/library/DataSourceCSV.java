@@ -39,7 +39,7 @@ public class DataSourceCSV implements DataSource {
         while ((line = br.readLine()) != null) {
                 pCSV = line.split(cvsSplitBy);
                 p = new Patient();
-                p.setPatID(pCSV[0]);
+                p.setPatID(pCSV[1]);
                 aPatients.add(p);
             }
         
