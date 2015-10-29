@@ -55,7 +55,9 @@ public class JSONUtilityJUnitTest {
          ArrayList<Patient> ap;
         try {
             ap = ds.parsePatients();
-            assertEquals("DataSourceCSV read 1st line","1",ap.get(0).getPatID());
+            assertEquals("DataSourceCSV read 1st line patID","1",ap.get(0).getPatID());
+            assertEquals("DataSourceCSV read 1st line patSalutation","Herrn",ap.get(0).getPatSalutation());
+            assertEquals("DataSourceCSV read 1st line longReserver1","6",ap.get(0).getLongReserve1());
         } catch (Exception ex) {
             fail("DataSourceCSV exception: " + ex.getLocalizedMessage());
         }
