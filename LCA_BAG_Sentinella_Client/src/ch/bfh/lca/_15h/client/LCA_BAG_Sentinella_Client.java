@@ -5,9 +5,11 @@
  */
 package ch.bfh.lca._15h.client;
 
+import ch.bfh.lca._15h.client.ui.MainFrame;
+
 /**
- *
- * @author micheletc
+ * Entry point.
+ * @author Cédric Michelet
  */
 public class LCA_BAG_Sentinella_Client {
 
@@ -15,8 +17,9 @@ public class LCA_BAG_Sentinella_Client {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        System.out.println("Bonjour monde");
+        //launch main windows
+        MainFrame mf = new MainFrame();
+        mf.setVisible(true);
     }
     
 }
