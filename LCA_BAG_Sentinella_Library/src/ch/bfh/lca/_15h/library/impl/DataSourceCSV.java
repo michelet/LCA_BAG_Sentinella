@@ -16,19 +16,40 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 /**
- *
- * @author micheletc
+ * Class to read information from a BAG structured CSV file.
+ * @author Cédric Michelet
  */
 public class DataSourceCSV implements DataSource {
+    /**
+     * Store path of the CSV file containing the patients.
+     */
     private String patientsCSVPath;
+    
+    /**
+     * Store path of the CSV file containing the activities.
+     */
     private String activitiesCSVPath;
+    
+    /**
+     * List of loaded patients.
+     */
     ArrayList<Patient> aPatients;
 
+    /**
+     * Constructor
+     * @param patientsCSVPath Path of the CSV file containing the patients
+     * @param activitiesCSVPath  Path of the CSV file containing the activities
+     */
     public DataSourceCSV(String patientsCSVPath, String activitiesCSVPath) {
         this.patientsCSVPath = patientsCSVPath;
         this.activitiesCSVPath = activitiesCSVPath;
     }
 
+    /***
+     * Search and return a loaded patient with a specific id.
+     * @param patID id of the searched patient.
+     * @return patient or null if not found
+     */
     private Patient findPatient(String patID) {
         if(aPatients == null) return null;
         
@@ -40,6 +61,16 @@ public class DataSourceCSV implements DataSource {
         return null;
     }
     
+    /**
+     * Load the CSV file and create the model in memory.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException
+     * @throws Exception 
+     */
     private void loadCSVInMemory() throws FileNotFoundException, IOException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, Exception {
         aPatients = new ArrayList<>();
         Patient p;
@@ -129,6 +160,4 @@ public class DataSourceCSV implements DataSource {
         if(aPatients == null) this.loadCSVInMemory();
         return aPatients.size();
     }
-
-   
 }
