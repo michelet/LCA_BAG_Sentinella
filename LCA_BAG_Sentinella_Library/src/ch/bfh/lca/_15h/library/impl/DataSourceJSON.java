@@ -60,6 +60,7 @@ public class DataSourceJSON implements DataSource {
             p = source.getPatient(i);
             obj = new JSONObject();
             obj.put("patID", p.getPatID());
+            //@TODO add other required fields
             array.add(obj);
         }
         
