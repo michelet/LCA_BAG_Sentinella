@@ -6,9 +6,7 @@
 package ch.bfh.lca._15h.library.unit_test;
 
 import ch.bfh.lca._15h.library.impl.DataSourceCSV;
-import ch.bfh.lca._15h.library.model.Patient;
 import java.net.URL;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -41,25 +39,46 @@ public class DataSourceCSVUnitTest {
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-     @Test
-     public void testDataSourceCSVPatient() {
+    
+     private DataSourceCSV getDataSource() {
          URL csvURLPatients = DataSourceCSVUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-patient.csv");
          URL csvURLActivities = DataSourceCSVUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-leistung.csv");
          
-         DataSourceCSV ds = new DataSourceCSV(csvURLPatients.getPath(), csvURLActivities.getPath());
+         return new DataSourceCSV(csvURLPatients.getPath(), csvURLActivities.getPath());
+     }
+     
+     @Test
+     public void test_countPatient() {
+         DataSourceCSV ds = this.getDataSource();
          
         try {
             assertEquals("DataSourceCSV count patients",1,ds.countPatients());
-            assertEquals("DataSourceCSV read 1st line patID","1",ds.getPatient(0).getPatID());
-            assertEquals("DataSourceCSV read 1st line patSalutation","Herrn",ds.getPatient(0).getPatSalutation());
-            assertEquals("DataSourceCSV read 1st line longReserver1","6",ds.getPatient(0).getLongReserve1());
-            assertEquals("DataSourceCSV read 1st line 1st activity","1",ds.getPatient(0).getActivities().get(0).getPatNumber());
         } catch (Exception ex) {
             fail("DataSourceCSV exception: " + ex.getLocalizedMessage());
         }
      }
     
+     @Test
+     public void test_readAttributes() {
+         DataSourceCSV ds = this.getDataSource();
+         
+        try {
+            assertEquals("DataSourceCSV read 1st line patID","1",ds.getPatient(0).getPatID());
+            assertEquals("DataSourceCSV read 1st line patSalutation","Herrn",ds.getPatient(0).getPatSalutation());
+            assertEquals("DataSourceCSV read 1st line longReserver1","6",ds.getPatient(0).getLongReserve1());
+        } catch (Exception ex) {
+            fail("DataSourceCSV exception: " + ex.getLocalizedMessage());
+        }
+     }
+     
+     @Test
+     public void test_readActivities() {
+         DataSourceCSV ds = this.getDataSource();
+         
+        try {
+            assertEquals("DataSourceCSV read 1st line 1st activity","1",ds.getPatient(0).getActivities().get(0).getPatNumber());
+        } catch (Exception ex) {
+            fail("DataSourceCSV exception: " + ex.getLocalizedMessage());
+        }
+     }
 }
