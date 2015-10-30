@@ -6,6 +6,8 @@
 package ch.bfh.lca._15h.library;
 
 
+import ch.bfh.lca._15h.library.model.Patient;
+import ch.bfh.lca._15h.library.model.Activity;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
