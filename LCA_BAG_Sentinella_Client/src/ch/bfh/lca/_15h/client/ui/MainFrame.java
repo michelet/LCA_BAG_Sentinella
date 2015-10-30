@@ -5,6 +5,12 @@
  */
 package ch.bfh.lca._15h.client.ui;
 
+import ch.bfh.lca._15h.library.impl.DataSourceCSV;
+import ch.bfh.lca._15h.library.impl.DataSourceJSON;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+
 /**
  *
  * @author Cédric Michelet
@@ -27,21 +33,76 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jTFInputFolder = new javax.swing.JTextField();
+        jBConvertToJSON = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jLabel1.setText("Input folder :");
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+        jTFInputFolder.setText("c:\\sentinella\\");
+            jTFInputFolder.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jTFInputFolderActionPerformed(evt);
+                }
+            });
+
+            jBConvertToJSON.setText("Convert to JSON");
+            jBConvertToJSON.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jBConvertToJSONActionPerformed(evt);
+                }
+            });
+
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel1)
+                    .addGap(43, 43, 43)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jBConvertToJSON)
+                        .addComponent(jTFInputFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(135, Short.MAX_VALUE))
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(20, 20, 20)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jTFInputFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(63, 63, 63)
+                    .addComponent(jBConvertToJSON)
+                    .addContainerGap(291, Short.MAX_VALUE))
+            );
+
+            pack();
+        }// </editor-fold>//GEN-END:initComponents
+
+    private void jBConvertToJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBConvertToJSONActionPerformed
+        //try to convert csv to json
+        String patientCSVPath = jTFInputFolder.getText() + "Patient.csv";
+        String activitiesCSVPath = jTFInputFolder.getText() + "Leistung.csv";
+        String outputJSONPath = jTFInputFolder.getText() + "output_json.json";
+
+        DataSourceCSV dsCSV = new DataSourceCSV(patientCSVPath, activitiesCSVPath);
+        dsCSV.setIgnoreActivitiesWithoutPatient(true);
+        
+        try {
+            String json = DataSourceJSON.toBAGJSON(dsCSV);
+            Files.write(Paths.get(outputJSONPath), json.getBytes(), StandardOpenOption.CREATE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jBConvertToJSONActionPerformed
+
+    private void jTFInputFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFInputFolderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFInputFolderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +140,8 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBConvertToJSON;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField jTFInputFolder;
     // End of variables declaration//GEN-END:variables
 }
