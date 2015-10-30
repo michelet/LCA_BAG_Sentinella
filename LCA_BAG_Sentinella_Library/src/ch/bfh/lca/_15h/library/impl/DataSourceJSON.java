@@ -50,7 +50,7 @@ public class DataSourceJSON implements DataSource {
         } 
     }
     
-    public String toBAGJSON(DataSource source) throws Exception {
+    public static String toBAGJSON(DataSource source) throws Exception {
         //Library => https://code.google.com/p/json-simple/
         JSONArray array = new JSONArray();
         JSONObject obj;
