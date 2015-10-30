@@ -13,9 +13,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -40,11 +37,14 @@ public class DataSourceJSON implements DataSource {
         JSONArray array = (JSONArray)JSONValue.parseWithException(br);
         
         Patient p;
+        String k;
         
         for (Object item : array) {
             p = new Patient();
             for(Object key : ((JSONObject)item).keySet()) {
-                p.getClass().getMethod("set" + key.toString(), String.class).invoke(p, ((JSONObject)item).get(key));
+                k = key.toString();
+                k = k.substring(0, 1).toUpperCase() + k.substring(1); //capitalize 1st letter
+                p.getClass().getMethod("set" + k, String.class).invoke(p, ((JSONObject)item).get(key));
             }
             aPatients.add(p);
         } 
@@ -74,12 +74,8 @@ public class DataSourceJSON implements DataSource {
     }
 
     @Override
-    public int countPatients() {
-        if(aPatients == null) try {
-            this.loadJSONInMemory();
-        } catch (IllegalArgumentException | IOException | ParseException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
-            return 0;
-        }
+    public int countPatients() throws Exception {
+        if(aPatients == null) this.loadJSONInMemory();
         return aPatients.size();
     } 
 }
