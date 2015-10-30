@@ -93,11 +93,11 @@ public class Patient {
         this.activities = new ArrayList();
     }
     
-    public List getActivities() {
+    public List<Activity> getActivities() {
         return activities;
     }
 
-    public void setActivities(List activities) {
+    public void setActivities(List<Activity> activities) {
         this.activities = activities;
     }
     
