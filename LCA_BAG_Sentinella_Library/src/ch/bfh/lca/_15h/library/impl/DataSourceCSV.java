@@ -76,12 +76,8 @@ public class DataSourceCSV implements DataSource {
     }
 
     @Override
-    public int countPatients() {
-        if(aPatients == null) try {
-            this.loadCSVInMemory();
-        } catch (IOException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            return 0;
-        }
+    public int countPatients() throws Exception {
+        if(aPatients == null) this.loadCSVInMemory();
         return aPatients.size();
     }
 
