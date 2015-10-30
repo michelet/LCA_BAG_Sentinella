@@ -46,9 +46,10 @@ public class DataSourceCSVUnitTest {
     //
      @Test
      public void testDataSourceCSVPatient() {
-         URL csvURL = DataSourceCSVUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-patient.csv");
-
-         DataSourceCSV ds = new DataSourceCSV(csvURL.getPath(), null);
+         URL csvURLPatients = DataSourceCSVUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-patient.csv");
+         URL csvURLActivities = DataSourceCSVUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-leistung.csv");
+         
+         DataSourceCSV ds = new DataSourceCSV(csvURLPatients.getPath(), csvURLActivities.getPath());
          
         try {
             assertEquals("DataSourceCSV count patients",1,ds.countPatients());
