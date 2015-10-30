@@ -48,9 +48,10 @@ public class DataSourceJSONUnitTest {
     //
     @Test
     public void testDataSourceJSON_convertToBAGJson() {
-        URL csvURL = DataSourceJSONUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-patient.csv");
-
-        DataSourceCSV ds = new DataSourceCSV(csvURL.getPath(), null);
+        URL csvURLPatients = DataSourceCSVUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-patient.csv");
+        URL csvURLActivities = DataSourceCSVUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-leistung.csv");
+         
+        DataSourceCSV ds = new DataSourceCSV(csvURLPatients.getPath(), csvURLActivities.getPath());
 
         try {
             String json = DataSourceJSON.toBAGJSON(ds);
