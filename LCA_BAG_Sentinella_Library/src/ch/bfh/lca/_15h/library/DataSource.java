@@ -7,13 +7,13 @@ package ch.bfh.lca._15h.library;
 
 import ch.bfh.lca._15h.library.model.Patient;
 import ch.bfh.lca._15h.library.model.Activity;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author micheletc
  */
 public interface DataSource {
-    public ArrayList<Patient> parsePatients() throws Exception;
-    public ArrayList<Activity>  parseActivities() throws Exception;
+    public List<Patient> getPatientsList() throws Exception;
+    public List<Activity>  getActivitiesList() throws Exception;
 }
