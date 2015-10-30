@@ -5,6 +5,7 @@
  */
 package ch.bfh.lca._15h.library.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -88,6 +89,10 @@ public class Patient {
     private String patStatus;
     private String defaultProvider;
 
+    public Patient() {
+        this.activities = new ArrayList();
+    }
+    
     public List getActivities() {
         return activities;
     }
