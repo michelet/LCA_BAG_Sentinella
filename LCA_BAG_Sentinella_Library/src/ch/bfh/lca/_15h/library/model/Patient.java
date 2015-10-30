@@ -96,6 +96,10 @@ public class Patient {
         this.activities = activities;
     }
     
+    public void addActivity(Activity activity) {
+        this.activities.add(activity);
+    }
+    
     public String getPatID() {
         return patID;
     }
