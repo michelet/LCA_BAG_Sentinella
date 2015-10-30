@@ -50,12 +50,11 @@ public class DataSourceCSVUnitTest {
 
          DataSourceCSV ds = new DataSourceCSV(csvURL.getPath(), null);
          
-         List<Patient> ap;
         try {
-            ap = ds.getPatientsList();
-            assertEquals("DataSourceCSV read 1st line patID","1",ap.get(0).getPatID());
-            assertEquals("DataSourceCSV read 1st line patSalutation","Herrn",ap.get(0).getPatSalutation());
-            assertEquals("DataSourceCSV read 1st line longReserver1","6",ap.get(0).getLongReserve1());
+            assertEquals("DataSourceCSV count patients",1,ds.countPatients());
+            assertEquals("DataSourceCSV read 1st line patID","1",ds.getPatient(0).getPatID());
+            assertEquals("DataSourceCSV read 1st line patSalutation","Herrn",ds.getPatient(0).getPatSalutation());
+            assertEquals("DataSourceCSV read 1st line longReserver1","6",ds.getPatient(0).getLongReserve1());
         } catch (Exception ex) {
             fail("DataSourceCSV exception: " + ex.getLocalizedMessage());
         }
