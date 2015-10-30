@@ -63,6 +63,7 @@ public class DataSourceCSV implements DataSource {
     
     /**
      * Load the CSV file and create the model in memory.
+     * @param ignoreActivitiesWithoutPatient Indicate what to do when an activity is found but not the related patient. True=ignoe the activity, False=Generate an exception
      * @throws FileNotFoundException
      * @throws IOException
      * @throws NoSuchMethodException
@@ -71,7 +72,7 @@ public class DataSourceCSV implements DataSource {
      * @throws InvocationTargetException
      * @throws Exception 
      */
-    private void loadCSVInMemory() throws FileNotFoundException, IOException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, Exception {
+    private void loadCSVInMemory(Boolean ignoreActivitiesWithoutPatient) throws FileNotFoundException, IOException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, Exception {
         aPatients = new ArrayList<>();
         Patient p;
         Activity a;
@@ -141,8 +142,12 @@ public class DataSourceCSV implements DataSource {
                 }
                 
                 p = this.findPatient(a.getPatNumber());
-                if(p == null) throw new Exception("Patient with ID(" + a.getPatNumber() + ") not found for Activity with ID(" + a.getID() + ")");
-                p.addActivity(a);
+                if(p == null) {
+                    if(ignoreActivitiesWithoutPatient == false)
+                        throw new Exception("Patient with ID(" + a.getPatNumber() + ") not found for Activity with ID(" + a.getID() + ")");
+                }
+                else
+                    p.addActivity(a);
             }
         }
 
