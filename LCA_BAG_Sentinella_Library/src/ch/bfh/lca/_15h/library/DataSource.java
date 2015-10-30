@@ -12,6 +12,6 @@ import ch.bfh.lca._15h.library.model.Patient;
  * @author micheletc
  */
 public interface DataSource {
-    int countPatients();
+    int countPatients() throws Exception;
     public Patient getPatient(int index) throws Exception;
 }
