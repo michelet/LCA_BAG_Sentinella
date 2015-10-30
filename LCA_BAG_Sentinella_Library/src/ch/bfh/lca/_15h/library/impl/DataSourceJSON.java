@@ -6,9 +6,7 @@
 package ch.bfh.lca._15h.library.impl;
 
 import ch.bfh.lca._15h.library.DataSource;
-import ch.bfh.lca._15h.library.model.Activity;
 import ch.bfh.lca._15h.library.model.Patient;
-import java.util.List;
 
 /**
  *
@@ -16,13 +14,21 @@ import java.util.List;
  */
 public class DataSourceJSON implements DataSource {
 
-    @Override
-    public List<Patient> getPatientsList() throws Exception {
+    public DataSourceJSON(String jsonFilePath) {
+        
+    }
+    
+    public static DataSourceJSON buildDataSourceJSONWithDataSource(DataSource datasource) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Activity> getActivitiesList() throws Exception {
+    public int countPatients() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Patient getPatient(int index) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
