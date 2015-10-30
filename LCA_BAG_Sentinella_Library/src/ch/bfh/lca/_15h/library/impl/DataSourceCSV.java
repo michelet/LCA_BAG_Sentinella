@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Class to read information from a BAG structured CSV file.
@@ -64,23 +65,6 @@ public class DataSourceCSV implements DataSource {
      */
     public void setIgnoreActivitiesWithoutPatient(Boolean ignoreActivitiesWithoutPatient) {
         this.ignoreActivitiesWithoutPatient = ignoreActivitiesWithoutPatient;
-    }
-
-    
-    /***
-     * Search and return a loaded patient with a specific id.
-     * @param patID id of the searched patient.
-     * @return patient or null if not found
-     */
-    private Patient findPatient(String patID) {
-        if(aPatients == null) return null;
-        
-        for(Patient p : aPatients) {
-            if(p.getPatID().equals(patID))
-                return p;
-        }
-        
-        return null;
     }
     
     /**
@@ -137,6 +121,13 @@ public class DataSourceCSV implements DataSource {
         
         //******************************************LOAD ACTIVITIES
         if(this.activitiesCSVPath == null) return;
+        
+        //create local cache to speed up patient search
+        HashMap <String, Patient> patientsCache = new HashMap();
+        for(Patient p2 : aPatients) {
+            patientsCache.put(p2.getPatID(), p2);
+        }
+            
         br = new BufferedReader(new FileReader(this.activitiesCSVPath));
         isFirstLine = true;
         csvHeaders = null;
@@ -162,7 +153,7 @@ public class DataSourceCSV implements DataSource {
                     }
                 }
                 
-                p = this.findPatient(a.getPatNumber());
+                p = patientsCache.get(a.getPatNumber());
                 if(p == null) {
                     if(ignoreActivitiesWithoutPatient == false)
                         throw new Exception("Patient with ID(" + a.getPatNumber() + ") not found for Activity with ID(" + a.getID() + ")");
