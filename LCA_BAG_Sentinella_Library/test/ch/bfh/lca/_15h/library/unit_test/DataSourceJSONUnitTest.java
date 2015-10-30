@@ -5,6 +5,11 @@
  */
 package ch.bfh.lca._15h.library.unit_test;
 
+import ch.bfh.lca._15h.library.impl.DataSourceCSV;
+import ch.bfh.lca._15h.library.impl.DataSourceJSON;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -18,22 +23,22 @@ import static org.junit.Assert.*;
  * @author micheletc
  */
 public class DataSourceJSONUnitTest {
-    
+
     public DataSourceJSONUnitTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -41,21 +46,34 @@ public class DataSourceJSONUnitTest {
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
-     @Test
-     public void testDataSourceJSONPatient() {
-         //@TODO test to make
-         
-         /*URL csvURL = DataSourceJSONUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-patient.csv");
+    @Test
+    public void testDataSourceJSON_convertToBAGJson() {
+        URL csvURL = DataSourceJSONUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-patient.csv");
 
-         DataSourceCSV ds = new DataSourceCSV(csvURL.getPath(), null);
-         
+        DataSourceCSV ds = new DataSourceCSV(csvURL.getPath(), null);
+
         try {
-            assertEquals("DataSourceCSV count patients",1,ds.countPatients());
-            assertEquals("DataSourceCSV read 1st line patID","1",ds.getPatient(0).getPatID());
-            assertEquals("DataSourceCSV read 1st line patSalutation","Herrn",ds.getPatient(0).getPatSalutation());
-            assertEquals("DataSourceCSV read 1st line longReserver1","6",ds.getPatient(0).getLongReserve1());
+            String json = DataSourceJSON.toBAGJSON(ds);
+            InputStream is = DataSourceJSONUnitTest.class.getResourceAsStream("/ch/bfh/lca/_15h/library/unit_test/sample-patient.json");
+
+            if (is == null) {
+                fail("DataSourceJSON cannot open sample result");
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            StringBuilder sb = new StringBuilder();
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+            br.close();
+            is.close();
+
+            assertEquals("DataSourceJSON convert to JSON", sb.toString(), json);
         } catch (Exception ex) {
-            fail("DataSourceCSV exception: " + ex.getLocalizedMessage());
-        }*/
-     }
+            fail("DataSourceJSON exception: " + ex.getLocalizedMessage());
+        }
+    }
 }
