@@ -34,6 +34,7 @@ public class DataSourceJSON implements DataSource {
     }
     
     private void loadJSONInMemory() throws FileNotFoundException, IOException, ParseException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        //Library => https://code.google.com/p/json-simple/
         BufferedReader br;
         br = new BufferedReader(new FileReader(this.jsonFilePath));
         JSONArray array = (JSONArray)JSONValue.parseWithException(br);
@@ -47,6 +48,22 @@ public class DataSourceJSON implements DataSource {
             }
             aPatients.add(p);
         } 
+    }
+    
+    public String toBAGJSON(DataSource source) throws Exception {
+        //Library => https://code.google.com/p/json-simple/
+        JSONArray array = new JSONArray();
+        JSONObject obj;
+        Patient p;
+        
+        for(int i=0; i<source.countPatients(); i++) {
+            p = source.getPatient(i);
+            obj = new JSONObject();
+            obj.put("patID", p.getPatID());
+            array.add(obj);
+        }
+        
+        return array.toJSONString();
     }
 
     @Override
