@@ -52,7 +52,7 @@ public class DataSourceCSVUnitTest {
          DataSourceCSV ds = new DataSourceCSV(csvURLPatients.getPath(), csvURLActivities.getPath());
          
         try {
-            assertEquals("DataSourceCSV count patients",2,ds.countPatients());
+            assertEquals("DataSourceCSV count patients",1,ds.countPatients());
             assertEquals("DataSourceCSV read 1st line patID","1",ds.getPatient(0).getPatID());
             assertEquals("DataSourceCSV read 1st line patSalutation","Herrn",ds.getPatient(0).getPatSalutation());
             assertEquals("DataSourceCSV read 1st line longReserver1","6",ds.getPatient(0).getLongReserve1());
