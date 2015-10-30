@@ -125,7 +125,7 @@ public class DataSourceCSV implements DataSource {
         //create local cache to speed up patient search
         HashMap <String, Patient> patientsCache = new HashMap();
         for(Patient p2 : aPatients) {
-            patientsCache.put(p2.getPatID(), p2);
+            patientsCache.put(p2.getPatNumber(), p2);
         }
             
         br = new BufferedReader(new FileReader(this.activitiesCSVPath));
