@@ -42,6 +42,7 @@ public class DataSourceCSV implements DataSource {
 
         br = new BufferedReader(new FileReader(this.patientsCSVPath));
 
+        //@TODO check file is csv and conform to the format (column)
         while ((line = br.readLine()) != null) {
             if (isFirstLine) {
                 isFirstLine = false;
