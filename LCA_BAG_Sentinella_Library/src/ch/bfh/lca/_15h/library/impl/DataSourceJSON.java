@@ -20,18 +20,39 @@ import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
 
 /**
- *
- * @author micheletc
+ * Class to read information from a BAG structured JSON file.
+ * @author Cédric Michelet
  */
 public class DataSourceJSON implements DataSource {
 
+    /**
+     *  Store path of the JSON file containing the data.
+     */
     private String jsonFilePath;
+    
+    /**
+     * List of loaded patients.
+     */
     ArrayList<Patient> aPatients;
 
+    /**
+     * Constructor
+     * @param jsonFilePath Path of the JSON file containing the data
+     */
     public DataSourceJSON(String jsonFilePath) {
         this.jsonFilePath = jsonFilePath;
     }
 
+    /***
+     * Load the JSON file and create the model in memory.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ParseException
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     * @throws IllegalArgumentException
+     * @throws InvocationTargetException 
+     */
     private void loadJSONInMemory() throws FileNotFoundException, IOException, ParseException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         //Library => https://code.google.com/p/json-simple/
         BufferedReader br;
@@ -66,6 +87,12 @@ public class DataSourceJSON implements DataSource {
         }
     }
 
+    /***
+     * Convert data contained in a datasource to a BAG JSON file.
+     * @param source DataSource containing the input data.
+     * @return JSON as a string
+     * @throws Exception 
+     */
     public static String toBAGJSON(DataSource source) throws Exception {
         //Library => https://code.google.com/p/json-simple/
         JSONArray array = new JSONArray();
