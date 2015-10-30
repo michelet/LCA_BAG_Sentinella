@@ -36,6 +36,11 @@ public class DataSourceCSV implements DataSource {
     ArrayList<Patient> aPatients;
 
     /**
+     * Indicate what to do when an activity is found but not the related patient. True=ignoe the activity, False=Generate an exception
+     */
+    Boolean ignoreActivitiesWithoutPatient = false;
+    
+    /**
      * Constructor
      * @param patientsCSVPath Path of the CSV file containing the patients
      * @param activitiesCSVPath  Path of the CSV file containing the activities
@@ -45,6 +50,23 @@ public class DataSourceCSV implements DataSource {
         this.activitiesCSVPath = activitiesCSVPath;
     }
 
+    /**
+     * Getter
+     * @return 
+     */
+    public Boolean getIgnoreActivitiesWithoutPatient() {
+        return ignoreActivitiesWithoutPatient;
+    }
+
+    /**
+     * Setter
+     * @param ignoreActivitiesWithoutPatient 
+     */
+    public void setIgnoreActivitiesWithoutPatient(Boolean ignoreActivitiesWithoutPatient) {
+        this.ignoreActivitiesWithoutPatient = ignoreActivitiesWithoutPatient;
+    }
+
+    
     /***
      * Search and return a loaded patient with a specific id.
      * @param patID id of the searched patient.
@@ -63,7 +85,6 @@ public class DataSourceCSV implements DataSource {
     
     /**
      * Load the CSV file and create the model in memory.
-     * @param ignoreActivitiesWithoutPatient Indicate what to do when an activity is found but not the related patient. True=ignoe the activity, False=Generate an exception
      * @throws FileNotFoundException
      * @throws IOException
      * @throws NoSuchMethodException
@@ -72,7 +93,7 @@ public class DataSourceCSV implements DataSource {
      * @throws InvocationTargetException
      * @throws Exception 
      */
-    private void loadCSVInMemory(Boolean ignoreActivitiesWithoutPatient) throws FileNotFoundException, IOException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, Exception {
+    private void loadCSVInMemory() throws FileNotFoundException, IOException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, Exception {
         aPatients = new ArrayList<>();
         Patient p;
         Activity a;
