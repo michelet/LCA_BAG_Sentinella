@@ -137,6 +137,8 @@ public class DataSourceCSV implements DataSource {
             if (isFirstLine) {
                 isFirstLine = false;
                 csvHeaders = line.split(cvsSplitBy);
+                for(int k=0; k<csvHeaders.length; k++)
+                    csvHeaders[k] = "set" + csvHeaders[k].replaceAll("\"", "");
             } else {
                 pCSV = line.split(cvsSplitBy);
                 a = new Activity();
@@ -148,7 +150,7 @@ public class DataSourceCSV implements DataSource {
                         //String methodName = "set" + propertyName.replaceAll("\"", "");
                         if (i < pCSV.length) //make sure data line as enought column
                         {
-                            a.getClass().getMethod("set" + csvHeaders[i].replaceAll("\"", ""), String.class).invoke(a, pCSV[i].replaceAll("\"", ""));
+                            a.getClass().getMethod(csvHeaders[i], String.class).invoke(a, pCSV[i].replaceAll("\"", ""));
                         }
                     }
                 }
