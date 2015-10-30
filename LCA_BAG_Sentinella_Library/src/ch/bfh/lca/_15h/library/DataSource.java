@@ -6,14 +6,12 @@
 package ch.bfh.lca._15h.library;
 
 import ch.bfh.lca._15h.library.model.Patient;
-import ch.bfh.lca._15h.library.model.Activity;
-import java.util.List;
 
 /**
  *
  * @author micheletc
  */
 public interface DataSource {
-    public List<Patient> getPatientsList() throws Exception;
-    public List<Activity>  getActivitiesList() throws Exception;
+    int countPatients();
+    public Patient getPatient(int index) throws Exception;
 }
