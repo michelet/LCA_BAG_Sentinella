@@ -6,11 +6,10 @@
 package ch.bfh.lca._15h.library.model;
 
 /**
- *
- * @author micheletc
+ * Class to store an activity.
+ * @author Cédric Michelet
  */
 public class Activity {
-
     private String ID;
     private String mandantNum;
     private String patNumber;

@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author micheletc
+ * Class to store a patient.
+ * @author Cédric Michelet
  */
 public class Patient {
     private List activities;
