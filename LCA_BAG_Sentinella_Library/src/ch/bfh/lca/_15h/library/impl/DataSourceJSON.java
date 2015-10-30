@@ -7,9 +7,19 @@ package ch.bfh.lca._15h.library.impl;
 
 import ch.bfh.lca._15h.library.DataSource;
 import ch.bfh.lca._15h.library.model.Patient;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -21,11 +31,22 @@ public class DataSourceJSON implements DataSource {
 
     public DataSourceJSON(String jsonFilePath) {
         this.jsonFilePath = jsonFilePath;
-        
     }
     
-    public static DataSourceJSON loadJSONInMemory() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void loadJSONInMemory() throws FileNotFoundException, IOException, ParseException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        BufferedReader br;
+        br = new BufferedReader(new FileReader(this.jsonFilePath));
+        JSONArray array = (JSONArray)JSONValue.parseWithException(br);
+        
+        Patient p;
+        
+        for (Object item : array) {
+            p = new Patient();
+            for(Object key : ((JSONObject)item).keySet()) {
+                p.getClass().getMethod("set" + key.toString(), String.class).invoke(p, ((JSONObject)item).get(key));
+            }
+            aPatients.add(p);
+        } 
     }
 
     @Override
@@ -38,10 +59,9 @@ public class DataSourceJSON implements DataSource {
     public int countPatients() {
         if(aPatients == null) try {
             this.loadJSONInMemory();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | IOException | ParseException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
             return 0;
         }
         return aPatients.size();
-    }
-    
+    } 
 }
