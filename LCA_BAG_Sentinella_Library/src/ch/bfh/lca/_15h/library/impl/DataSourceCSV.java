@@ -24,12 +24,12 @@ public class DataSourceCSV implements DataSource {
     /**
      * Store path of the CSV file containing the patients.
      */
-    private String patientsCSVPath;
+    protected String patientsCSVPath;
     
     /**
      * Store path of the CSV file containing the activities.
      */
-    private String activitiesCSVPath;
+    protected String activitiesCSVPath;
     
     /**
      * List of loaded patients.
@@ -39,7 +39,7 @@ public class DataSourceCSV implements DataSource {
     /**
      * Indicate what to do when an activity is found but not the related patient. True=ignoe the activity, False=Generate an exception
      */
-    Boolean ignoreActivitiesWithoutPatient = false;
+    protected Boolean ignoreActivitiesWithoutPatient = false;
     
     /**
      * Constructor
