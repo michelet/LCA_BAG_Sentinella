@@ -76,4 +76,20 @@ public class DataSourceJSONUnitTest {
             fail("DataSourceJSON exception: " + ex.getLocalizedMessage());
         }
     }
+    
+    @Test
+    public void testDataSourceJSON_readBAGJson() {
+        URL jsonURL = DataSourceJSONUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-patient.json");
+
+        DataSourceJSON ds = new DataSourceJSON(jsonURL.getPath());
+
+        try {
+            assertEquals("DataSourceJSON count patients",1,ds.countPatients());
+            assertEquals("DataSourceJSON read 1st patient patID","1",ds.getPatient(0).getPatID());
+            //assertEquals("DataSourceJSON read 1st patient patSalutation","Herrn",ds.getPatient(0).getPatSalutation());
+            //assertEquals("DataSourceJSON read 1st patient longReserver1","6",ds.getPatient(0).getLongReserve1());
+        } catch (Exception ex) {
+            fail("DataSourceJSON exception: " + ex.getLocalizedMessage());
+        }
+    }
 }
