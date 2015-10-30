@@ -5,11 +5,14 @@
  */
 package ch.bfh.lca._15h.library.model;
 
+import java.util.List;
+
 /**
  *
  * @author micheletc
  */
 public class Patient {
+    private List activities;
     private String patID;
     private String PatNumber;
     private String patBirthdate;
@@ -85,6 +88,14 @@ public class Patient {
     private String patStatus;
     private String defaultProvider;
 
+    public List getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List activities) {
+        this.activities = activities;
+    }
+    
     public String getPatID() {
         return patID;
     }
