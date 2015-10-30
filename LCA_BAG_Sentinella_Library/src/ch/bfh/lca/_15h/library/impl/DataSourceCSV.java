@@ -83,6 +83,7 @@ public class DataSourceCSV implements DataSource {
         br.close();
         
         //******************************************LOAD ACTIVITIES
+        if(this.activitiesCSVPath == null) return;
         br = new BufferedReader(new FileReader(this.activitiesCSVPath));
 
         //@TODO check file is csv and conform to the format (column)
