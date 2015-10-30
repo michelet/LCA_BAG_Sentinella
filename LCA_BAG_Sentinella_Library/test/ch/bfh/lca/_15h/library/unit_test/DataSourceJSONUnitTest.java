@@ -43,15 +43,23 @@ public class DataSourceJSONUnitTest {
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    @Test
-    public void testDataSourceJSON_convertToBAGJson() {
+    private DataSourceCSV getDataSourceCSV() {
         URL csvURLPatients = DataSourceCSVUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-patient.csv");
         URL csvURLActivities = DataSourceCSVUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-leistung.csv");
          
-        DataSourceCSV ds = new DataSourceCSV(csvURLPatients.getPath(), csvURLActivities.getPath());
+        return new DataSourceCSV(csvURLPatients.getPath(), csvURLActivities.getPath());
+    }
+    
+    private DataSourceJSON getDataSourceJSON() {
+        URL jsonURL = DataSourceJSONUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-patient.json");
+
+        return new DataSourceJSON(jsonURL.getPath());
+    }
+    
+    
+    @Test
+    public void test_convertToBAGJson() {
+        DataSourceCSV ds = this.getDataSourceCSV();
 
         try {
             String json = DataSourceJSON.toBAGJSON(ds);
@@ -79,17 +87,33 @@ public class DataSourceJSONUnitTest {
     }
     
     @Test
-    public void testDataSourceJSON_readBAGJson() {
-        URL jsonURL = DataSourceJSONUnitTest.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/unit_test/sample-patient.json");
-
-        DataSourceJSON ds = new DataSourceJSON(jsonURL.getPath());
+    public void test_readCount() {
+        DataSourceJSON ds = this.getDataSourceJSON();
 
         try {
             assertEquals("DataSourceJSON count patients",1,ds.countPatients());
+        } catch (Exception ex) {
+            fail("DataSourceJSON exception: " + ex.getLocalizedMessage());
+        }
+    }
+    
+    @Test
+    public void test_readAttributes() {
+        DataSourceJSON ds = this.getDataSourceJSON();
+
+        try {
             assertEquals("DataSourceJSON read 1st patient patID","1",ds.getPatient(0).getPatID());
+        } catch (Exception ex) {
+            fail("DataSourceJSON exception: " + ex.getLocalizedMessage());
+        }
+    }
+    
+    @Test
+    public void test_readActivities() {
+        DataSourceJSON ds = this.getDataSourceJSON();
+
+        try {
             assertEquals("DataSourceJSON read 1st patient 1st activity","1",ds.getPatient(0).getActivities().get(0).getPatNumber());
-            //assertEquals("DataSourceJSON read 1st patient patSalutation","Herrn",ds.getPatient(0).getPatSalutation());
-            //assertEquals("DataSourceJSON read 1st patient longReserver1","6",ds.getPatient(0).getLongReserve1());
         } catch (Exception ex) {
             fail("DataSourceJSON exception: " + ex.getLocalizedMessage());
         }
