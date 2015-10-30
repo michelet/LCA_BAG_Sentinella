@@ -6,7 +6,7 @@
 package ch.bfh.lca._15h.library.unit_test;
 
 import ch.bfh.lca._15h.library.DataSourceCSV;
-import ch.bfh.lca._15h.library.Patient;
+import ch.bfh.lca._15h.library.model.Patient;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Level;
