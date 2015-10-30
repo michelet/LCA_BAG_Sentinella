@@ -85,7 +85,8 @@ public class DataSourceCSV implements DataSource {
         //******************************************LOAD ACTIVITIES
         if(this.activitiesCSVPath == null) return;
         br = new BufferedReader(new FileReader(this.activitiesCSVPath));
-
+        isFirstLine = true;
+        
         //@TODO check file is csv and conform to the format (column)
         while ((line = br.readLine()) != null) {
             if (isFirstLine) {
