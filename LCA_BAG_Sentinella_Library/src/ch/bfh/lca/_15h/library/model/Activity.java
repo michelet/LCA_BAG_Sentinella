@@ -58,7 +58,7 @@ public class Activity {
     private String changeMin;
     private String assistant;
     private String numAssistants;
-    private String nillingRole;
+    private String billingRole;
     private String medicalRole;
     private String meCode;
     private String section;
@@ -443,12 +443,12 @@ public class Activity {
         this.numAssistants = numAssistants;
     }
 
-    public String getNillingRole() {
-        return nillingRole;
+    public String getBillingRole() {
+        return billingRole;
     }
 
-    public void setNillingRole(String nillingRole) {
-        this.nillingRole = nillingRole;
+    public void setBillingRole(String nillingRole) {
+        this.billingRole = nillingRole;
     }
 
     public String getMedicalRole() {
