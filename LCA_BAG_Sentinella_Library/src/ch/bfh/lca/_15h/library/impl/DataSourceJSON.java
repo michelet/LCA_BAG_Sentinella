@@ -36,6 +36,8 @@ public class DataSourceJSON implements DataSource {
         br = new BufferedReader(new FileReader(this.jsonFilePath));
         JSONArray array = (JSONArray)JSONValue.parseWithException(br);
         
+        aPatients = new ArrayList<>();
+        
         Patient p;
         String k;
         
