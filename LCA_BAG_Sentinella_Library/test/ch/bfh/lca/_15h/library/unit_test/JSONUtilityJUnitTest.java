@@ -8,9 +8,7 @@ package ch.bfh.lca._15h.library.unit_test;
 import ch.bfh.lca._15h.library.impl.DataSourceCSV;
 import ch.bfh.lca._15h.library.model.Patient;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -52,9 +50,9 @@ public class JSONUtilityJUnitTest {
 
          DataSourceCSV ds = new DataSourceCSV(csvURL.getPath(), null);
          
-         ArrayList<Patient> ap;
+         List<Patient> ap;
         try {
-            ap = ds.parsePatients();
+            ap = ds.getPatientsList();
             assertEquals("DataSourceCSV read 1st line patID","1",ap.get(0).getPatID());
             assertEquals("DataSourceCSV read 1st line patSalutation","Herrn",ap.get(0).getPatSalutation());
             assertEquals("DataSourceCSV read 1st line longReserver1","6",ap.get(0).getLongReserve1());

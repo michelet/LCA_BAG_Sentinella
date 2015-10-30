@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -29,7 +30,7 @@ public class DataSourceCSV implements DataSource {
     }
     
     @Override
-    public ArrayList<Patient> parsePatients() throws Exception {
+    public List<Patient> getPatientsList() throws Exception {
         ArrayList<Patient> aPatients = new ArrayList<Patient>();
         Patient p;
         String[] pCSV;
@@ -69,7 +70,7 @@ public class DataSourceCSV implements DataSource {
     }
     
     @Override
-    public ArrayList<Activity> parseActivities() throws Exception {
+    public List<Activity> getActivitiesList() throws Exception {
         return new ArrayList<Activity>();
     }
 }
