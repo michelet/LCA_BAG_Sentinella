@@ -7,29 +7,29 @@ package ch.bfh.lca._15h.library.impl;
 
 import ch.bfh.lca._15h.library.DataSource;
 import ch.bfh.lca._15h.library.model.Patient;
-import ch.bfh.lca._15h.library.model.Activity;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author micheletc
  */
 public class DataSourceCSV implements DataSource {
-
     private String patientsCSVPath;
     private String activitiesCSVPath;
+    ArrayList<Patient> aPatients;
 
     public DataSourceCSV(String patientsCSVPath, String activitiesCSVPath) {
         this.patientsCSVPath = patientsCSVPath;
         this.activitiesCSVPath = activitiesCSVPath;
     }
 
-    @Override
-    public List<Patient> getPatientsList() throws Exception {
-        ArrayList<Patient> aPatients = new ArrayList<>();
+    private void loadCSVInMemory() throws FileNotFoundException, IOException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        aPatients = new ArrayList<>();
         Patient p;
         String[] pCSV;
         String[] csvHeaders = null;
@@ -67,12 +67,23 @@ public class DataSourceCSV implements DataSource {
         }
 
         br.close();
-
-        return aPatients;
+    }
+    
+    @Override
+    public Patient getPatient(int index) throws Exception {
+        if(aPatients == null) this.loadCSVInMemory();
+        return aPatients.get(index);
     }
 
     @Override
-    public List<Activity> getActivitiesList() throws Exception {
-        return new ArrayList<>();
+    public int countPatients() {
+        if(aPatients == null) try {
+            this.loadCSVInMemory();
+        } catch (IOException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            return 0;
+        }
+        return aPatients.size();
     }
+
+   
 }
