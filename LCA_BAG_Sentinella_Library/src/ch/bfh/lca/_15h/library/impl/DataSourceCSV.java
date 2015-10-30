@@ -6,6 +6,7 @@
 package ch.bfh.lca._15h.library.impl;
 
 import ch.bfh.lca._15h.library.DataSource;
+import ch.bfh.lca._15h.library.model.Activity;
 import ch.bfh.lca._15h.library.model.Patient;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -28,9 +29,21 @@ public class DataSourceCSV implements DataSource {
         this.activitiesCSVPath = activitiesCSVPath;
     }
 
-    private void loadCSVInMemory() throws FileNotFoundException, IOException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private Patient findPatient(String patID) {
+        if(aPatients == null) return null;
+        
+        for(Patient p : aPatients) {
+            if(p.getPatID().equals(patID))
+                return p;
+        }
+        
+        return null;
+    }
+    
+    private void loadCSVInMemory() throws FileNotFoundException, IOException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, Exception {
         aPatients = new ArrayList<>();
         Patient p;
+        Activity a;
         String[] pCSV;
         String[] csvHeaders = null;
         int i;
@@ -40,6 +53,7 @@ public class DataSourceCSV implements DataSource {
         String cvsSplitBy = ",";
         Boolean isFirstLine = true;
 
+        //******************************************LOAD PATIENTS
         br = new BufferedReader(new FileReader(this.patientsCSVPath));
 
         //@TODO check file is csv and conform to the format (column)
@@ -63,6 +77,38 @@ public class DataSourceCSV implements DataSource {
                     }
                 }
                 aPatients.add(p);
+            }
+        }
+
+        br.close();
+        
+        //******************************************LOAD ACTIVITIES
+        br = new BufferedReader(new FileReader(this.activitiesCSVPath));
+
+        //@TODO check file is csv and conform to the format (column)
+        while ((line = br.readLine()) != null) {
+            if (isFirstLine) {
+                isFirstLine = false;
+                csvHeaders = line.split(cvsSplitBy);
+            } else {
+                pCSV = line.split(cvsSplitBy);
+                a = new Activity();
+
+                if (csvHeaders != null) {
+                    for (i = 0; i < csvHeaders.length; i++) {
+                    //String propertyName = csvHeaders[i];
+                        //String methodName = "set" + StringUtils.capitalize(propertyName);
+                        //String methodName = "set" + propertyName.replaceAll("\"", "");
+                        if (i < pCSV.length) //make sure data line as enought column
+                        {
+                            a.getClass().getMethod("set" + csvHeaders[i].replaceAll("\"", ""), String.class).invoke(a, pCSV[i].replaceAll("\"", ""));
+                        }
+                    }
+                }
+                
+                p = this.findPatient(a.getPatNumber());
+                if(p == null) throw new Exception("Patient with ID(" + a.getPatNumber() + ") not found for Activity with ID(" + a.getID() + ")");
+                p.addActivity(a);
             }
         }
 
