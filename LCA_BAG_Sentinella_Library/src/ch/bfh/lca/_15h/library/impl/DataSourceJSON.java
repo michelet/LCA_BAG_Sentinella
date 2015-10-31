@@ -5,6 +5,7 @@
  */
 package ch.bfh.lca._15h.library.impl;
 
+import ch.bfh.lca._15h.library.ActivityFilter;
 import ch.bfh.lca._15h.library.DataSource;
 import ch.bfh.lca._15h.library.model.Activity;
 import ch.bfh.lca._15h.library.model.Patient;
@@ -94,6 +95,17 @@ public class DataSourceJSON implements DataSource {
      * @throws Exception 
      */
     public static String toBAGJSON(DataSource source) throws Exception {
+        return toBAGJSON(source, null);
+    }
+    
+    /***
+     * Convert data contained in a datasource to a BAG JSON file.
+     * @param source DataSource containing the input data.
+     * @param activityFilter Allow to filter wich activities to export
+     * @return JSON as a string
+     * @throws Exception 
+     */
+    public static String toBAGJSON(DataSource source, ActivityFilter activityFilter) throws Exception {
         //Library => https://code.google.com/p/json-simple/
         JSONArray array = new JSONArray();
         JSONObject objPatient;
@@ -110,13 +122,15 @@ public class DataSourceJSON implements DataSource {
             //add activities
             for (int j = 0; j < p.getActivities().size(); j++) {
                 a = p.getActivities().get(j);
-                
-                objActivity = new JSONObject();
-                objActivity.put("patNumber", a.getPatNumber());
-                //@TODO add other required fields
 
-                //add to patient
-                objPatient.put("activities", objActivity);
+                if (activityFilter == null || activityFilter.matchActivity(a)) {
+                    objActivity = new JSONObject();
+                    objActivity.put("patNumber", a.getPatNumber());
+                    //@TODO add other required fields
+
+                    //add to patient
+                    objPatient.put("activities", objActivity);
+                }
             }
 
             array.add(objPatient);
