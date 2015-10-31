@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="LCA_BAG_Sentinella_Library">
+  <ClassDiagramComponents>
+    <Interface name="DataSource" package="ch.bfh.lca._15h.library" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Methods>
+        <Method name="countPatients" returnType="int" visibility="package"/>
+        <Method name="getPatient" returnType="Patient" visibility="public">
+          <Argument type="int" name="index"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Interface name="IDataSource" package="ch.bfh.lca._15h.library" visibility="public" xPosition="320.0" yPosition="20.0">
+      <Methods>
+        <Method name="setDriverClass" returnType="void" visibility="public">
+          <Argument type="String" name="aDricerClass"/>
+        </Method>
+      </Methods>
+    </Interface>
+    <Class name="DataSourceCSV" package="ch.bfh.lca._15h.library.impl" visibility="public" xPosition="620.0" yPosition="20.0">
+      <Fields>
+        <Field name="patientsCSVPath" type="String" visibility="protected"/>
+        <Field name="activitiesCSVPath" type="String" visibility="protected"/>
+        <Field name="aPatients" type="ArrayList&lt;Patient&gt;" visibility="package"/>
+        <Field name="ignoreActivitiesWithoutPatient" type="Boolean" visibility="protected"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="patientsCSVPath"/>
+          <Argument type="String" name="activitiesCSVPath"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getIgnoreActivitiesWithoutPatient" returnType="Boolean" visibility="public"/>
+        <Method name="setIgnoreActivitiesWithoutPatient" returnType="void" visibility="public">
+          <Argument type="Boolean" name="ignoreActivitiesWithoutPatient"/>
+        </Method>
+        <Method name="loadCSVInMemory" returnType="void" visibility="private"/>
+        <Method name="getPatient" returnType="Patient" visibility="public">
+          <Argument type="int" name="index"/>
+        </Method>
+        <Method name="countPatients" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="DataSourceJSON" package="ch.bfh.lca._15h.library.impl" visibility="public" xPosition="920.0" yPosition="20.0">
+      <Fields>
+        <Field name="jsonFilePath" type="String" visibility="private"/>
+        <Field name="aPatients" type="ArrayList&lt;Patient&gt;" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="jsonFilePath"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="loadJSONInMemory" returnType="void" visibility="private"/>
+        <Method name="toBAGJSON" returnType="String" visibility="public" isStatic="true">
+          <Argument type="DataSource" name="source"/>
+        </Method>
+        <Method name="getPatient" returnType="Patient" visibility="public">
+          <Argument type="int" name="index"/>
+        </Method>
+        <Method name="countPatients" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Activity" package="ch.bfh.lca._15h.library.model" visibility="public" xPosition="1220.0" yPosition="20.0">
+      <Fields>
+        <Field name="ID" type="String" visibility="private"/>
+        <Field name="mandantNum" type="String" visibility="private"/>
+        <Field name="patNumber" type="String" visibility="private"/>
+        <Field name="behNumber" type="String" visibility="private"/>
+        <Field name="code" type="String" visibility="private"/>
+        <Field name="parentId" type="String" visibility="private"/>
+        <Field name="name" type="String" visibility="private"/>
+        <Field name="type" type="String" visibility="private"/>
+        <Field name="tarif" type="String" visibility="private"/>
+        <Field name="AL" type="String" visibility="private"/>
+        <Field name="TL" type="String" visibility="private"/>
+        <Field name="date" type="String" visibility="private"/>
+        <Field name="count" type="String" visibility="private"/>
+        <Field name="timeStamp" type="String" visibility="private"/>
+        <Field name="userNum" type="String" visibility="private"/>
+        <Field name="TPType" type="String" visibility="private"/>
+        <Field name="sessionId" type="String" visibility="private"/>
+        <Field name="leNumber" type="String" visibility="private"/>
+        <Field name="creationDate" type="String" visibility="private"/>
+        <Field name="modificationDate" type="String" visibility="private"/>
+        <Field name="creationUserID" type="String" visibility="private"/>
+        <Field name="modificationUserID" type="String" visibility="private"/>
+        <Field name="unitCount" type="String" visibility="private"/>
+        <Field name="anaesthesia" type="String" visibility="private"/>
+        <Field name="flag" type="String" visibility="private"/>
+        <Field name="price" type="String" visibility="private"/>
+        <Field name="VATCode" type="String" visibility="private"/>
+        <Field name="VATRate" type="String" visibility="private"/>
+        <Field name="TPW" type="String" visibility="private"/>
+        <Field name="tarifCode" type="String" visibility="private"/>
+        <Field name="validateFlag" type="String" visibility="private"/>
+        <Field name="validateError" type="String" visibility="private"/>
+        <Field name="comment" type="String" visibility="private"/>
+        <Field name="longReserve1" type="String" visibility="private"/>
+        <Field name="longReserve2" type="String" visibility="private"/>
+        <Field name="doubleReserve1" type="String" visibility="private"/>
+        <Field name="doubleReserve2" type="String" visibility="private"/>
+        <Field name="scaleFactorAL" type="String" visibility="private"/>
+        <Field name="scaleFactorTL" type="String" visibility="private"/>
+        <Field name="anaesthesiaMin" type="String" visibility="private"/>
+        <Field name="serviceMin" type="String" visibility="private"/>
+        <Field name="prePostServiceMin" type="String" visibility="private"/>
+        <Field name="findingsMin" type="String" visibility="private"/>
+        <Field name="placeMin" type="String" visibility="private"/>
+        <Field name="changeMin" type="String" visibility="private"/>
+        <Field name="assistant" type="String" visibility="private"/>
+        <Field name="numAssistants" type="String" visibility="private"/>
+        <Field name="billingRole" type="String" visibility="private"/>
+        <Field name="medicalRole" type="String" visibility="private"/>
+        <Field name="meCode" type="String" visibility="private"/>
+        <Field name="section" type="String" visibility="private"/>
+        <Field name="serviceType" type="String" visibility="private"/>
+        <Field name="TPW_TL" type="String" visibility="private"/>
+        <Field name="FAL" type="String" visibility="private"/>
+        <Field name="FTL" type="String" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getID" returnType="String" visibility="public"/>
+        <Method name="setID" returnType="void" visibility="public">
+          <Argument type="String" name="ID"/>
+        </Method>
+        <Method name="getMandantNum" returnType="String" visibility="public"/>
+        <Method name="setMandantNum" returnType="void" visibility="public">
+          <Argument type="String" name="mandantNum"/>
+        </Method>
+        <Method name="getPatNumber" returnType="String" visibility="public"/>
+        <Method name="setPatNumber" returnType="void" visibility="public">
+          <Argument type="String" name="patNumber"/>
+        </Method>
+        <Method name="getBehNumber" returnType="String" visibility="public"/>
+        <Method name="setBehNumber" returnType="void" visibility="public">
+          <Argument type="String" name="behNumber"/>
+        </Method>
+        <Method name="getCode" returnType="String" visibility="public"/>
+        <Method name="setCode" returnType="void" visibility="public">
+          <Argument type="String" name="code"/>
+        </Method>
+        <Method name="getParentId" returnType="String" visibility="public"/>
+        <Method name="setParentId" returnType="void" visibility="public">
+          <Argument type="String" name="parentId"/>
+        </Method>
+        <Method name="getName" returnType="String" visibility="public"/>
+        <Method name="setName" returnType="void" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="getType" returnType="String" visibility="public"/>
+        <Method name="setType" returnType="void" visibility="public">
+          <Argument type="String" name="type"/>
+        </Method>
+        <Method name="getTarif" returnType="String" visibility="public"/>
+        <Method name="setTarif" returnType="void" visibility="public">
+          <Argument type="String" name="tarif"/>
+        </Method>
+        <Method name="getAL" returnType="String" visibility="public"/>
+        <Method name="setAL" returnType="void" visibility="public">
+          <Argument type="String" name="AL"/>
+        </Method>
+        <Method name="getTL" returnType="String" visibility="public"/>
+        <Method name="setTL" returnType="void" visibility="public">
+          <Argument type="String" name="TL"/>
+        </Method>
+        <Method name="getDate" returnType="String" visibility="public"/>
+        <Method name="setDate" returnType="void" visibility="public">
+          <Argument type="String" name="date"/>
+        </Method>
+        <Method name="getCount" returnType="String" visibility="public"/>
+        <Method name="setCount" returnType="void" visibility="public">
+          <Argument type="String" name="count"/>
+        </Method>
+        <Method name="getTimeStamp" returnType="String" visibility="public"/>
+        <Method name="setTimeStamp" returnType="void" visibility="public">
+          <Argument type="String" name="timeStamp"/>
+        </Method>
+        <Method name="getUserNum" returnType="String" visibility="public"/>
+        <Method name="setUserNum" returnType="void" visibility="public">
+          <Argument type="String" name="userNum"/>
+        </Method>
+        <Method name="getTPType" returnType="String" visibility="public"/>
+        <Method name="setTPType" returnType="void" visibility="public">
+          <Argument type="String" name="TPType"/>
+        </Method>
+        <Method name="getSessionId" returnType="String" visibility="public"/>
+        <Method name="setSessionId" returnType="void" visibility="public">
+          <Argument type="String" name="sessionId"/>
+        </Method>
+        <Method name="getLeNumber" returnType="String" visibility="public"/>
+        <Method name="setLeNumber" returnType="void" visibility="public">
+          <Argument type="String" name="leNumber"/>
+        </Method>
+        <Method name="getCreationDate" returnType="String" visibility="public"/>
+        <Method name="setCreationDate" returnType="void" visibility="public">
+          <Argument type="String" name="creationDate"/>
+        </Method>
+        <Method name="getModificationDate" returnType="String" visibility="public"/>
+        <Method name="setModificationDate" returnType="void" visibility="public">
+          <Argument type="String" name="modificationDate"/>
+        </Method>
+        <Method name="getCreationUserID" returnType="String" visibility="public"/>
+        <Method name="setCreationUserID" returnType="void" visibility="public">
+          <Argument type="String" name="creationUserID"/>
+        </Method>
+        <Method name="getModificationUserID" returnType="String" visibility="public"/>
+        <Method name="setModificationUserID" returnType="void" visibility="public">
+          <Argument type="String" name="modificationUserID"/>
+        </Method>
+        <Method name="getUnitCount" returnType="String" visibility="public"/>
+        <Method name="setUnitCount" returnType="void" visibility="public">
+          <Argument type="String" name="unitCount"/>
+        </Method>
+        <Method name="getAnaesthesia" returnType="String" visibility="public"/>
+        <Method name="setAnaesthesia" returnType="void" visibility="public">
+          <Argument type="String" name="anaesthesia"/>
+        </Method>
+        <Method name="getFlag" returnType="String" visibility="public"/>
+        <Method name="setFlag" returnType="void" visibility="public">
+          <Argument type="String" name="flag"/>
+        </Method>
+        <Method name="getPrice" returnType="String" visibility="public"/>
+        <Method name="setPrice" returnType="void" visibility="public">
+          <Argument type="String" name="price"/>
+        </Method>
+        <Method name="getVATCode" returnType="String" visibility="public"/>
+        <Method name="setVATCode" returnType="void" visibility="public">
+          <Argument type="String" name="VATCode"/>
+        </Method>
+        <Method name="getVATRate" returnType="String" visibility="public"/>
+        <Method name="setVATRate" returnType="void" visibility="public">
+          <Argument type="String" name="VATRate"/>
+        </Method>
+        <Method name="getTPW" returnType="String" visibility="public"/>
+        <Method name="setTPW" returnType="void" visibility="public">
+          <Argument type="String" name="TPW"/>
+        </Method>
+        <Method name="getTarifCode" returnType="String" visibility="public"/>
+        <Method name="setTarifCode" returnType="void" visibility="public">
+          <Argument type="String" name="tarifCode"/>
+        </Method>
+        <Method name="getValidateFlag" returnType="String" visibility="public"/>
+        <Method name="setValidateFlag" returnType="void" visibility="public">
+          <Argument type="String" name="validateFlag"/>
+        </Method>
+        <Method name="getValidateError" returnType="String" visibility="public"/>
+        <Method name="setValidateError" returnType="void" visibility="public">
+          <Argument type="String" name="validateError"/>
+        </Method>
+        <Method name="getComment" returnType="String" visibility="public"/>
+        <Method name="setComment" returnType="void" visibility="public">
+          <Argument type="String" name="comment"/>
+        </Method>
+        <Method name="getLongReserve1" returnType="String" visibility="public"/>
+        <Method name="setLongReserve1" returnType="void" visibility="public">
+          <Argument type="String" name="longReserve1"/>
+        </Method>
+        <Method name="getLongReserve2" returnType="String" visibility="public"/>
+        <Method name="setLongReserve2" returnType="void" visibility="public">
+          <Argument type="String" name="longReserve2"/>
+        </Method>
+        <Method name="getDoubleReserve1" returnType="String" visibility="public"/>
+        <Method name="setDoubleReserve1" returnType="void" visibility="public">
+          <Argument type="String" name="doubleReserve1"/>
+        </Method>
+        <Method name="getDoubleReserve2" returnType="String" visibility="public"/>
+        <Method name="setDoubleReserve2" returnType="void" visibility="public">
+          <Argument type="String" name="doubleReserve2"/>
+        </Method>
+        <Method name="getScaleFactorAL" returnType="String" visibility="public"/>
+        <Method name="setScaleFactorAL" returnType="void" visibility="public">
+          <Argument type="String" name="scaleFactorAL"/>
+        </Method>
+        <Method name="getScaleFactorTL" returnType="String" visibility="public"/>
+        <Method name="setScaleFactorTL" returnType="void" visibility="public">
+          <Argument type="String" name="scaleFactorTL"/>
+        </Method>
+        <Method name="getAnaesthesiaMin" returnType="String" visibility="public"/>
+        <Method name="setAnaesthesiaMin" returnType="void" visibility="public">
+          <Argument type="String" name="anaesthesiaMin"/>
+        </Method>
+        <Method name="getServiceMin" returnType="String" visibility="public"/>
+        <Method name="setServiceMin" returnType="void" visibility="public">
+          <Argument type="String" name="serviceMin"/>
+        </Method>
+        <Method name="getPrePostServiceMin" returnType="String" visibility="public"/>
+        <Method name="setPrePostServiceMin" returnType="void" visibility="public">
+          <Argument type="String" name="prePostServiceMin"/>
+        </Method>
+        <Method name="getFindingsMin" returnType="String" visibility="public"/>
+        <Method name="setFindingsMin" returnType="void" visibility="public">
+          <Argument type="String" name="findingsMin"/>
+        </Method>
+        <Method name="getPlaceMin" returnType="String" visibility="public"/>
+        <Method name="setPlaceMin" returnType="void" visibility="public">
+          <Argument type="String" name="placeMin"/>
+        </Method>
+        <Method name="getChangeMin" returnType="String" visibility="public"/>
+        <Method name="setChangeMin" returnType="void" visibility="public">
+          <Argument type="String" name="changeMin"/>
+        </Method>
+        <Method name="getAssistant" returnType="String" visibility="public"/>
+        <Method name="setAssistant" returnType="void" visibility="public">
+          <Argument type="String" name="assistant"/>
+        </Method>
+        <Method name="getNumAssistants" returnType="String" visibility="public"/>
+        <Method name="setNumAssistants" returnType="void" visibility="public">
+          <Argument type="String" name="numAssistants"/>
+        </Method>
+        <Method name="getBillingRole" returnType="String" visibility="public"/>
+        <Method name="setBillingRole" returnType="void" visibility="public">
+          <Argument type="String" name="nillingRole"/>
+        </Method>
+        <Method name="getMedicalRole" returnType="String" visibility="public"/>
+        <Method name="setMedicalRole" returnType="void" visibility="public">
+          <Argument type="String" name="medicalRole"/>
+        </Method>
+        <Method name="getMeCode" returnType="String" visibility="public"/>
+        <Method name="setMeCode" returnType="void" visibility="public">
+          <Argument type="String" name="meCode"/>
+        </Method>
+        <Method name="getSection" returnType="String" visibility="public"/>
+        <Method name="setSection" returnType="void" visibility="public">
+          <Argument type="String" name="section"/>
+        </Method>
+        <Method name="getServiceType" returnType="String" visibility="public"/>
+        <Method name="setServiceType" returnType="void" visibility="public">
+          <Argument type="String" name="serviceType"/>
+        </Method>
+        <Method name="getTPW_TL" returnType="String" visibility="public"/>
+        <Method name="setTPW_TL" returnType="void" visibility="public">
+          <Argument type="String" name="TPW_TL"/>
+        </Method>
+        <Method name="getFAL" returnType="String" visibility="public"/>
+        <Method name="setFAL" returnType="void" visibility="public">
+          <Argument type="String" name="FAL"/>
+        </Method>
+        <Method name="getFTL" returnType="String" visibility="public"/>
+        <Method name="setFTL" returnType="void" visibility="public">
+          <Argument type="String" name="FTL"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Patient" package="ch.bfh.lca._15h.library.model" visibility="public" xPosition="1520.0" yPosition="20.0">
+      <Fields>
+        <Field name="activities" type="List" visibility="private"/>
+        <Field name="patID" type="String" visibility="private"/>
+        <Field name="PatNumber" type="String" visibility="private"/>
+        <Field name="patBirthdate" type="String" visibility="private"/>
+        <Field name="patLetterSalutation" type="String" visibility="private"/>
+        <Field name="patSalutation" type="String" visibility="private"/>
+        <Field name="patTitle" type="String" visibility="private"/>
+        <Field name="patPoBox" type="String" visibility="private"/>
+        <Field name="patZip" type="String" visibility="private"/>
+        <Field name="patCity" type="String" visibility="private"/>
+        <Field name="patCountry" type="String" visibility="private"/>
+        <Field name="patDiagnosis" type="String" visibility="private"/>
+        <Field name="patLanguage" type="String" visibility="private"/>
+        <Field name="patConsStatus" type="String" visibility="private"/>
+        <Field name="patRxNumber" type="String" visibility="private"/>
+        <Field name="patRecall1" type="String" visibility="private"/>
+        <Field name="patRecall2" type="String" visibility="private"/>
+        <Field name="patInsuranceAbbrev1" type="String" visibility="private"/>
+        <Field name="patInsuranceAbbrev2" type="String" visibility="private"/>
+        <Field name="patInsuranceAbbrev3" type="String" visibility="private"/>
+        <Field name="patInsuranceAbbrev4" type="String" visibility="private"/>
+        <Field name="patEmplAbbrev" type="String" visibility="private"/>
+        <Field name="patGarantInfo" type="String" visibility="private"/>
+        <Field name="patGarantID" type="String" visibility="private"/>
+        <Field name="patLastBehNumber" type="String" visibility="private"/>
+        <Field name="patLastBehDate" type="String" visibility="private"/>
+        <Field name="patShowInfo1" type="String" visibility="private"/>
+        <Field name="patShowInfo2" type="String" visibility="private"/>
+        <Field name="patInfo1" type="String" visibility="private"/>
+        <Field name="patInfo2" type="String" visibility="private"/>
+        <Field name="patSex" type="String" visibility="private"/>
+        <Field name="patHeight" type="String" visibility="private"/>
+        <Field name="patWeight" type="String" visibility="private"/>
+        <Field name="patRace" type="String" visibility="private"/>
+        <Field name="patEmail" type="String" visibility="private"/>
+        <Field name="patFax" type="String" visibility="private"/>
+        <Field name="patUeberweis" type="String" visibility="private"/>
+        <Field name="patRechCopyFlag" type="String" visibility="private"/>
+        <Field name="creationDate" type="String" visibility="private"/>
+        <Field name="modificationDate" type="String" visibility="private"/>
+        <Field name="creationUserID" type="String" visibility="private"/>
+        <Field name="modificationUserID" type="String" visibility="private"/>
+        <Field name="patInsNumber1" type="String" visibility="private"/>
+        <Field name="patInsNumber2" type="String" visibility="private"/>
+        <Field name="patInsNumber3" type="String" visibility="private"/>
+        <Field name="patInsNumber4" type="String" visibility="private"/>
+        <Field name="patInsClass1" type="String" visibility="private"/>
+        <Field name="patInsClass2" type="String" visibility="private"/>
+        <Field name="patInsClass3" type="String" visibility="private"/>
+        <Field name="patInsClass4" type="String" visibility="private"/>
+        <Field name="patNatel" type="String" visibility="private"/>
+        <Field name="patNatelPriv" type="String" visibility="private"/>
+        <Field name="patEmailPriv" type="String" visibility="private"/>
+        <Field name="adrNumKasse" type="String" visibility="private"/>
+        <Field name="adrNumSUVA" type="String" visibility="private"/>
+        <Field name="adrNumIns1" type="String" visibility="private"/>
+        <Field name="adrNumIns2" type="String" visibility="private"/>
+        <Field name="adrNumEmpl" type="String" visibility="private"/>
+        <Field name="billTypeKasse" type="String" visibility="private"/>
+        <Field name="billTypeSUVA" type="String" visibility="private"/>
+        <Field name="billTypeVers1" type="String" visibility="private"/>
+        <Field name="billTypeVers2" type="String" visibility="private"/>
+        <Field name="defaultBilling" type="String" visibility="private"/>
+        <Field name="adrNumReferrer" type="String" visibility="private"/>
+        <Field name="EAN" type="String" visibility="private"/>
+        <Field name="reserve" type="String" visibility="private"/>
+        <Field name="adrNumStammGarant" type="String" visibility="private"/>
+        <Field name="flag" type="String" visibility="private"/>
+        <Field name="strReserve1" type="String" visibility="private"/>
+        <Field name="strReserve2" type="String" visibility="private"/>
+        <Field name="longReserve1" type="String" visibility="private"/>
+        <Field name="longReserve2" type="String" visibility="private"/>
+        <Field name="patSaldo" type="String" visibility="private"/>
+        <Field name="patStatus" type="String" visibility="private"/>
+        <Field name="defaultProvider" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getActivities" returnType="List&lt;Activity&gt;" visibility="public"/>
+        <Method name="setActivities" returnType="void" visibility="public">
+          <Argument type="List&lt;Activity&gt;" name="activities"/>
+        </Method>
+        <Method name="addActivity" returnType="void" visibility="public">
+          <Argument type="Activity" name="activity"/>
+        </Method>
+        <Method name="getPatID" returnType="String" visibility="public"/>
+        <Method name="setPatID" returnType="void" visibility="public">
+          <Argument type="String" name="patID"/>
+        </Method>
+        <Method name="getPatNumber" returnType="String" visibility="public"/>
+        <Method name="setPatNumber" returnType="void" visibility="public">
+          <Argument type="String" name="PatNumber"/>
+        </Method>
+        <Method name="getPatBirthdate" returnType="String" visibility="public"/>
+        <Method name="setPatBirthdate" returnType="void" visibility="public">
+          <Argument type="String" name="patBirthdate"/>
+        </Method>
+        <Method name="getPatLetterSalutation" returnType="String" visibility="public"/>
+        <Method name="setPatLetterSalutation" returnType="void" visibility="public">
+          <Argument type="String" name="patLetterSalutation"/>
+        </Method>
+        <Method name="getPatSalutation" returnType="String" visibility="public"/>
+        <Method name="setPatSalutation" returnType="void" visibility="public">
+          <Argument type="String" name="patSalutation"/>
+        </Method>
+        <Method name="getPatTitle" returnType="String" visibility="public"/>
+        <Method name="setPatTitle" returnType="void" visibility="public">
+          <Argument type="String" name="patTitle"/>
+        </Method>
+        <Method name="getPatPoBox" returnType="String" visibility="public"/>
+        <Method name="setPatPoBox" returnType="void" visibility="public">
+          <Argument type="String" name="patPoBox"/>
+        </Method>
+        <Method name="getPatZip" returnType="String" visibility="public"/>
+        <Method name="setPatZip" returnType="void" visibility="public">
+          <Argument type="String" name="patZip"/>
+        </Method>
+        <Method name="getPatCity" returnType="String" visibility="public"/>
+        <Method name="setPatCity" returnType="void" visibility="public">
+          <Argument type="String" name="patCity"/>
+        </Method>
+        <Method name="getPatCountry" returnType="String" visibility="public"/>
+        <Method name="setPatCountry" returnType="void" visibility="public">
+          <Argument type="String" name="patCountry"/>
+        </Method>
+        <Method name="getPatDiagnosis" returnType="String" visibility="public"/>
+        <Method name="setPatDiagnosis" returnType="void" visibility="public">
+          <Argument type="String" name="patDiagnosis"/>
+        </Method>
+        <Method name="getPatLanguage" returnType="String" visibility="public"/>
+        <Method name="setPatLanguage" returnType="void" visibility="public">
+          <Argument type="String" name="patLanguage"/>
+        </Method>
+        <Method name="getPatConsStatus" returnType="String" visibility="public"/>
+        <Method name="setPatConsStatus" returnType="void" visibility="public">
+          <Argument type="String" name="patConsStatus"/>
+        </Method>
+        <Method name="getPatRxNumber" returnType="String" visibility="public"/>
+        <Method name="setPatRxNumber" returnType="void" visibility="public">
+          <Argument type="String" name="patRxNumber"/>
+        </Method>
+        <Method name="getPatRecall1" returnType="String" visibility="public"/>
+        <Method name="setPatRecall1" returnType="void" visibility="public">
+          <Argument type="String" name="patRecall1"/>
+        </Method>
+        <Method name="getPatRecall2" returnType="String" visibility="public"/>
+        <Method name="setPatRecall2" returnType="void" visibility="public">
+          <Argument type="String" name="patRecall2"/>
+        </Method>
+        <Method name="getPatInsuranceAbbrev1" returnType="String" visibility="public"/>
+        <Method name="setPatInsuranceAbbrev1" returnType="void" visibility="public">
+          <Argument type="String" name="patInsuranceAbbrev1"/>
+        </Method>
+        <Method name="getPatInsuranceAbbrev2" returnType="String" visibility="public"/>
+        <Method name="setPatInsuranceAbbrev2" returnType="void" visibility="public">
+          <Argument type="String" name="patInsuranceAbbrev2"/>
+        </Method>
+        <Method name="getPatInsuranceAbbrev3" returnType="String" visibility="public"/>
+        <Method name="setPatInsuranceAbbrev3" returnType="void" visibility="public">
+          <Argument type="String" name="patInsuranceAbbrev3"/>
+        </Method>
+        <Method name="getPatInsuranceAbbrev4" returnType="String" visibility="public"/>
+        <Method name="setPatInsuranceAbbrev4" returnType="void" visibility="public">
+          <Argument type="String" name="patInsuranceAbbrev4"/>
+        </Method>
+        <Method name="getPatEmplAbbrev" returnType="String" visibility="public"/>
+        <Method name="setPatEmplAbbrev" returnType="void" visibility="public">
+          <Argument type="String" name="patEmplAbbrev"/>
+        </Method>
+        <Method name="getPatGarantInfo" returnType="String" visibility="public"/>
+        <Method name="setPatGarantInfo" returnType="void" visibility="public">
+          <Argument type="String" name="patGarantInfo"/>
+        </Method>
+        <Method name="getPatGarantID" returnType="String" visibility="public"/>
+        <Method name="setPatGarantID" returnType="void" visibility="public">
+          <Argument type="String" name="patGarantID"/>
+        </Method>
+        <Method name="getPatLastBehNumber" returnType="String" visibility="public"/>
+        <Method name="setPatLastBehNumber" returnType="void" visibility="public">
+          <Argument type="String" name="patLastBehNumber"/>
+        </Method>
+        <Method name="getPatLastBehDate" returnType="String" visibility="public"/>
+        <Method name="setPatLastBehDate" returnType="void" visibility="public">
+          <Argument type="String" name="patLastBehDate"/>
+        </Method>
+        <Method name="getPatShowInfo1" returnType="String" visibility="public"/>
+        <Method name="setPatShowInfo1" returnType="void" visibility="public">
+          <Argument type="String" name="patShowInfo1"/>
+        </Method>
+        <Method name="getPatShowInfo2" returnType="String" visibility="public"/>
+        <Method name="setPatShowInfo2" returnType="void" visibility="public">
+          <Argument type="String" name="patShowInfo2"/>
+        </Method>
+        <Method name="getPatInfo1" returnType="String" visibility="public"/>
+        <Method name="setPatInfo1" returnType="void" visibility="public">
+          <Argument type="String" name="patInfo1"/>
+        </Method>
+        <Method name="getPatInfo2" returnType="String" visibility="public"/>
+        <Method name="setPatInfo2" returnType="void" visibility="public">
+          <Argument type="String" name="patInfo2"/>
+        </Method>
+        <Method name="getPatSex" returnType="String" visibility="public"/>
+        <Method name="setPatSex" returnType="void" visibility="public">
+          <Argument type="String" name="patSex"/>
+        </Method>
+        <Method name="getPatHeight" returnType="String" visibility="public"/>
+        <Method name="setPatHeight" returnType="void" visibility="public">
+          <Argument type="String" name="patHeight"/>
+        </Method>
+        <Method name="getPatWeight" returnType="String" visibility="public"/>
+        <Method name="setPatWeight" returnType="void" visibility="public">
+          <Argument type="String" name="patWeight"/>
+        </Method>
+        <Method name="getPatRace" returnType="String" visibility="public"/>
+        <Method name="setPatRace" returnType="void" visibility="public">
+          <Argument type="String" name="patRace"/>
+        </Method>
+        <Method name="getPatEmail" returnType="String" visibility="public"/>
+        <Method name="setPatEmail" returnType="void" visibility="public">
+          <Argument type="String" name="patEmail"/>
+        </Method>
+        <Method name="getPatFax" returnType="String" visibility="public"/>
+        <Method name="setPatFax" returnType="void" visibility="public">
+          <Argument type="String" name="patFax"/>
+        </Method>
+        <Method name="getPatUeberweis" returnType="String" visibility="public"/>
+        <Method name="setPatUeberweis" returnType="void" visibility="public">
+          <Argument type="String" name="patUeberweis"/>
+        </Method>
+        <Method name="getPatRechCopyFlag" returnType="String" visibility="public"/>
+        <Method name="setPatRechCopyFlag" returnType="void" visibility="public">
+          <Argument type="String" name="patRechCopyFlag"/>
+        </Method>
+        <Method name="getCreationDate" returnType="String" visibility="public"/>
+        <Method name="setCreationDate" returnType="void" visibility="public">
+          <Argument type="String" name="creationDate"/>
+        </Method>
+        <Method name="getModificationDate" returnType="String" visibility="public"/>
+        <Method name="setModificationDate" returnType="void" visibility="public">
+          <Argument type="String" name="modificationDate"/>
+        </Method>
+        <Method name="getCreationUserID" returnType="String" visibility="public"/>
+        <Method name="setCreationUserID" returnType="void" visibility="public">
+          <Argument type="String" name="creationUserID"/>
+        </Method>
+        <Method name="getModificationUserID" returnType="String" visibility="public"/>
+        <Method name="setModificationUserID" returnType="void" visibility="public">
+          <Argument type="String" name="modificationUserID"/>
+        </Method>
+        <Method name="getPatInsNumber1" returnType="String" visibility="public"/>
+        <Method name="setPatInsNumber1" returnType="void" visibility="public">
+          <Argument type="String" name="patInsNumber1"/>
+        </Method>
+        <Method name="getPatInsNumber2" returnType="String" visibility="public"/>
+        <Method name="setPatInsNumber2" returnType="void" visibility="public">
+          <Argument type="String" name="patInsNumber2"/>
+        </Method>
+        <Method name="getPatInsNumber3" returnType="String" visibility="public"/>
+        <Method name="setPatInsNumber3" returnType="void" visibility="public">
+          <Argument type="String" name="patInsNumber3"/>
+        </Method>
+        <Method name="getPatInsNumber4" returnType="String" visibility="public"/>
+        <Method name="setPatInsNumber4" returnType="void" visibility="public">
+          <Argument type="String" name="patInsNumber4"/>
+        </Method>
+        <Method name="getPatInsClass1" returnType="String" visibility="public"/>
+        <Method name="setPatInsClass1" returnType="void" visibility="public">
+          <Argument type="String" name="patInsClass1"/>
+        </Method>
+        <Method name="getPatInsClass2" returnType="String" visibility="public"/>
+        <Method name="setPatInsClass2" returnType="void" visibility="public">
+          <Argument type="String" name="patInsClass2"/>
+        </Method>
+        <Method name="getPatInsClass3" returnType="String" visibility="public"/>
+        <Method name="setPatInsClass3" returnType="void" visibility="public">
+          <Argument type="String" name="patInsClass3"/>
+        </Method>
+        <Method name="getPatInsClass4" returnType="String" visibility="public"/>
+        <Method name="setPatInsClass4" returnType="void" visibility="public">
+          <Argument type="String" name="patInsClass4"/>
+        </Method>
+        <Method name="getPatNatel" returnType="String" visibility="public"/>
+        <Method name="setPatNatel" returnType="void" visibility="public">
+          <Argument type="String" name="patNatel"/>
+        </Method>
+        <Method name="getPatNatelPriv" returnType="String" visibility="public"/>
+        <Method name="setPatNatelPriv" returnType="void" visibility="public">
+          <Argument type="String" name="patNatelPriv"/>
+        </Method>
+        <Method name="getPatEmailPriv" returnType="String" visibility="public"/>
+        <Method name="setPatEmailPriv" returnType="void" visibility="public">
+          <Argument type="String" name="patEmailPriv"/>
+        </Method>
+        <Method name="getAdrNumKasse" returnType="String" visibility="public"/>
+        <Method name="setAdrNumKasse" returnType="void" visibility="public">
+          <Argument type="String" name="adrNumKasse"/>
+        </Method>
+        <Method name="getAdrNumSUVA" returnType="String" visibility="public"/>
+        <Method name="setAdrNumSUVA" returnType="void" visibility="public">
+          <Argument type="String" name="adrNumSUVA"/>
+        </Method>
+        <Method name="getAdrNumIns1" returnType="String" visibility="public"/>
+        <Method name="setAdrNumIns1" returnType="void" visibility="public">
+          <Argument type="String" name="adrNumIns1"/>
+        </Method>
+        <Method name="getAdrNumIns2" returnType="String" visibility="public"/>
+        <Method name="setAdrNumIns2" returnType="void" visibility="public">
+          <Argument type="String" name="adrNumIns2"/>
+        </Method>
+        <Method name="getAdrNumEmpl" returnType="String" visibility="public"/>
+        <Method name="setAdrNumEmpl" returnType="void" visibility="public">
+          <Argument type="String" name="adrNumEmpl"/>
+        </Method>
+        <Method name="getBillTypeKasse" returnType="String" visibility="public"/>
+        <Method name="setBillTypeKasse" returnType="void" visibility="public">
+          <Argument type="String" name="billTypeKasse"/>
+        </Method>
+        <Method name="getBillTypeSUVA" returnType="String" visibility="public"/>
+        <Method name="setBillTypeSUVA" returnType="void" visibility="public">
+          <Argument type="String" name="billTypeSUVA"/>
+        </Method>
+        <Method name="getBillTypeVers1" returnType="String" visibility="public"/>
+        <Method name="setBillTypeVers1" returnType="void" visibility="public">
+          <Argument type="String" name="billTypeVers1"/>
+        </Method>
+        <Method name="getBillTypeVers2" returnType="String" visibility="public"/>
+        <Method name="setBillTypeVers2" returnType="void" visibility="public">
+          <Argument type="String" name="billTypeVers2"/>
+        </Method>
+        <Method name="getDefaultBilling" returnType="String" visibility="public"/>
+        <Method name="setDefaultBilling" returnType="void" visibility="public">
+          <Argument type="String" name="defaultBilling"/>
+        </Method>
+        <Method name="getAdrNumReferrer" returnType="String" visibility="public"/>
+        <Method name="setAdrNumReferrer" returnType="void" visibility="public">
+          <Argument type="String" name="adrNumReferrer"/>
+        </Method>
+        <Method name="getEAN" returnType="String" visibility="public"/>
+        <Method name="setEAN" returnType="void" visibility="public">
+          <Argument type="String" name="ean"/>
+        </Method>
+        <Method name="getReserve" returnType="String" visibility="public"/>
+        <Method name="setReserve" returnType="void" visibility="public">
+          <Argument type="String" name="reserve"/>
+        </Method>
+        <Method name="getAdrNumStammGarant" returnType="String" visibility="public"/>
+        <Method name="setAdrNumStammGarant" returnType="void" visibility="public">
+          <Argument type="String" name="adrNumStammGarant"/>
+        </Method>
+        <Method name="getFlag" returnType="String" visibility="public"/>
+        <Method name="setFlag" returnType="void" visibility="public">
+          <Argument type="String" name="flag"/>
+        </Method>
+        <Method name="getStrReserve1" returnType="String" visibility="public"/>
+        <Method name="setStrReserve1" returnType="void" visibility="public">
+          <Argument type="String" name="strReserve1"/>
+        </Method>
+        <Method name="getStrReserve2" returnType="String" visibility="public"/>
+        <Method name="setStrReserve2" returnType="void" visibility="public">
+          <Argument type="String" name="strReserve2"/>
+        </Method>
+        <Method name="getLongReserve1" returnType="String" visibility="public"/>
+        <Method name="setLongReserve1" returnType="void" visibility="public">
+          <Argument type="String" name="longReserve1"/>
+        </Method>
+        <Method name="getLongReserve2" returnType="String" visibility="public"/>
+        <Method name="setLongReserve2" returnType="void" visibility="public">
+          <Argument type="String" name="longReserve2"/>
+        </Method>
+        <Method name="getPatSaldo" returnType="String" visibility="public"/>
+        <Method name="setPatSaldo" returnType="void" visibility="public">
+          <Argument type="String" name="patSaldo"/>
+        </Method>
+        <Method name="getPatStatus" returnType="String" visibility="public"/>
+        <Method name="setPatStatus" returnType="void" visibility="public">
+          <Argument type="String" name="patStatus"/>
+        </Method>
+        <Method name="getDefaultProvider" returnType="String" visibility="public"/>
+        <Method name="setDefaultProvider" returnType="void" visibility="public">
+          <Argument type="String" name="defaultProvider"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="aPatients" source="ch.bfh.lca._15h.library.impl.DataSourceCSV" target="ch.bfh.lca._15h.library.model.Patient" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Patient&gt;"/>
+    <UseRelation source="ch.bfh.lca._15h.library.model.Patient" target="ch.bfh.lca._15h.library.model.Activity" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="ch.bfh.lca._15h.library.impl.DataSourceCSV" target="ch.bfh.lca._15h.library.DataSource"/>
+    <ImplementsRelation name="&lt;&lt;implements&gt;&gt;" source="ch.bfh.lca._15h.library.impl.DataSourceJSON" target="ch.bfh.lca._15h.library.DataSource"/>
+    <HasRelation name="aPatients" source="ch.bfh.lca._15h.library.impl.DataSourceJSON" target="ch.bfh.lca._15h.library.model.Patient" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Patient&gt;"/>
+    <UseRelation source="ch.bfh.lca._15h.library.DataSource" target="ch.bfh.lca._15h.library.model.Patient" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="ch.bfh.lca._15h.library.impl.DataSourceJSON" target="ch.bfh.lca._15h.library.DataSource" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="ch.bfh.lca._15h.library.impl.DataSourceJSON" target="ch.bfh.lca._15h.library.model.Patient" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="ch.bfh.lca._15h.library.impl.DataSourceCSV" target="ch.bfh.lca._15h.library.model.Patient" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
