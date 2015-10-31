@@ -24,6 +24,7 @@ public class ActivityFilterOnDate implements ActivityFilter {
     
     @Override
     public Boolean matchActivity(Activity activity) {
+        //@TODO filter on date
         return true;
     }   
 }
