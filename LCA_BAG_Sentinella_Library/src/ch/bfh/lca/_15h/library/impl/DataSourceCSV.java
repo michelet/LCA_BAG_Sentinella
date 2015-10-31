@@ -98,6 +98,8 @@ public class DataSourceCSV implements DataSource {
             if (isFirstLine) {
                 isFirstLine = false;
                 csvHeaders = line.split(cvsSplitBy);
+                for(int k=0; k<csvHeaders.length; k++)
+                    csvHeaders[k] = "set" + csvHeaders[k].replaceAll("\"", "");
             } else {
                 pCSV = line.split(cvsSplitBy);
                 p = new Patient();
@@ -109,7 +111,7 @@ public class DataSourceCSV implements DataSource {
                         //String methodName = "set" + propertyName.replaceAll("\"", "");
                         if (i < pCSV.length) //make sure data line as enought column
                         {
-                            p.getClass().getMethod("set" + csvHeaders[i].replaceAll("\"", ""), String.class).invoke(p, pCSV[i].replaceAll("\"", ""));
+                            p.getClass().getMethod(csvHeaders[i], String.class).invoke(p, pCSV[i].replaceAll("\"", ""));
                         }
                     }
                 }
