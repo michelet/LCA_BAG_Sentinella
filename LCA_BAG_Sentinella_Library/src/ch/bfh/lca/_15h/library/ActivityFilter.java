@@ -12,5 +12,5 @@ import ch.bfh.lca._15h.library.model.Activity;
  * @author Cédric Michelet
  */
 public interface ActivityFilter {
-    public Boolean matchActivity(Activity activity);    
+    public Boolean matchActivity(Activity activity) throws Exception;    
 }
