@@ -17,6 +17,11 @@ public class ActivityFilterOnDate implements ActivityFilter {
     private Date startDate = null;
     private Date endDate = null;
     
+    /***
+     * Constructor
+     * @param startDateIncluded
+     * @param endDateIncluded 
+     */
     public ActivityFilterOnDate(Date startDateIncluded, Date endDateIncluded) {
         startDate = startDateIncluded;
         endDate = endDateIncluded;
