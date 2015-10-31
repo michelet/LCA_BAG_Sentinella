@@ -90,6 +90,9 @@ public class DataSourceCSV implements DataSource {
         String line;
         String cvsSplitBy = ",";
         Boolean isFirstLine = true;
+        Splitter splitter = Splitter.on(',');
+        Iterable<String> is;
+        int col;
 
         //******************************************LOAD PATIENTS
         br = new BufferedReader(new FileReader(this.patientsCSVPath));
@@ -102,10 +105,21 @@ public class DataSourceCSV implements DataSource {
                 for(int k=0; k<csvHeaders.length; k++)
                     csvHeaders[k] = "set" + csvHeaders[k].replaceAll("\"", "");
             } else {
-                pCSV = line.split(cvsSplitBy);
+                //pCSV = line.split(cvsSplitBy);
                 p = new Patient();
 
+                is = splitter.split(line);
+                col = 0;
                 if (csvHeaders != null) {
+                    if (col < csvHeaders.length) {
+                        for (String st : is) {
+                            p.getClass().getMethod(csvHeaders[col], String.class).invoke(p, st.replaceAll("\"", ""));
+                            col++;
+                        }
+                    }
+                }
+                
+                /*if (csvHeaders != null) {
                     for (i = 0; i < csvHeaders.length; i++) {
                     //String propertyName = csvHeaders[i];
                         //String methodName = "set" + StringUtils.capitalize(propertyName);
@@ -115,7 +129,7 @@ public class DataSourceCSV implements DataSource {
                             p.getClass().getMethod(csvHeaders[i], String.class).invoke(p, pCSV[i].replaceAll("\"", ""));
                         }
                     }
-                }
+                }*/
                 aPatients.add(p);
             }
         }
@@ -135,9 +149,6 @@ public class DataSourceCSV implements DataSource {
         isFirstLine = true;
         csvHeaders = null;
 
-        Splitter splitter = Splitter.on(',');
-        Iterable<String> is;
-        int col;
         //@TODO check file is csv and conform to the format (column)
         while ((line = br.readLine()) != null) {
             
@@ -153,9 +164,9 @@ public class DataSourceCSV implements DataSource {
                 col = 0;
                 if (csvHeaders != null) {
                     if (col < csvHeaders.length) {
-                        col++;
                         for (String st : is) {
                             a.getClass().getMethod(csvHeaders[col], String.class).invoke(a, st.replaceAll("\"", ""));
+                            col++;
                         }
                     }
                 }
