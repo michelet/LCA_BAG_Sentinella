@@ -1,8 +1,10 @@
 package ch.bfh.lca._15h.library.Database;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public interface IDBParameter {
 
-    public IDBParameter addParamToStatement(PreparedStatement statement, IDBParameter param);
+    public PreparedStatement addParamToStatement(PreparedStatement statement) throws SQLException;
 }
+ 

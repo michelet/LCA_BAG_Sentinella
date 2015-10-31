@@ -5,7 +5,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import org.hsqldb.result.ResultMetaData;
 
 public class DBResultRow implements IResultRow {
 
@@ -68,6 +67,9 @@ public class DBResultRow implements IResultRow {
     public void setValues(String[] names, Object[] values) {
         if (names.length != values.length) {
            throw new IllegalArgumentException("Lenght of both array must be equal");
+        } else {
+            this.colNames = names;
+            this.values = values;
         }
     }
     
@@ -78,6 +80,14 @@ public class DBResultRow implements IResultRow {
         int rowSize = metaData.getColumnCount();
         String[] names = DBResultRow.getNames(metaData, rowSize);
         
+        while(resultSet.next()) {
+            Object[] values = DBResultRow.getValues(resultSet, rowSize);
+            DBResultRow resultRow = new DBResultRow();
+            resultRow.setValues(names, values);
+            resultList.add(resultRow);
+        }
+        
+        
         return resultList;   
     }
     
@@ -85,17 +95,17 @@ public class DBResultRow implements IResultRow {
         String[] names = new String[size];
         
         for(int i=0; i<size; i++) {
-          names[i] = metaData.getColumnName(i);
+          names[i] = metaData.getColumnName(i+1);
         }
         
         return names;
     }
     
-    private static Object[] getNames(ResultSet resultSet, int size) throws SQLException {
+    private static Object[] getValues(ResultSet resultSet, int size) throws SQLException {
         Object[] values = new Object[size];
         
         for(int i=0; i<size; i++) {
-          values[i] = resultSet.getObject(i);
+          values[i] = resultSet.getObject(i+1);
         }
         
         return values;
