@@ -8,6 +8,7 @@ package ch.bfh.lca._15h.library.impl;
 import ch.bfh.lca._15h.library.DataSource;
 import ch.bfh.lca._15h.library.model.Activity;
 import ch.bfh.lca._15h.library.model.Patient;
+import com.google.common.base.Splitter;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -133,29 +134,45 @@ public class DataSourceCSV implements DataSource {
         br = new BufferedReader(new FileReader(this.activitiesCSVPath));
         isFirstLine = true;
         csvHeaders = null;
-        
+
+        Splitter splitter = Splitter.on(',');
+        Iterable<String> is;
+        int col;
         //@TODO check file is csv and conform to the format (column)
         while ((line = br.readLine()) != null) {
+            
             if (isFirstLine) {
                 isFirstLine = false;
                 csvHeaders = line.split(cvsSplitBy);
                 for(int k=0; k<csvHeaders.length; k++)
                     csvHeaders[k] = "set" + csvHeaders[k].replaceAll("\"", "");
             } else {
-                pCSV = line.split(cvsSplitBy);
+                //pCSV = line.split(cvsSplitBy);
+                is = splitter.split(line);
                 a = new Activity();
-
+                col = 0;
                 if (csvHeaders != null) {
+                    if (col < csvHeaders.length) {
+                        col++;
+                        for (String st : is) {
+                            a.getClass().getMethod(csvHeaders[col], String.class).invoke(a, st.replaceAll("\"", ""));
+                        }
+                    }
+                }
+
+                /*if (csvHeaders != null) {
                     for (i = 0; i < csvHeaders.length; i++) {
                     //String propertyName = csvHeaders[i];
                         //String methodName = "set" + StringUtils.capitalize(propertyName);
                         //String methodName = "set" + propertyName.replaceAll("\"", "");
-                        if (i < pCSV.length) //make sure data line as enought column
-                        {
-                            a.getClass().getMethod(csvHeaders[i], String.class).invoke(a, pCSV[i].replaceAll("\"", ""));
+                        if (i < pCSV.length) { //make sure data line has enought column
+                            //a.getClass().getMethod(csvHeaders[i], String.class).invoke(a, pCSV[i].replaceAll("\"", "")+"");
+                            //a.getClass().getMethod(csvHeaders[i], String.class).invoke(a, new String(pCSV[i]+""));
+                            y = pCSV[i];
+                            a.getClass().getMethod(csvHeaders[i], String.class).invoke(a, new String("xxxxxxxxxéékasjdfélkjasdfklsjfljsdfklasjdféjklasjdfkj"+x+i));
                         }
                     }
-                }
+                }*/           
                 
                 p = patientsCache.get(a.getPatNumber());
                 if(p == null) {
