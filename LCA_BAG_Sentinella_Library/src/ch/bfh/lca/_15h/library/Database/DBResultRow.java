@@ -6,12 +6,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A DBResultRow Object is for an generic use of result from a SQL query
+ * @author Stefan Schöpfer
+ */
 public class DBResultRow implements IResultRow {
 
     private String[] colNames;
     private Object[] values;
     
-    
+    /**
+     * Returns the names of the attributes which were catched from a SQL query.
+     * @return Array of String within the names.
+     */
     @Override
     public String[] getColNames() {
         if (this.colNames == null) {
@@ -22,6 +29,10 @@ public class DBResultRow implements IResultRow {
         }
     }
 
+    /**
+     * Returns the values of the attributes which were catched from a SQL query.
+     * @return  Array of Object with the values of the SQL result stored
+     */
     @Override
     public Object[] getValues() {
         if (this.values == null) {
@@ -32,6 +43,11 @@ public class DBResultRow implements IResultRow {
         }
     }
 
+    /**
+     * Returns one value of type object, which is stored at a specific place within the DBResultRow object.
+     * @param index int - index of the value
+     * @return
+     */
     @Override
     public Object getValueAt(int index) {
         if (index > (this.values.length -1)) {
@@ -41,6 +57,11 @@ public class DBResultRow implements IResultRow {
         }
     }
 
+    /**
+     * Returns an value of the type object. Refered by the column name in which the value is stored.
+     * @param name - String name of the attribute 
+     * @return Object - value
+     */
     @Override
     public Object getValueByName(String name) {
         int index = 0;
@@ -54,6 +75,10 @@ public class DBResultRow implements IResultRow {
         return this.getValueAt(index);
     }
 
+    /**
+     * Returns the amount of attributes and values stored in the DBResultRow. A pair of attribute and value counts as one element. 
+     * @return int - amount of pairs of attribute and value
+     */
     @Override
     public int Count() {
         if (this.getValues() == null) {
@@ -63,8 +88,16 @@ public class DBResultRow implements IResultRow {
         }
     }
 
+    /**
+     * Sets the an collection of attribute pairs of name an values. Is used for the case, when there is no SQL ResultSet. Mostly for test reasons.
+     * 
+     * The lenght of both array have to be the same. Otherwise an IllegalArgumentException will be thrown.
+     * @param names - array of strings
+     * @param values - array of objects
+     * @throws IllegalArgumentException
+     */
     @Override
-    public void setValues(String[] names, Object[] values) {
+    public void setValues(String[] names, Object[] values) throws IllegalArgumentException {
         if (names.length != values.length) {
            throw new IllegalArgumentException("Lenght of both array must be equal");
         } else {
@@ -73,6 +106,12 @@ public class DBResultRow implements IResultRow {
         }
     }
     
+    /**
+     * Returns a List of ResultRow objects extracted from a resultSet
+     * @param resultSet - java.sql.ResultSet
+     * @return Collection of ResultRow objectss
+     * @throws SQLException
+     */
     public static List<DBResultRow> getResultRowsFromResultSet(ResultSet resultSet) throws SQLException {
         List<DBResultRow> resultList = new ArrayList<>();
         ResultSetMetaData metaData = resultSet.getMetaData();
