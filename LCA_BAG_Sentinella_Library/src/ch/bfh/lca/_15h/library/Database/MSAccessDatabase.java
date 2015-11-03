@@ -9,15 +9,21 @@ import java.util.logging.Logger;
 
 public class MSAccessDatabase implements IDatabase {
 
-    private final URL fileURL;
+    private final String filePath;
     private final String connectionString;
     Connection connection;
 
     
     public MSAccessDatabase(URL fileURL) {
-        this.fileURL = fileURL;
-        this.connectionString = "jdbc:ucanaccess://" + this.fileURL.getPath();
+        this.filePath = fileURL.getPath();
+        this.connectionString = "jdbc:ucanaccess://" + filePath;
     }
+
+     public MSAccessDatabase(String filePath) {
+        this.filePath = filePath;
+        this.connectionString = "jdbc:ucanaccess://" + this.filePath;
+    }
+    
     
     @Override
     public Connection getConnection() {
