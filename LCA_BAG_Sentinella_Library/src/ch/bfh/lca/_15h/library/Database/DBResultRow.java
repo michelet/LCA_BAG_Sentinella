@@ -1,5 +1,6 @@
 package ch.bfh.lca._15h.library.Database;
 
+import ch.bfh.lca._15h.library.IResultRow;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;

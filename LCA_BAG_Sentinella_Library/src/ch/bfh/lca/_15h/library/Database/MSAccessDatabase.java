@@ -67,4 +67,5 @@ public class MSAccessDatabase implements IDatabase {
     private void destroyConnection() {
         this.connection = null;
     }
+
 }

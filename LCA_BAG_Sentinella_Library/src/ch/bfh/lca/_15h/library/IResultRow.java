@@ -1,4 +1,4 @@
-package ch.bfh.lca._15h.library.Database;
+package ch.bfh.lca._15h.library;
 
 /**
  * The IResultRow interface is made to implements classes which gets several information in one row. such as database results or
