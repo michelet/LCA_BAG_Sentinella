@@ -5,6 +5,8 @@
  */
 package ch.bfh.lca._15h.library;
 
+import ch.bfh.lca._15h.library.impl.DBDataSource;
+import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import ch.bfh.lca._15h.library.Database.MSAccessDatabase;
 import java.net.URL;
 import java.util.logging.Level;
@@ -23,9 +25,9 @@ public class DBDataSourceTest {
     DBDataSource instance = null;
     final URL filePath = this.getClass().getClassLoader().getResource("ch/bfh/lca/_15h/library/Database/Leistungen.accdb");
     public DBDataSourceTest() {
-       this.instance = new DBDataSource(new MSAccessDatabase(filePath));
         try {
-            this.instance.getDPCs();
+            this.instance = new DBDataSource(new MSAccessDatabase(filePath));
+            //this.instance.getDPCs();
         } catch (Exception ex) {
             Logger.getLogger(DBDataSourceTest.class.getName()).log(Level.SEVERE, null, ex);
             fail("BAD");

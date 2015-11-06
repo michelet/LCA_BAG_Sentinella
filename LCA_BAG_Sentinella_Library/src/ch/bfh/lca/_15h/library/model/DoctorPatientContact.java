@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.bfh.lca._15h.library;
+package ch.bfh.lca._15h.library.model;
 
 import java.util.Date;
 
@@ -49,7 +49,6 @@ public class DoctorPatientContact {
     }
 
     public void addDiagnosis(String patDiagnosis) {
-        
         if (this.patDiagnosis != null) {
             int newSize = this.patDiagnosis.length;
             newSize++;
@@ -65,7 +64,10 @@ public class DoctorPatientContact {
             this.setDiagnosis(newArray);
             
         } else {
-            throw new ArrayIndexOutOfBoundsException();
+            //throw new ArrayIndexOutOfBoundsException();
+            String[] newArray = new String[1];
+            newArray[0] = patDiagnosis;
+            this.setDiagnosis(newArray);
         }
     }
 
@@ -116,4 +118,33 @@ public class DoctorPatientContact {
         }
     }
     
+    public static Date objectToDate(Object dateAsObject) throws Exception {
+        long dateAsLong = 0;
+        final String DOUBLECLASS = "dateAsObject.getClass().toString()";
+        String classString = dateAsObject.getClass().toString();
+        
+        if (classString.equals(DOUBLECLASS)) {
+            double dbl = (double) dateAsObject;
+            dateAsLong = (new Double(dbl)).longValue();
+        }
+        
+        Date date = new Date(dateAsLong * 1000);
+        return date;
+    }
+    
+    public static ESex intToSex(int sexAsInt) {
+        ESex sex = ESex.FEMALE;
+        
+        if (sexAsInt == 0) {
+            sex = ESex.MALE;
+        }
+        
+        return sex;
+    }
+    
+    public static String[] stringToDiagnosis(String diagnosisString) {
+        String[] arrayOfDiagnosis = diagnosisString.replaceAll(" ", "").split(",");
+        
+        return arrayOfDiagnosis;
+    }
 }

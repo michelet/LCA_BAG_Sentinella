@@ -5,6 +5,7 @@
  */
 package ch.bfh.lca._15h.library;
 
+import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

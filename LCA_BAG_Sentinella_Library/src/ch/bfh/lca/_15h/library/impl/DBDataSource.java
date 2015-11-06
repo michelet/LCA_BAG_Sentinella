@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.bfh.lca._15h.library;
+package ch.bfh.lca._15h.library.impl;
 
+import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import ch.bfh.lca._15h.library.Database.DBResultRow;
 import ch.bfh.lca._15h.library.Database.DatabaseHandler;
 import ch.bfh.lca._15h.library.Database.IDatabase;
-import ch.bfh.lca._15h.library.DoctorPatientContact.ESex;
-import java.util.Date;
+import ch.bfh.lca._15h.library.DataSource;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -17,19 +17,19 @@ import java.util.NoSuchElementException;
  *
  * @author Stefan
  */
-public class DBDataSource implements IDataSource {
+public class DBDataSource implements DataSource {
 
     private DoctorPatientContact[] dpcList;
     private final String aQuery = "SELECT DISTINCT Patient.PatNumber, Patient.PatBirthdate, Patient.PatSex, Patient.PatDiagnosis, Leistung.BehNumber, Leistung.Date FROM Patient INNER JOIN Leistung ON (Patient.PatLastBehNumber = Leistung.BehNumber) AND (Patient.PatNumber = Leistung.PatNumber) WHERE LEN(Patient.PatDiagnosis) > 0;";
     private final IDatabase databse;
     private int index = 0;
     
-    public DBDataSource(IDatabase database) {
+    public DBDataSource(IDatabase database) throws Exception {
         this.databse = database;
+        this.getDPCs();
     }
     
-    @Override
-    public void getDPCs() throws Exception {
+    private void getDPCs() throws Exception {
         /* QUERY PARTS
           Patient.PatNumber - AS String
           Patient.PatBirthdate - As Integer
@@ -47,47 +47,16 @@ public class DBDataSource implements IDataSource {
         for (DBResultRow result : results) {
             DoctorPatientContact newDPC = new DoctorPatientContact();
             newDPC.setPatID(result.getValueAt(0).toString());
-            newDPC.setPatBirthdate(this.objectToDate(result.getValueAt(1)));
-            newDPC.setPatSex(this.intToSex((Integer) result.getValueAt(2)));
-            newDPC.setDiagnosis(this.stringToDiagnosis(result.getValueAt(3).toString()));
-            newDPC.setContactDate(this.objectToDate(result.getValueAt(4)));
+            newDPC.setPatBirthdate(DoctorPatientContact.objectToDate(result.getValueAt(1)));
+            newDPC.setPatSex(DoctorPatientContact.intToSex((Integer) result.getValueAt(2)));
+            newDPC.setDiagnosis(DoctorPatientContact.stringToDiagnosis(result.getValueAt(3).toString()));
+            newDPC.setContactDate(DoctorPatientContact.objectToDate(result.getValueAt(4)));
             this.dpcList[this.lastUsedIndex()] = newDPC;
             this.setNextIndex();
         }
         
         this.index = 0;
         
-    }
-
-
-    private Date objectToDate(Object dateAsObject) throws Exception {
-        long dateAsLong = 0;
-        final String DOUBLECLASS = "dateAsObject.getClass().toString()";
-        String classString = dateAsObject.getClass().toString();
-        
-        if (classString.equals(DOUBLECLASS)) {
-            double dbl = (double) dateAsObject;
-            dateAsLong = (new Double(dbl)).longValue();
-        }
-        
-        Date date = new Date(dateAsLong * 1000);
-        return date;
-    }
-    
-    private ESex intToSex(int sexAsInt) {
-        ESex sex = ESex.FEMALE;
-        
-        if (sexAsInt == 0) {
-            sex = ESex.MALE;
-        }
-        
-        return sex;
-    }
-    
-    private String[] stringToDiagnosis(String diagnosisString) {
-        String[] arrayOfDiagnosis = diagnosisString.replaceAll(" ", "").split(",");
-        
-        return arrayOfDiagnosis;
     }
 
     public int getSize() {
@@ -129,5 +98,16 @@ public class DBDataSource implements IDataSource {
             throw new NoSuchElementException();
         }
 
+    }
+
+    @Override
+    public int countDoctorPatientContacts() throws Exception {
+        return dpcList.length;
+    }
+
+    @Override
+    public DoctorPatientContact getDoctorPatientContact(int index) throws Exception {
+        if(index >= dpcList.length) throw new NoSuchElementException();
+        return dpcList[index];
     }
 }

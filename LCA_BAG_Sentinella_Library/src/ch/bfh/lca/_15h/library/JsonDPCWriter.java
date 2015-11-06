@@ -5,6 +5,7 @@
  */
 package ch.bfh.lca._15h.library;
 
+import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -26,7 +27,7 @@ public class JsonDPCWriter {
         this.jsonPath = jsonPath;
     }
     
-    public void createDPCJson(IDataSource dataSource) throws IOException{
+    public void createDPCJson(DataSource dataSource) throws IOException{
         
         // DPC Entries
         JSONObject jsonObject = new JSONObject();

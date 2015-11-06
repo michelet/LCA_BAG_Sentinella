@@ -6,8 +6,7 @@
 package ch.bfh.lca._15h.library.impl;
 
 import ch.bfh.lca._15h.library.DataSource;
-import ch.bfh.lca._15h.library.model.Activity;
-import ch.bfh.lca._15h.library.model.Patient;
+import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import com.google.common.base.Splitter;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -16,6 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 /**
  * Class to read information from a BAG structured CSV file.
@@ -35,12 +35,12 @@ public class DataSourceCSV implements DataSource {
     /**
      * List of loaded patients.
      */
-    ArrayList<Patient> aPatients;
+    ArrayList<DoctorPatientContact> aPatients;
 
     /**
-     * Indicate what to do when an activity is found but not the related patient. True=ignoe the activity, False=Generate an exception
+     * Store current postion for iterator
      */
-    protected Boolean ignoreActivitiesWithoutPatient = false;
+    int iteratorIndex;
     
     /**
      * Constructor
@@ -50,22 +50,6 @@ public class DataSourceCSV implements DataSource {
     public DataSourceCSV(String patientsCSVPath, String activitiesCSVPath) {
         this.patientsCSVPath = patientsCSVPath;
         this.activitiesCSVPath = activitiesCSVPath;
-    }
-
-    /**
-     * Getter
-     * @return 
-     */
-    public Boolean getIgnoreActivitiesWithoutPatient() {
-        return ignoreActivitiesWithoutPatient;
-    }
-
-    /**
-     * Setter
-     * @param ignoreActivitiesWithoutPatient 
-     */
-    public void setIgnoreActivitiesWithoutPatient(Boolean ignoreActivitiesWithoutPatient) {
-        this.ignoreActivitiesWithoutPatient = ignoreActivitiesWithoutPatient;
     }
     
     /**
@@ -80,11 +64,8 @@ public class DataSourceCSV implements DataSource {
      */
     private void loadCSVInMemory() throws FileNotFoundException, IOException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, Exception {
         aPatients = new ArrayList<>();
-        Patient p;
-        Activity a;
-        String[] pCSV;
+        DoctorPatientContact dpc;
         String[] csvHeaders = null;
-        int i;
 
         BufferedReader br;
         String line;
@@ -103,34 +84,33 @@ public class DataSourceCSV implements DataSource {
                 isFirstLine = false;
                 csvHeaders = line.split(cvsSplitBy);
                 for(int k=0; k<csvHeaders.length; k++)
-                    csvHeaders[k] = "set" + csvHeaders[k].replaceAll("\"", "");
+                    //csvHeaders[k] = "set" + csvHeaders[k].replaceAll("\"", "");
+                    csvHeaders[k] = csvHeaders[k].replaceAll("\"", "");
             } else {
                 //pCSV = line.split(cvsSplitBy);
-                p = new Patient();
+                dpc = new DoctorPatientContact();
 
                 is = splitter.split(line);
                 col = 0;
                 if (csvHeaders != null) {
                     if (col < csvHeaders.length) {
                         for (String st : is) {
-                            p.getClass().getMethod(csvHeaders[col], String.class).invoke(p, st.replaceAll("\"", ""));
+                            //p.getClass().getMethod(csvHeaders[col], String.class).invoke(p, st.replaceAll("\"", ""));
+
+                            if(csvHeaders[col].equals("PatNumber"))
+                                dpc.setPatID(st.replaceAll("\"", ""));
+                            else if(csvHeaders[col].equals("PatBirthdate"))
+                                dpc.setPatBirthdate(DoctorPatientContact.objectToDate(st.replaceAll("\"", "")));
+                            else if(csvHeaders[col].equals("PatSex"))
+                                dpc.setPatSex(DoctorPatientContact.intToSex(Integer.parseInt(st.replaceAll("\"", ""))));
+                             else if(csvHeaders[col].equals("PatDiagnosis"))
+                                dpc.setDiagnosis(DoctorPatientContact.stringToDiagnosis(st.replaceAll("\"", "")));
                             col++;
                         }
                     }
                 }
                 
-                /*if (csvHeaders != null) {
-                    for (i = 0; i < csvHeaders.length; i++) {
-                    //String propertyName = csvHeaders[i];
-                        //String methodName = "set" + StringUtils.capitalize(propertyName);
-                        //String methodName = "set" + propertyName.replaceAll("\"", "");
-                        if (i < pCSV.length) //make sure data line as enought column
-                        {
-                            p.getClass().getMethod(csvHeaders[i], String.class).invoke(p, pCSV[i].replaceAll("\"", ""));
-                        }
-                    }
-                }*/
-                aPatients.add(p);
+                aPatients.add(dpc);
             }
         }
 
@@ -140,14 +120,16 @@ public class DataSourceCSV implements DataSource {
         if(this.activitiesCSVPath == null) return;
         
         //create local cache to speed up patient search
-        HashMap <String, Patient> patientsCache = new HashMap();
-        for(Patient p2 : aPatients) {
-            patientsCache.put(p2.getPatNumber(), p2);
+        HashMap <String, DoctorPatientContact> patientsCache = new HashMap();
+        for(DoctorPatientContact p2 : aPatients) {
+            patientsCache.put(p2.getPatID(), p2);
         }
             
         br = new BufferedReader(new FileReader(this.activitiesCSVPath));
         isFirstLine = true;
         csvHeaders = null;
+        String activityDate;
+        String activityPatNumber;
 
         //@TODO check file is csv and conform to the format (column)
         while ((line = br.readLine()) != null) {
@@ -156,57 +138,77 @@ public class DataSourceCSV implements DataSource {
                 isFirstLine = false;
                 csvHeaders = line.split(cvsSplitBy);
                 for(int k=0; k<csvHeaders.length; k++)
-                    csvHeaders[k] = "set" + csvHeaders[k].replaceAll("\"", "");
+                    //csvHeaders[k] = "set" + csvHeaders[k].replaceAll("\"", "");
+                    csvHeaders[k] = csvHeaders[k].replaceAll("\"", "");
             } else {
                 //pCSV = line.split(cvsSplitBy);
                 is = splitter.split(line);
-                a = new Activity();
+
                 col = 0;
+                activityDate = null;
+                activityPatNumber = null;
+                
                 if (csvHeaders != null) {
                     if (col < csvHeaders.length) {
                         for (String st : is) {
-                            a.getClass().getMethod(csvHeaders[col], String.class).invoke(a, st.replaceAll("\"", ""));
+                            //a.getClass().getMethod(csvHeaders[col], String.class).invoke(a, st.replaceAll("\"", ""));
+                            if(csvHeaders[col].equals("PatNumber"))
+                                activityPatNumber = st;
+                            else if(csvHeaders[col].equals("Date"))
+                                activityDate = st;
                             col++;
                         }
                     }
-                }
-
-                /*if (csvHeaders != null) {
-                    for (i = 0; i < csvHeaders.length; i++) {
-                    //String propertyName = csvHeaders[i];
-                        //String methodName = "set" + StringUtils.capitalize(propertyName);
-                        //String methodName = "set" + propertyName.replaceAll("\"", "");
-                        if (i < pCSV.length) { //make sure data line has enought column
-                            //a.getClass().getMethod(csvHeaders[i], String.class).invoke(a, pCSV[i].replaceAll("\"", "")+"");
-                            //a.getClass().getMethod(csvHeaders[i], String.class).invoke(a, new String(pCSV[i]+""));
-                            y = pCSV[i];
-                            a.getClass().getMethod(csvHeaders[i], String.class).invoke(a, new String("xxxxxxxxxéékasjdfélkjasdfklsjfljsdfklasjdféjklasjdfkj"+x+i));
-                        }
-                    }
-                }*/           
+                }  
                 
-                p = patientsCache.get(a.getPatNumber());
-                if(p == null) {
-                    if(ignoreActivitiesWithoutPatient == false)
-                        throw new Exception("Patient with ID(" + a.getPatNumber() + ") not found for Activity with ID(" + a.getID() + ")");
+                //search patient
+                if(activityPatNumber != null && activityDate != null) {
+                    dpc = patientsCache.get(activityPatNumber);
+                    if(dpc != null) {
+                        dpc.setContactDate(DoctorPatientContact.objectToDate(activityDate));
+                    }
                 }
-                else
-                    p.addActivity(a);
             }
         }
 
         br.close();
+        
+        //reset iterator index
+        iteratorIndex = 0;
     }
-    
+
     @Override
-    public Patient getPatient(int index) throws Exception {
+    public int countDoctorPatientContacts() throws Exception {
+        if(aPatients == null) this.loadCSVInMemory();
+        return aPatients.size();
+    }
+
+    @Override
+    public DoctorPatientContact getDoctorPatientContact(int index) throws Exception {
         if(aPatients == null) this.loadCSVInMemory();
         return aPatients.get(index);
     }
 
     @Override
-    public int countPatients() throws Exception {
-        if(aPatients == null) this.loadCSVInMemory();
-        return aPatients.size();
+    public boolean hasNext() {
+        try {
+            if(aPatients == null) this.loadCSVInMemory();
+            if(iteratorIndex >= aPatients.size()) return false;
+            return true;
+        } catch (Exception e) {
+            throw new NoSuchElementException(e.getLocalizedMessage());       
+        }
+    }
+
+    @Override
+    public DoctorPatientContact next() {
+        try {
+            if(aPatients == null) this.loadCSVInMemory();
+            if(!this.hasNext()) throw new NoSuchElementException();
+            ++iteratorIndex;
+            return aPatients.get(iteratorIndex);
+        } catch (Exception e) {
+            throw new NoSuchElementException(e.getLocalizedMessage());    
+        }
     }
 }
