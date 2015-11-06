@@ -96,7 +96,6 @@ public class DataSourceJSON implements DataSource {
                     case "DiagCode":
                         diagCodes = (JSONArray)((JSONObject) item).get(key);
                          for (Object item2 : diagCodes) {
-                             System.out.println("DIAG: " + item2);
                             dpc.addDiagnosis((String)item2); 
                         }   
                         //dpc.setDiagnosis(DoctorPatientContact.stringToDiagnosis((String)((JSONObject) item).get(key)));
