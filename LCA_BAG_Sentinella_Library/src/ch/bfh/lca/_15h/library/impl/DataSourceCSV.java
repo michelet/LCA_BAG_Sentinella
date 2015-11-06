@@ -196,7 +196,7 @@ public class DataSourceCSV implements DataSource {
             if(iteratorIndex >= aPatients.size()) return false;
             return true;
         } catch (Exception e) {
-            return false;     
+            throw new NoSuchElementException(e.getLocalizedMessage());       
         }
     }
 
@@ -208,7 +208,7 @@ public class DataSourceCSV implements DataSource {
             ++iteratorIndex;
             return aPatients.get(iteratorIndex);
         } catch (Exception e) {
-            throw new NoSuchElementException();    
+            throw new NoSuchElementException(e.getLocalizedMessage());    
         }
     }
 }
