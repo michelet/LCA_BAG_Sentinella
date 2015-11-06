@@ -171,7 +171,7 @@ public class DataSourceJSON implements DataSource {
      */
     public static void writeBAGJSONToFile(DataSource source, DoctorPatientContactFilter doctorPatientContactFilter, String filePath) throws Exception {
         String json = DataSourceJSON.toBAGJSON(source);
-        Files.write(Paths.get(filePath), json.getBytes(), StandardOpenOption.CREATE);
+        Files.write(Paths.get(filePath), json.getBytes());
     }
 
     @Override
