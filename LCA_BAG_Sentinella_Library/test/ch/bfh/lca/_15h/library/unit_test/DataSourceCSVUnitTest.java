@@ -71,14 +71,14 @@ public class DataSourceCSVUnitTest {
         }
      }
      
-     /*@Test
-     public void test_readActivities() {
+     @Test
+     public void test_readDiagnosis() {
          DataSourceCSV ds = this.getDataSource();
          
         try {
-            assertEquals("DataSourceCSV read 1st line 1st activity","1",ds.getDoctorPatientContact(0).getActivities().get(0).getPatNumber());
+            assertEquals("DataSourceCSV read 1st line 1st activity","A4",ds.getDoctorPatientContact(0).getDiagosisAtIndex(0));
         } catch (Exception ex) {
             fail("DataSourceCSV exception: " + ex.getLocalizedMessage());
         }
-     }*/
+     }
 }
