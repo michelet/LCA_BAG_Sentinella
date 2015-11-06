@@ -5,8 +5,8 @@
  */
 package ch.bfh.lca._15h.library.impl;
 
-import ch.bfh.lca._15h.library.ActivityFilter;
-import ch.bfh.lca._15h.library.model.Activity;
+import ch.bfh.lca._15h.library.DoctorPatientContactFilter;
+import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -14,36 +14,33 @@ import java.util.Date;
  * Filter activities based on their date
  * @author Cédric Michelet
  */
-public class ActivityFilterOnDate implements ActivityFilter {
+public class DoctorPatientContactFilterOnDate implements DoctorPatientContactFilter {
     private Date startDate = null;
     private Date endDate = null;
-    private SimpleDateFormat simpleDateFormat = null;
-    
+        
     /***
      * Constructor
      * @param startDateIncluded
      * @param endDateIncluded 
      */
-    public ActivityFilterOnDate(Date startDateIncluded, Date endDateIncluded, String dateFormat) {
+    public DoctorPatientContactFilterOnDate(Date startDateIncluded, Date endDateIncluded) {
         startDate = startDateIncluded;
         endDate = endDateIncluded;
-        simpleDateFormat = new SimpleDateFormat(dateFormat);
     }
     
     @Override
-    public Boolean matchActivity(Activity activity) throws Exception {
-        String consultDate = activity.getTimeStamp(); //yyyy:MM:dd:HH:mm:ss:SSS:
-
-        if(consultDate == null || consultDate.equals("")) return false;
-       
-        Date d = simpleDateFormat.parse(consultDate);
+    public Boolean matchDoctorPatientContact(DoctorPatientContact doctorPatientContact) throws Exception {
+        //String consultDate = activity.getTimeStamp(); //yyyy:MM:dd:HH:mm:ss:SSS:
+        Date consultDate = doctorPatientContact.getContactDate();
         
+        if(consultDate == null) return false;
+              
         if(startDate != null) {
-            if(d.before(startDate)) return false;
+            if(consultDate.before(startDate)) return false;
         }
         
         if(endDate != null) {
-            if(endDate.before(d)) return false;
+            if(endDate.before(consultDate)) return false;
         }
 
         return true;

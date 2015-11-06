@@ -5,12 +5,13 @@
  */
 package ch.bfh.lca._15h.library;
 
-import ch.bfh.lca._15h.library.model.Activity;
+import ch.bfh.lca._15h.library.model.DoctorPatientContact;
+
 
 /**
  * Class to filter activity according to internal conditions.
  * @author Cédric Michelet
  */
-public interface ActivityFilter {
-    public Boolean matchActivity(Activity activity) throws Exception;    
+public interface DoctorPatientContactFilter {
+    public Boolean matchDoctorPatientContact(DoctorPatientContact doctorPatientContact) throws Exception;    
 }
