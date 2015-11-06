@@ -110,4 +110,19 @@ public class DBDataSource implements DataSource {
         if(index >= dpcList.length) throw new NoSuchElementException();
         return dpcList[index];
     }
+
+    @Override
+    public void removeDoctorPatientContact(int index) throws Exception {
+        DoctorPatientContact[] newList = new DoctorPatientContact[this.countDoctorPatientContacts()-1];
+        
+        int n=0;
+        for(int i=0; i<this.countDoctorPatientContacts();i++) {
+            if (i!=index) {
+                newList[n] = this.getDoctorPatientContact(i);
+                n++;
+            }
+        }
+        
+        this.dpcList = newList;
+    }
 }

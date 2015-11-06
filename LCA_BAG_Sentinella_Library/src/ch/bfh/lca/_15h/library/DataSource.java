@@ -34,4 +34,11 @@ public interface DataSource extends Iterator<DoctorPatientContact> {
      * @throws Exception 
      */
     public DoctorPatientContact getDoctorPatientContact(int index) throws Exception;
+    
+    /** 
+     * Removes a specific patientc contact
+     * @param index Position of the patient in the lis
+     * @throws Exception 
+     */
+    public void removeDoctorPatientContact(int index) throws Exception;
 }
