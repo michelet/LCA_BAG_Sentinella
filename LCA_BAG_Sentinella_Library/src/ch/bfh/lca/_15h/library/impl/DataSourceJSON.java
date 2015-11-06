@@ -66,7 +66,7 @@ public class DataSourceJSON implements DataSource {
         //Library => https://code.google.com/p/json-simple/
         BufferedReader br;
         br = new BufferedReader(new FileReader(this.jsonFilePath));
-        JSONArray array; // = (JSONArray) JSONValue.parseWithException(br);
+        JSONArray array, diagCodes; // = (JSONArray) JSONValue.parseWithException(br);
         JSONObject sentinellaObject = (JSONObject) JSONValue.parseWithException(br);
 
         aPatients = new ArrayList<>();
@@ -94,6 +94,11 @@ public class DataSourceJSON implements DataSource {
                         dpc.setPatBirthdate(DoctorPatientContact.objectToDate((String)((JSONObject) item).get(key)));
                         break;
                     case "DiagCode":
+                        diagCodes = (JSONArray)((JSONObject) item).get(key);
+                         for (Object item2 : diagCodes) {
+                             System.out.println("DIAG: " + item2);
+                            dpc.addDiagnosis((String)item2); 
+                        }   
                         //dpc.setDiagnosis(DoctorPatientContact.stringToDiagnosis((String)((JSONObject) item).get(key)));
                         break;
                     case "ConsDate":
