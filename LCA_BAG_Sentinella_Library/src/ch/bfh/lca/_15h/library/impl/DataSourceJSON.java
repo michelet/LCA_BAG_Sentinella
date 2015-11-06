@@ -5,16 +5,19 @@
  */
 package ch.bfh.lca._15h.library.impl;
 
-import ch.bfh.lca._15h.library.ActivityFilter;
+import ch.bfh.lca._15h.library.DoctorPatientContactFilter;
 import ch.bfh.lca._15h.library.DataSource;
-import ch.bfh.lca._15h.library.model.Activity;
-import ch.bfh.lca._15h.library.model.Patient;
+import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -34,8 +37,13 @@ public class DataSourceJSON implements DataSource {
     /**
      * List of loaded patients.
      */
-    ArrayList<Patient> aPatients;
+    ArrayList<DoctorPatientContact> aPatients;
 
+    /**
+     * Store current postion for iterator
+     */
+    int iteratorIndex;
+    
     /**
      * Constructor
      * @param jsonFilePath Path of the JSON file containing the data
@@ -54,7 +62,7 @@ public class DataSourceJSON implements DataSource {
      * @throws IllegalArgumentException
      * @throws InvocationTargetException 
      */
-    private void loadJSONInMemory() throws FileNotFoundException, IOException, ParseException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    private void loadJSONInMemory() throws FileNotFoundException, IOException, ParseException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, Exception {
         //Library => https://code.google.com/p/json-simple/
         BufferedReader br;
         br = new BufferedReader(new FileReader(this.jsonFilePath));
@@ -62,30 +70,39 @@ public class DataSourceJSON implements DataSource {
 
         aPatients = new ArrayList<>();
 
-        Patient p;
-        Activity a;
+        DoctorPatientContact dpc;
         String k;
 
         for (Object item : array) {
-            p = new Patient();
+            dpc = new DoctorPatientContact();
+            
             for (Object key : ((JSONObject) item).keySet()) {
-                //is it an attribut or activities
-                if (key.toString().equals("activities")) {
-                    a = new Activity();
-                    for (Object key2 : ((JSONObject)((JSONObject) item).get(key)).keySet()) {
-                        k = key2.toString();
-                        k = k.substring(0, 1).toUpperCase() + k.substring(1); //capitalize 1st letter
-                        a.getClass().getMethod("set" + k, String.class).invoke(a, ((JSONObject)((JSONObject) item).get(key)).get(key2));
-                    }
-                    p.addActivity(a);
-                } else {
-                    k = key.toString();
-                    k = k.substring(0, 1).toUpperCase() + k.substring(1); //capitalize 1st letter
-                    p.getClass().getMethod("set" + k, String.class).invoke(p, ((JSONObject) item).get(key));
+                k = key.toString();
+                
+                switch (k) {
+                    case "PatNumber":
+                        dpc.setPatID((String)((JSONObject) item).get(key));
+                        break;
+                    case "PatSex":
+                        dpc.setPatSex(DoctorPatientContact.intToSex(Integer.parseInt((String)((JSONObject) item).get(key))));
+                        break;
+                    case "PatBirthdate":
+                        dpc.setPatBirthdate(DoctorPatientContact.objectToDate((String)((JSONObject) item).get(key)));
+                        break;
+                    case "DiagCode":
+                        dpc.setDiagnosis(DoctorPatientContact.stringToDiagnosis((String)((JSONObject) item).get(key)));
+                        break;
+                    case "ConsDate":
+                        dpc.setContactDate(DoctorPatientContact.objectToDate((String)((JSONObject) item).get(key)));
+                        break;
                 }
-            }
-            aPatients.add(p);
+            }   
+            
+            aPatients.add(dpc);
         }
+        
+        //reset iterator index
+        iteratorIndex = 0;
     }
 
     /***
@@ -101,57 +118,76 @@ public class DataSourceJSON implements DataSource {
     /***
      * Convert data contained in a datasource to a BAG JSON file.
      * @param source DataSource containing the input data.
-     * @param activityFilter Allow to filter wich activities to export
+     * @param doctorPatientContactFilter Allow to filter wich activities to export
      * @return JSON as a string
      * @throws Exception 
      */
-    public static String toBAGJSON(DataSource source, ActivityFilter activityFilter) throws Exception {
+    public static String toBAGJSON(DataSource source, DoctorPatientContactFilter doctorPatientContactFilter) throws Exception {
         //Library => https://code.google.com/p/json-simple/
         JSONArray array = new JSONArray();
         JSONObject objPatient;
         JSONObject objActivity;
-        Patient p;
-        Activity a;
-
-        for (int i = 0; i < source.countPatients(); i++) {
-            p = source.getPatient(i);
+        DoctorPatientContact dpc;
+ 
+        for (int i = 0; i < source.countDoctorPatientContacts(); i++) {
+            dpc = source.getDoctorPatientContact(i);
             objPatient = new JSONObject();
-            objPatient.put("patID", p.getPatID());
-            //@TODO add other required fields
-
-            //add activities
-            for (int j = 0; j < p.getActivities().size(); j++) {
-                a = p.getActivities().get(j);
-
-                if (activityFilter == null || activityFilter.matchActivity(a)) {
-                    objActivity = new JSONObject();
-                    objActivity.put("patNumber", a.getPatNumber());
-                    //@TODO add other required fields
-
-                    //add to patient
-                    objPatient.put("activities", objActivity);
-                }
-            }
+            objPatient.put("PatNumber", dpc.getPatID());
+            objPatient.put("PatSex", dpc.getPatSex());
+            objPatient.put("PatBirthdate", dpc.getPatBirthdate());
+            objPatient.put("DiagCode", dpc.getDiagnosis());
+            objPatient.put("ConsDate", dpc.getContactDate());
 
             array.add(objPatient);
         }
 
         return array.toJSONString();
     }
-
-    @Override
-    public Patient getPatient(int index) throws Exception {
-        if (aPatients == null) {
-            this.loadJSONInMemory();
-        }
-        return aPatients.get(index);
+    
+    /***
+     * Convert data contained in a datasource and write it to a BAG JSON file.
+     * @param source DataSource containing the input data.
+     * @param doctorPatientContactFilter Allow to filter wich activities to export
+     * @param filePath path of the file containing the result
+     * @throws Exception 
+     */
+    public static void writeBAGJSONToFile(DataSource source, DoctorPatientContactFilter doctorPatientContactFilter, String filePath) throws Exception {
+        String json = DataSourceJSON.toBAGJSON(source);
+        Files.write(Paths.get(filePath), json.getBytes(), StandardOpenOption.CREATE);
     }
 
     @Override
-    public int countPatients() throws Exception {
-        if (aPatients == null) {
-            this.loadJSONInMemory();
-        }
+    public int countDoctorPatientContacts() throws Exception {
+        if (aPatients == null) this.loadJSONInMemory();
         return aPatients.size();
+    }
+
+    @Override
+    public DoctorPatientContact getDoctorPatientContact(int index) throws Exception {
+       if (aPatients == null) this.loadJSONInMemory();
+       return aPatients.get(index);
+    }
+
+    @Override
+    public boolean hasNext() {
+        try {
+            if(aPatients == null) this.loadJSONInMemory();
+            if(iteratorIndex >= aPatients.size()) return false;
+            return true;
+        } catch (Exception e) {
+            return false;     
+        }
+    }
+
+    @Override
+    public DoctorPatientContact next() {
+        try {
+            if(aPatients == null) this.loadJSONInMemory();
+            if(!this.hasNext()) throw new NoSuchElementException();
+            ++iteratorIndex;
+            return aPatients.get(iteratorIndex);
+        } catch (Exception e) {
+            throw new NoSuchElementException();    
+        }
     }
 }
