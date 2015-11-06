@@ -98,13 +98,13 @@ public class DataSourceCSV implements DataSource {
                             //p.getClass().getMethod(csvHeaders[col], String.class).invoke(p, st.replaceAll("\"", ""));
 
                             if(csvHeaders[col].equals("PatNumber"))
-                                dpc.setPatID(st);
+                                dpc.setPatID(st.replaceAll("\"", ""));
                             else if(csvHeaders[col].equals("PatBirthdate"))
-                                dpc.setPatBirthdate(DoctorPatientContact.objectToDate(st));
+                                dpc.setPatBirthdate(DoctorPatientContact.objectToDate(st.replaceAll("\"", "")));
                             else if(csvHeaders[col].equals("PatSex"))
-                                dpc.setPatSex(DoctorPatientContact.intToSex(Integer.parseInt(st)));
+                                dpc.setPatSex(DoctorPatientContact.intToSex(Integer.parseInt(st.replaceAll("\"", ""))));
                              else if(csvHeaders[col].equals("PatDiagnosis"))
-                                dpc.setDiagnosis(DoctorPatientContact.stringToDiagnosis(st));
+                                dpc.setDiagnosis(DoctorPatientContact.stringToDiagnosis(st.replaceAll("\"", "")));
                             col++;
                         }
                     }
