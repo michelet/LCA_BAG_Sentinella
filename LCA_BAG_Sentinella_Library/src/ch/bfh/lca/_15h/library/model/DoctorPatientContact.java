@@ -49,7 +49,6 @@ public class DoctorPatientContact {
     }
 
     public void addDiagnosis(String patDiagnosis) {
-        
         if (this.patDiagnosis != null) {
             int newSize = this.patDiagnosis.length;
             newSize++;
@@ -65,7 +64,10 @@ public class DoctorPatientContact {
             this.setDiagnosis(newArray);
             
         } else {
-            throw new ArrayIndexOutOfBoundsException();
+            //throw new ArrayIndexOutOfBoundsException();
+            String[] newArray = new String[1];
+            newArray[0] = patDiagnosis;
+            this.setDiagnosis(newArray);
         }
     }
 
