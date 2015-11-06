@@ -16,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import org.json.simple.JSONArray;
@@ -28,7 +29,6 @@ import org.json.simple.parser.ParseException;
  * @author Cédric Michelet
  */
 public class DataSourceJSON implements DataSource {
-
     /**
      *  Store path of the JSON file containing the data.
      */
@@ -66,12 +66,16 @@ public class DataSourceJSON implements DataSource {
         //Library => https://code.google.com/p/json-simple/
         BufferedReader br;
         br = new BufferedReader(new FileReader(this.jsonFilePath));
-        JSONArray array = (JSONArray) JSONValue.parseWithException(br);
+        JSONArray array; // = (JSONArray) JSONValue.parseWithException(br);
+        JSONObject sentinellaObject = (JSONObject) JSONValue.parseWithException(br);
 
         aPatients = new ArrayList<>();
 
         DoctorPatientContact dpc;
         String k;
+        
+        if(sentinellaObject == null) return;
+        array = (JSONArray)sentinellaObject.get("SentinellaRecords");               
 
         for (Object item : array) {
             dpc = new DoctorPatientContact();
@@ -90,7 +94,7 @@ public class DataSourceJSON implements DataSource {
                         dpc.setPatBirthdate(DoctorPatientContact.objectToDate((String)((JSONObject) item).get(key)));
                         break;
                     case "DiagCode":
-                        dpc.setDiagnosis(DoctorPatientContact.stringToDiagnosis((String)((JSONObject) item).get(key)));
+                        //dpc.setDiagnosis(DoctorPatientContact.stringToDiagnosis((String)((JSONObject) item).get(key)));
                         break;
                     case "ConsDate":
                         dpc.setContactDate(DoctorPatientContact.objectToDate((String)((JSONObject) item).get(key)));
@@ -126,22 +130,32 @@ public class DataSourceJSON implements DataSource {
         //Library => https://code.google.com/p/json-simple/
         JSONArray array = new JSONArray();
         JSONObject objPatient;
-        JSONObject objActivity;
+        JSONArray diagnosisArray;
         DoctorPatientContact dpc;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
  
         for (int i = 0; i < source.countDoctorPatientContacts(); i++) {
             dpc = source.getDoctorPatientContact(i);
             objPatient = new JSONObject();
             objPatient.put("PatNumber", dpc.getPatID());
-            objPatient.put("PatSex", dpc.getPatSex());
-            objPatient.put("PatBirthdate", dpc.getPatBirthdate());
-            objPatient.put("DiagCode", dpc.getDiagnosis());
-            objPatient.put("ConsDate", dpc.getContactDate());
+            objPatient.put("PatSex", dpc.getPatSex().getValue()+""); //+"" => to convert int to string
+            objPatient.put("PatBirthdate", sdf.format(dpc.getPatBirthdate()));
+            
+            //build diagnosis object
+            diagnosisArray = new JSONArray();         
+            for(int j=0; j < dpc.getDiagnosis().length; j++) {
+              diagnosisArray.add(dpc.getDiagosisAtIndex(j));
+            }
+            objPatient.put("DiagCode", diagnosisArray);
+            
+            objPatient.put("ConsDate", sdf.format(dpc.getContactDate()));
 
             array.add(objPatient);
         }
 
-        return array.toJSONString();
+        JSONObject ret = new JSONObject();
+        ret.put("SentinellaRecords", array);
+        return ret.toJSONString();
     }
     
     /***
