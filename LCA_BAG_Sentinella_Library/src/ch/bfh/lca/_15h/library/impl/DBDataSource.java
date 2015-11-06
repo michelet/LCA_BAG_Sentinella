@@ -24,11 +24,11 @@ public class DBDataSource implements DataSource {
     private final IDatabase databse;
     private int index = 0;
     
-    public DBDataSource(IDatabase database) {
+    public DBDataSource(IDatabase database) throws Exception {
         this.databse = database;
+        this.getDPCs();
     }
     
-    @Override
     public void getDPCs() throws Exception {
         /* QUERY PARTS
           Patient.PatNumber - AS String
@@ -98,5 +98,16 @@ public class DBDataSource implements DataSource {
             throw new NoSuchElementException();
         }
 
+    }
+
+    @Override
+    public int countDoctorPatientContacts() throws Exception {
+        return dpcList.length;
+    }
+
+    @Override
+    public DoctorPatientContact getDoctorPatientContact(int index) throws Exception {
+        if(index >= dpcList.length) throw new NoSuchElementException();
+        return dpcList[index];
     }
 }
