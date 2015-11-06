@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.bfh.lca._15h.library;
+package ch.bfh.lca._15h.library.impl;
 
 import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import ch.bfh.lca._15h.library.Database.DBResultRow;
 import ch.bfh.lca._15h.library.Database.DatabaseHandler;
 import ch.bfh.lca._15h.library.Database.IDatabase;
+import ch.bfh.lca._15h.library.IDataSource;
 import ch.bfh.lca._15h.library.model.DoctorPatientContact.ESex;
 import java.util.Date;
 import java.util.List;
