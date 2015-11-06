@@ -96,7 +96,6 @@ public class DataSourceCSV implements DataSource {
                     if (col < csvHeaders.length) {
                         for (String st : is) {
                             //p.getClass().getMethod(csvHeaders[col], String.class).invoke(p, st.replaceAll("\"", ""));
-
                             if(csvHeaders[col].equals("PatNumber"))
                                 dpc.setPatID(st.replaceAll("\"", ""));
                             else if(csvHeaders[col].equals("PatBirthdate"))
@@ -110,7 +109,9 @@ public class DataSourceCSV implements DataSource {
                     }
                 }
                 
-                aPatients.add(dpc);
+                //take only patietn with diagnosis
+                if(dpc.getDiagnosis().length > 0)
+                    aPatients.add(dpc);
             }
         }
 
