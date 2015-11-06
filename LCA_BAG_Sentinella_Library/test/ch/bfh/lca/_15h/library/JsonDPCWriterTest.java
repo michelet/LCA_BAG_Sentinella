@@ -8,7 +8,6 @@ package ch.bfh.lca._15h.library;
 import ch.bfh.lca._15h.library.impl.DBDataSource;
 import ch.bfh.lca._15h.library.Database.MSAccessDatabase;
 import java.io.File;
-import java.io.FileReader;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,9 +26,9 @@ public class JsonDPCWriterTest {
     final URL filePath = this.getClass().getClassLoader().getResource("ch/bfh/lca/_15h/library/Database/Leistungen.accdb");
     
     public JsonDPCWriterTest() {
-       this.source = new DBDataSource(new MSAccessDatabase(filePath));
         try {
-            this.source.getDPCs();
+            this.source = new DBDataSource(new MSAccessDatabase(filePath));
+            //this.source.getDPCs();
         } catch (Exception ex) {
             Logger.getLogger(DBDataSourceTest.class.getName()).log(Level.SEVERE, null, ex);
             fail("BAD");
