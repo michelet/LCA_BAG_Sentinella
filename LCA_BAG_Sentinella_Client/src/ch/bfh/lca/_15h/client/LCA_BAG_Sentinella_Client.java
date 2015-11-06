@@ -6,7 +6,7 @@
 package ch.bfh.lca._15h.client;
 
 import ch.bfh.lca._15h.client.ui.MainFrame;
-import ch.bfh.lca._15h.library.DBDataSource;
+import ch.bfh.lca._15h.library.impl.DBDataSource;
 import ch.bfh.lca._15h.library.Database.MSAccessDatabase;
 import ch.bfh.lca._15h.library.JsonDPCWriter;
 import java.net.MalformedURLException;
