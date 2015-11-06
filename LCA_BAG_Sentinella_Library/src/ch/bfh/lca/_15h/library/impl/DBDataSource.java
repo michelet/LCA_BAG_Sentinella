@@ -10,8 +10,6 @@ import ch.bfh.lca._15h.library.Database.DBResultRow;
 import ch.bfh.lca._15h.library.Database.DatabaseHandler;
 import ch.bfh.lca._15h.library.Database.IDatabase;
 import ch.bfh.lca._15h.library.DataSource;
-import ch.bfh.lca._15h.library.model.DoctorPatientContact.ESex;
-import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -49,47 +47,16 @@ public class DBDataSource implements DataSource {
         for (DBResultRow result : results) {
             DoctorPatientContact newDPC = new DoctorPatientContact();
             newDPC.setPatID(result.getValueAt(0).toString());
-            newDPC.setPatBirthdate(this.objectToDate(result.getValueAt(1)));
-            newDPC.setPatSex(this.intToSex((Integer) result.getValueAt(2)));
-            newDPC.setDiagnosis(this.stringToDiagnosis(result.getValueAt(3).toString()));
-            newDPC.setContactDate(this.objectToDate(result.getValueAt(4)));
+            newDPC.setPatBirthdate(DoctorPatientContact.objectToDate(result.getValueAt(1)));
+            newDPC.setPatSex(DoctorPatientContact.intToSex((Integer) result.getValueAt(2)));
+            newDPC.setDiagnosis(DoctorPatientContact.stringToDiagnosis(result.getValueAt(3).toString()));
+            newDPC.setContactDate(DoctorPatientContact.objectToDate(result.getValueAt(4)));
             this.dpcList[this.lastUsedIndex()] = newDPC;
             this.setNextIndex();
         }
         
         this.index = 0;
         
-    }
-
-
-    private Date objectToDate(Object dateAsObject) throws Exception {
-        long dateAsLong = 0;
-        final String DOUBLECLASS = "dateAsObject.getClass().toString()";
-        String classString = dateAsObject.getClass().toString();
-        
-        if (classString.equals(DOUBLECLASS)) {
-            double dbl = (double) dateAsObject;
-            dateAsLong = (new Double(dbl)).longValue();
-        }
-        
-        Date date = new Date(dateAsLong * 1000);
-        return date;
-    }
-    
-    private ESex intToSex(int sexAsInt) {
-        ESex sex = ESex.FEMALE;
-        
-        if (sexAsInt == 0) {
-            sex = ESex.MALE;
-        }
-        
-        return sex;
-    }
-    
-    private String[] stringToDiagnosis(String diagnosisString) {
-        String[] arrayOfDiagnosis = diagnosisString.replaceAll(" ", "").split(",");
-        
-        return arrayOfDiagnosis;
     }
 
     public int getSize() {
