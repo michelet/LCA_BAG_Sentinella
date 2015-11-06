@@ -90,7 +90,6 @@ public class MainFrame extends javax.swing.JFrame {
         String outputJSONPath = jTFInputFolder.getText() + "output_json.json";
 
         DataSourceCSV dsCSV = new DataSourceCSV(patientCSVPath, activitiesCSVPath);
-        dsCSV.setIgnoreActivitiesWithoutPatient(true);
         
         try {
             String json = DataSourceJSON.toBAGJSON(dsCSV);
