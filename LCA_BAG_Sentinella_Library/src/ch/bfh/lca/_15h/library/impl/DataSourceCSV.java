@@ -7,7 +7,7 @@ package ch.bfh.lca._15h.library.impl;
 
 import ch.bfh.lca._15h.library.DataSource;
 import ch.bfh.lca._15h.library.model.DoctorPatientContact;
-import com.google.common.base.Splitter;
+import com.opencsv.CSVReader;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
@@ -62,60 +64,62 @@ public class DataSourceCSV implements DataSource {
      * @throws InvocationTargetException
      * @throws Exception 
      */
-    private void loadCSVInMemory() throws FileNotFoundException, IOException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, Exception {
+    private void loadCSVInMemory() throws  Exception  {
         aPatients = new ArrayList<>();
         DoctorPatientContact dpc;
-        String[] csvHeaders = null;
-
-        BufferedReader br;
-        String line;
-        String cvsSplitBy = ",";
+        String[] nextLine;
+        char cvsSplitBy = ',';
         Boolean isFirstLine = true;
-        Splitter splitter = Splitter.on(',');
-        Iterable<String> is;
-        int col;
+
+        int patNumberColIndex;
+        int patBirthdateColIndex;
+        int patSexColIndex;
+        int patDiagnosisColIndex;
+        int patDateColIndex;
 
         //******************************************LOAD PATIENTS
-        br = new BufferedReader(new FileReader(this.patientsCSVPath));
+        CSVReader reader = new CSVReader(new FileReader(this.patientsCSVPath), cvsSplitBy);
 
+        patNumberColIndex = patBirthdateColIndex = patSexColIndex = patDiagnosisColIndex = -1;
+        
         //@TODO check file is csv and conform to the format (column)
-        while ((line = br.readLine()) != null) {
+        while ((nextLine = reader.readNext()) != null) {
             if (isFirstLine) {
                 isFirstLine = false;
-                csvHeaders = line.split(cvsSplitBy);
-                for(int k=0; k<csvHeaders.length; k++)
-                    //csvHeaders[k] = "set" + csvHeaders[k].replaceAll("\"", "");
-                    csvHeaders[k] = csvHeaders[k].replaceAll("\"", "");
-            } else {
-                //pCSV = line.split(cvsSplitBy);
-                dpc = new DoctorPatientContact();
-
-                is = splitter.split(line);
-                col = 0;
-                if (csvHeaders != null) {
-                    if (col < csvHeaders.length) {
-                        for (String st : is) {
-                            //p.getClass().getMethod(csvHeaders[col], String.class).invoke(p, st.replaceAll("\"", ""));
-                            if(csvHeaders[col].equals("PatNumber"))
-                                dpc.setPatID(st.replaceAll("\"", ""));
-                            else if(csvHeaders[col].equals("PatBirthdate"))
-                                dpc.setPatBirthdate(DoctorPatientContact.objectToDate(st.replaceAll("\"", "")));
-                            else if(csvHeaders[col].equals("PatSex"))
-                                dpc.setPatSex(DoctorPatientContact.intToSex(Integer.parseInt(st.replaceAll("\"", ""))));
-                             else if(csvHeaders[col].equals("PatDiagnosis"))
-                                dpc.setDiagnosis(DoctorPatientContact.stringToDiagnosis(st.replaceAll("\"", "")));
-                            col++;
-                        }
+                //search position of each col
+                for(int i=0; i<nextLine.length; i++)
+                    switch(nextLine[i]) {
+                        case "PatNumber":
+                            patNumberColIndex = i;
+                            break;
+                        case "PatBirthdate":
+                            patBirthdateColIndex = i;
+                            break;
+                         case "PatSex":
+                            patSexColIndex = i;
+                            break;
+                         case "PatDiagnosis":
+                            patDiagnosisColIndex = i;
+                            break;  
                     }
-                }
+            } else {
+                dpc = new DoctorPatientContact();
+                if(patNumberColIndex > -1)
+                    dpc.setPatID(nextLine[patNumberColIndex]);
+                if(patBirthdateColIndex > -1)
+                    dpc.setPatBirthdate(DoctorPatientContact.objectToDate(nextLine[patBirthdateColIndex]));
+                if(patSexColIndex > -1)
+                    dpc.setPatSex(DoctorPatientContact.intToSex(Integer.parseInt(nextLine[patSexColIndex])));
+                if(patDiagnosisColIndex > -1)
+                    dpc.setDiagnosis(DoctorPatientContact.stringToDiagnosis(nextLine[patDiagnosisColIndex]));
                 
-                //take only patietn with diagnosis
+                //take only patient with diagnosis
                 if(dpc.getDiagnosis().length > 0)
                     aPatients.add(dpc);
             }
         }
 
-        br.close();
+        reader.close();
         
         //******************************************LOAD ACTIVITIES
         if(this.activitiesCSVPath == null) return;
@@ -126,43 +130,36 @@ public class DataSourceCSV implements DataSource {
             patientsCache.put(p2.getPatID(), p2);
         }
             
-        br = new BufferedReader(new FileReader(this.activitiesCSVPath));
+        reader = new CSVReader(new FileReader(this.activitiesCSVPath), cvsSplitBy);
+        patNumberColIndex = patDateColIndex = -1;
         isFirstLine = true;
-        csvHeaders = null;
         String activityDate;
         String activityPatNumber;
 
         //@TODO check file is csv and conform to the format (column)
-        while ((line = br.readLine()) != null) {
-            
+        while ((nextLine = reader.readNext()) != null) {
             if (isFirstLine) {
                 isFirstLine = false;
-                csvHeaders = line.split(cvsSplitBy);
-                for(int k=0; k<csvHeaders.length; k++)
-                    //csvHeaders[k] = "set" + csvHeaders[k].replaceAll("\"", "");
-                    csvHeaders[k] = csvHeaders[k].replaceAll("\"", "");
+                //search position of each col
+                for(int i=0; i<nextLine.length; i++)
+                    switch(nextLine[i]) {
+                        case "PatNumber":
+                            patNumberColIndex = i;
+                            break;
+                        case "Date":
+                            patDateColIndex = i;
+                            break;
+                    }
             } else {
-                //pCSV = line.split(cvsSplitBy);
-                is = splitter.split(line);
-
-                col = 0;
                 activityDate = null;
                 activityPatNumber = null;
                 
-                if (csvHeaders != null) {
-                    if (col < csvHeaders.length) {
-                        for (String st : is) {
-                            //a.getClass().getMethod(csvHeaders[col], String.class).invoke(a, st.replaceAll("\"", ""));
-                            if(csvHeaders[col].equals("PatNumber"))
-                                activityPatNumber = st;
-                            else if(csvHeaders[col].equals("Date"))
-                                activityDate = st;
-                            col++;
-                        }
-                    }
-                }  
-                
-                //search patient
+                if(patNumberColIndex > -1)
+                    activityPatNumber = nextLine[patNumberColIndex];
+                if(patDateColIndex > -1)
+                    activityDate = nextLine[patDateColIndex];
+               
+                 //search patient
                 if(activityPatNumber != null && activityDate != null) {
                     dpc = patientsCache.get(activityPatNumber);
                     if(dpc != null) {
@@ -172,7 +169,13 @@ public class DataSourceCSV implements DataSource {
             }
         }
 
-        br.close();
+        reader.close();
+        
+        //******************************************REMOVE PATIENT WITHOUT ACTIVITIES
+         for (Map.Entry<String, DoctorPatientContact> entry : patientsCache.entrySet()) {
+            if(entry.getValue().getContactDate() == null)
+                aPatients.remove(entry.getValue());
+        }
         
         //reset iterator index
         iteratorIndex = 0;
