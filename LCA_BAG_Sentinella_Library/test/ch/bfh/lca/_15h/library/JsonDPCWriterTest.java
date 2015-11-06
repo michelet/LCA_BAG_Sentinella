@@ -7,6 +7,7 @@ package ch.bfh.lca._15h.library;
 
 import ch.bfh.lca._15h.library.impl.DBDataSource;
 import ch.bfh.lca._15h.library.Database.MSAccessDatabase;
+import ch.bfh.lca._15h.library.impl.DataSourceJSON;
 import java.io.File;
 import java.net.URL;
 import java.util.logging.Level;
@@ -55,9 +56,10 @@ public class JsonDPCWriterTest {
 
         System.out.println(homeFolder + "\\newTest.json");
         
-        JsonDPCWriter instance = new JsonDPCWriter(homeFolder + "\\newTest.json");
-        instance.createDPCJson(this.source);
-              
+        //JsonDPCWriter instance = new JsonDPCWriter(homeFolder + "\\newTest.json");
+        //instance.createDPCJson(this.source);
+        DataSourceJSON.writeBAGJSONToFile(this.source, null, homeFolder + "\\newTest.json");
+        
         File f = new File(homeFolder + "\\newTest.json");
         boolean result = false;
         if(f.exists() && !f.isDirectory()) { 
