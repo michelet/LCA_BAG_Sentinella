@@ -9,7 +9,7 @@ import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import ch.bfh.lca._15h.library.Database.DBResultRow;
 import ch.bfh.lca._15h.library.Database.DatabaseHandler;
 import ch.bfh.lca._15h.library.Database.IDatabase;
-import ch.bfh.lca._15h.library.IDataSource;
+import ch.bfh.lca._15h.library.DataSource;
 import ch.bfh.lca._15h.library.model.DoctorPatientContact.ESex;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.NoSuchElementException;
  *
  * @author Stefan
  */
-public class DBDataSource implements IDataSource {
+public class DBDataSource implements DataSource {
 
     private DoctorPatientContact[] dpcList;
     private final String aQuery = "SELECT DISTINCT Patient.PatNumber, Patient.PatBirthdate, Patient.PatSex, Patient.PatDiagnosis, Leistung.BehNumber, Leistung.Date FROM Patient INNER JOIN Leistung ON (Patient.PatLastBehNumber = Leistung.BehNumber) AND (Patient.PatNumber = Leistung.PatNumber) WHERE LEN(Patient.PatDiagnosis) > 0;";

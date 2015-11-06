@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
  */
 public class JsonDPCWriterTest {
 
-    IDataSource source = null;
+    DataSource source = null;
     final URL filePath = this.getClass().getClassLoader().getResource("ch/bfh/lca/_15h/library/Database/Leistungen.accdb");
     
     public JsonDPCWriterTest() {
