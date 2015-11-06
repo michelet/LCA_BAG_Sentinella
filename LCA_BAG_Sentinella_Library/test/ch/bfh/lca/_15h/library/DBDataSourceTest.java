@@ -5,6 +5,8 @@
  */
 package ch.bfh.lca._15h.library;
 
+import ch.bfh.lca._15h.library.impl.DBDataSource;
+import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import ch.bfh.lca._15h.library.Database.MSAccessDatabase;
 import java.net.URL;
 import java.util.logging.Level;
