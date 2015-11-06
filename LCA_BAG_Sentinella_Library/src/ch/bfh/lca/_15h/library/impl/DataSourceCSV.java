@@ -215,4 +215,10 @@ public class DataSourceCSV implements DataSource {
             throw new NoSuchElementException(e.getLocalizedMessage());    
         }
     }
+    
+    @Override
+    public void removeDoctorPatientContact(int index) throws Exception {
+        aPatients.remove(index);
+    }
+    
 }
