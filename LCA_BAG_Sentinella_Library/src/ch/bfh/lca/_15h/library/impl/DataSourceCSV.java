@@ -171,9 +171,9 @@ public class DataSourceCSV implements DataSource {
 
         reader.close();
         
-        //******************************************REMOVE PATIENT WITHOUT ACTIVITIES OR DIAGNOSIS
+        //******************************************REMOVE PATIENT WITHOUT ACTIVITIES
          for (Map.Entry<String, DoctorPatientContact> entry : patientsCache.entrySet()) {
-            if(entry.getValue().getContactDate() == null || entry.getValue().getDiagnosis().length == 0)
+            if(entry.getValue().getContactDate() == null)
                 aPatients.remove(entry.getValue());
         }
         
