@@ -5,6 +5,7 @@
  */
 package ch.bfh.lca._15h.library;
 
+import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import java.util.Iterator;
 
 
