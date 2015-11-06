@@ -8,7 +8,7 @@ package ch.bfh.lca._15h.client;
 import ch.bfh.lca._15h.client.ui.MainFrame;
 import ch.bfh.lca._15h.library.impl.DBDataSource;
 import ch.bfh.lca._15h.library.Database.MSAccessDatabase;
-import ch.bfh.lca._15h.library.JsonDPCWriter;
+import ch.bfh.lca._15h.library.impl.DataSourceJSON;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,8 +75,9 @@ public class LCA_BAG_Sentinella_Client {
             MSAccessDatabase database = new MSAccessDatabase(msAccessFile.replace("\\", "/"));
             DBDataSource dataSource = new DBDataSource(database);
            
-            JsonDPCWriter jsonWrtier = new JsonDPCWriter(dstPath);
-            jsonWrtier.createDPCJson(dataSource);
+            //JsonDPCWriter jsonWrtier = new JsonDPCWriter(dstPath);
+            //jsonWrtier.createDPCJson(dataSource);
+            DataSourceJSON.writeBAGJSONToFile(dataSource, null, dstPath);
             
         } catch (MalformedURLException ex) {
             Logger.getLogger(LCA_BAG_Sentinella_Client.class.getName()).log(Level.SEVERE, null, ex);
