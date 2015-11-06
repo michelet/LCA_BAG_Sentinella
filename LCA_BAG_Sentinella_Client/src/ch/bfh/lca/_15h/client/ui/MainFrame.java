@@ -92,8 +92,9 @@ public class MainFrame extends javax.swing.JFrame {
         DataSourceCSV dsCSV = new DataSourceCSV(patientCSVPath, activitiesCSVPath);
         
         try {
-            String json = DataSourceJSON.toBAGJSON(dsCSV);
-            Files.write(Paths.get(outputJSONPath), json.getBytes(), StandardOpenOption.CREATE);
+            //String json = DataSourceJSON.toBAGJSON(dsCSV);
+            //Files.write(Paths.get(outputJSONPath), json.getBytes(), StandardOpenOption.CREATE);
+            DataSourceJSON.writeBAGJSONToFile(dsCSV, null, outputJSONPath);
         } catch (Exception e) {
             e.printStackTrace();
         }
