@@ -143,8 +143,10 @@ public class DoctorPatientContact {
     }
     
     public static String[] stringToDiagnosis(String diagnosisString) {
-        String[] arrayOfDiagnosis = diagnosisString.replaceAll(" ", "").split(",");
+        if(diagnosisString.equals("")) return new String[0];
+        return diagnosisString.replaceAll(" ", "").split(",");
         
-        return arrayOfDiagnosis;
+        //String[] arrayOfDiagnosis = diagnosisString.replaceAll(" ", "").split(","); 
+        //return arrayOfDiagnosis;
     }
 }
