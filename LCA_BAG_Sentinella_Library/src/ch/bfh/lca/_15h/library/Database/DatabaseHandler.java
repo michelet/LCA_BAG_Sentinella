@@ -46,6 +46,22 @@ public class DatabaseHandler {
         return results;
     }
     
+    
+    public int fireIUDQuery(String query, IDBParameter[] params) throws SQLException {
+        int result = 0;
+        
+        this.getDatabase().openConnection();
+        this.sqlStatement = this.getDatabase().getConnection().prepareStatement(query);
+        
+        if (params != null) {
+            this.addParameters(params);
+        }
+        
+        result =  this.getStatement().executeUpdate();
+        this.getDatabase().closeConnection();
+        return result;
+    }   
+    
     private PreparedStatement getStatement() {
         return this.sqlStatement;
     }

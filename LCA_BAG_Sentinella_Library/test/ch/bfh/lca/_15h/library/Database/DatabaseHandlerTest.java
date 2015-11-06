@@ -5,6 +5,7 @@
  */
 package ch.bfh.lca._15h.library.Database;
 
+import java.io.File;
 import java.net.URL;
 import java.util.List;
 import org.junit.After;
@@ -31,6 +32,13 @@ public class DatabaseHandlerTest {
 
     @After
     public void tearDown() throws Exception {
+    
+    // Lösche Datei
+        URL dbPath = this.getClass().getClassLoader().getResource("ch/bfh/lca/_15h/library/Database");
+        String filePath = dbPath.getPath() + "/sentidb.db";
+        
+        File f = new File(filePath);
+        f.delete();
     }
 
     /**
@@ -66,6 +74,43 @@ public class DatabaseHandlerTest {
         IDatabase expResult = this.instance;
         
         assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of fireIUDQuery method, of class DatabaseHandler.
+     */
+    @Test
+    public void testFireIUDQuery() throws Exception {
+        System.out.println("fireIUDQuery");
+        
+        URL dbPath = this.getClass().getClassLoader().getResource("ch/bfh/lca/_15h/library/Database");
+        String filePath = dbPath.getPath() + "/sentidb.db";
+        
+        SQLLiteDatabase sqli = new SQLLiteDatabase(filePath);
+        DatabaseHandler sqliHandler = new DatabaseHandler(sqli);
+     
+        String query = "CREATE TABLE SENTINELLARECORD " +
+                   "(ID INT PRIMARY KEY     NOT NULL," +
+                   " patNumber      TEXT, " + 
+                   " patBirthdate   LONG, " + 
+                   " patSex         INT, " + 
+                   " patDiagnosis   TEXT," +
+                   " dpcDate        INT)";
+        
+        int res = sqliHandler.fireIUDQuery(query, null);
+        
+        query = "INSERT INTO SENTINELLARECORD (ID, patNumber, patBirthdate, patSex, patDiagnosis, dpcDate) VALUES (0, '10001', 64546, 1, 'KA', 21314)";
+        res = sqliHandler.fireIUDQuery(query, null);
+        System.out.println("MIAU: " + res);
+        
+        
+        query = "SELECT * FROM SENTINELLARECORD";
+        List<DBResultRow> resultRows = sqliHandler.fireSelectQuery(query, null);
+        int result = resultRows.size();
+        int expRes = 1;
+        
+        assertEquals(expRes, result);
+        
     }
     
 }

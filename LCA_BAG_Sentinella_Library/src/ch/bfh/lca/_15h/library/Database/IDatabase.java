@@ -13,6 +13,12 @@ public interface IDatabase {
      */
     public Connection getConnection();
 
+    public String getConnectionString();
+    
+    public void setConnectionString(String connectionString);
+    
+    
+    
     /**
      * @author Stefan Schöpfer
      * 
