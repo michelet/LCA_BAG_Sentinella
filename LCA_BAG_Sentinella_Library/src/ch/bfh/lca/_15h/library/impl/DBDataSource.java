@@ -29,7 +29,7 @@ public class DBDataSource implements DataSource {
         this.getDPCs();
     }
     
-    public void getDPCs() throws Exception {
+    private void getDPCs() throws Exception {
         /* QUERY PARTS
           Patient.PatNumber - AS String
           Patient.PatBirthdate - As Integer
