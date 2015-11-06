@@ -108,14 +108,14 @@ public class DataSourceJSONUnitTest {
         }
     }
     
-    /*@Test
-    public void test_readActivities() {
+    @Test
+    public void test_readDiagnoses() {
         DataSourceJSON ds = this.getDataSourceJSON();
 
         try {
-            assertEquals("DataSourceJSON read 1st patient 1st activity","1",ds.getDoctorPatientContact(0).getActivities().get(0).getPatNumber());
+            assertEquals("DataSourceJSON read 1st patient 1st activity","A4",ds.getDoctorPatientContact(0).getDiagosisAtIndex(0));
         } catch (Exception ex) {
             fail("DataSourceJSON exception: " + ex.getLocalizedMessage());
         }
-    }*/
+    }
 }
