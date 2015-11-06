@@ -10,7 +10,6 @@ import ch.bfh.lca._15h.library.DBDataSource;
 import ch.bfh.lca._15h.library.Database.MSAccessDatabase;
 import ch.bfh.lca._15h.library.JsonDPCWriter;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,6 +39,7 @@ public class LCA_BAG_Sentinella_Client {
         String dst = "";
         String db = "";
         System.out.println("SENTINELLA CLIENT: Starting preparation for MS ACCESS Export");
+
         for(int i=0; i < args.length;i++) {
             if (args[i].equals("-msacc")) {
                 try {
