@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -212,5 +213,30 @@ public class DataSourceJSON implements DataSource {
     @Override
     public void removeDoctorPatientContact(int index) throws Exception {
         aPatients.remove(index);
+    }
+
+    @Override
+    public void removeDoctorPatientContactFromMemory(int index) throws Exception {
+        this.aPatients.remove(index);
+    }
+
+    @Override
+    public void removeDoctorPatientContactFromMemory(DoctorPatientContact object) throws Exception {
+        this.aPatients.remove(object);
+    }
+
+    @Override
+    public int getIndexOfDocctorPatientContact(DoctorPatientContact object) {
+        return this.aPatients.indexOf(object);
+    }
+
+    @Override
+    public void addDoctorPatientContact(DoctorPatientContact object) {
+        this.aPatients.add(object);
+    }
+
+    @Override
+    public Iterator<DoctorPatientContact> iterator() {
+        return this;
     }
 }

@@ -19,7 +19,7 @@ import java.util.Iterator;
  * through all the Doctor-Patient-Contacts (IDoctorPatientContact)
  * @author Stefan
  */
-public interface DataSource extends Iterator<DoctorPatientContact> {
+public interface DataSource extends Iterator<DoctorPatientContact>, Iterable<DoctorPatientContact> {
     /**
      * Count the number of patients available in the source
      * @return Number of patients available in the source
@@ -39,6 +39,32 @@ public interface DataSource extends Iterator<DoctorPatientContact> {
      * Removes a specific patientc contact
      * @param index Position of the patient in the lis
      * @throws Exception 
+     */
+    public void removeDoctorPatientContactFromMemory(int index) throws Exception;
+
+         /** 
+     * Removes a specific patientc contact
+     * @param object Position of the patient in the lis
+     * @throws Exception 
+     */
+    public void removeDoctorPatientContactFromMemory(DoctorPatientContact object) throws Exception;
+    
+    /**
+     * 
+     * @param object
+     * @return 
+     */
+    public int getIndexOfDocctorPatientContact(DoctorPatientContact object);
+    
+    /**
+     * 
+     * @param object 
+     */
+    public void addDoctorPatientContact(DoctorPatientContact object);
+    
+    /**
+     * 
+     * @param index 
      */
     public void removeDoctorPatientContact(int index) throws Exception;
 }

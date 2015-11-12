@@ -10,8 +10,11 @@ import ch.bfh.lca._15h.library.Database.DBResultRow;
 import ch.bfh.lca._15h.library.Database.DatabaseHandler;
 import ch.bfh.lca._15h.library.Database.IDatabase;
 import ch.bfh.lca._15h.library.DataSource;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -112,7 +115,7 @@ public class DBDataSource implements DataSource {
     }
 
     @Override
-    public void removeDoctorPatientContact(int index) throws Exception {
+    public void removeDoctorPatientContactFromMemory(int index) throws Exception {
         DoctorPatientContact[] newList = new DoctorPatientContact[this.countDoctorPatientContacts()-1];
         
         int n=0;
@@ -124,5 +127,82 @@ public class DBDataSource implements DataSource {
         }
         
         this.dpcList = newList;
+    }
+    
+    @Override
+    public void removeDoctorPatientContactFromMemory(DoctorPatientContact object) throws Exception{
+     
+
+        DoctorPatientContact[] newList = new DoctorPatientContact[this.countDoctorPatientContacts()-1];
+
+        int n = 0;
+        for(int i = 0; i< this.countDoctorPatientContacts(); i++) {
+            if(!this.getDoctorPatientContact(i).equals(object)) {
+                newList[n] = object;
+                n++;
+            }
+        }
+        
+        this.dpcList = newList;
+        
+    } 
+
+    @Override
+    public Iterator<DoctorPatientContact> iterator() {
+        return this;
+    }
+
+    @Override
+    public int getIndexOfDocctorPatientContact(DoctorPatientContact object) {
+        int i = 0;
+        for(DoctorPatientContact dpc : this.dpcList) {
+            if (object.equals(dpc)) {
+                return i;
+            }
+            
+            i++;
+        }
+        
+        return -1;
+    }
+
+    @Override
+    public void addDoctorPatientContact(DoctorPatientContact object) {
+        try {
+            DoctorPatientContact[] newList = new DoctorPatientContact[this.countDoctorPatientContacts()+1];
+            int i = 0;
+            for(DoctorPatientContact dpc : this.dpcList) {
+                newList[i] = dpc;
+                i++;
+            }
+            newList[i] = object;
+            
+            this.dpcList = newList;
+        
+        } catch (Exception ex) {
+            Logger.getLogger(DBDataSource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void removeDoctorPatientContact(int index) {
+        try {
+            DoctorPatientContact[] newList = new DoctorPatientContact[this.countDoctorPatientContacts()-1];
+
+            int i=0;
+            int n=0;
+            for(DoctorPatientContact dpc: this.dpcList) {
+                if (i!=index) {
+                    newList[n] = this.getDoctorPatientContact(n);
+                    n++;
+                }
+                i++;
+            }
+            
+            this.dpcList = newList;
+
+        } catch (Exception ex) {
+            Logger.getLogger(DBDataSource.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

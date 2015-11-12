@@ -5,10 +5,41 @@
  */
 package ch.bfh.lca._15h.library.filter;
 
+import ch.bfh.lca._15h.library.DataSource;
+import ch.bfh.lca._15h.library.model.Criteria;
+import ch.bfh.lca._15h.library.model.DoctorPatientContact;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Stefan
  */
-public class CriteriaDiagnosis {
-    
+public class CriteriaDiagnosis implements Criteria {
+
+    private String targetValue;
+    public CriteriaDiagnosis(String targetDiagnosis) {
+        this.targetValue = targetDiagnosis;
+    }
+
+    @Override
+    public DataSource meetCrieria(DataSource dataSource) {
+        
+        for(DoctorPatientContact dpc : dataSource) {
+            boolean containsCriteria = false;
+            for(String diag : dpc.getDiagnosis()) {
+                if (diag.equals(this.targetValue)) {
+                    containsCriteria = true;
+                }
+            }
+            if (!containsCriteria) {
+                try {
+                    dataSource.removeDoctorPatientContactFromMemory(dpc);
+                } catch (Exception ex) {
+                    Logger.getLogger(CriteriaDiagnosis.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return dataSource;
+    }
 }
