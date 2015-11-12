@@ -106,7 +106,6 @@ public class DataSourceJSON implements DataSource {
                         break;
                 }
             }   
-            
             aPatients.add(dpc);
         }
         
@@ -133,12 +132,13 @@ public class DataSourceJSON implements DataSource {
      */
     public static String toBAGJSON(DataSource source, DoctorPatientContactFilter doctorPatientContactFilter) throws Exception {
         //Library => https://code.google.com/p/json-simple/
+        System.out.println("NEW JSON!");
         JSONArray array = new JSONArray();
         JSONObject objPatient;
         JSONArray diagnosisArray;
         DoctorPatientContact dpc;
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
- 
+        
         for (int i = 0; i < source.countDoctorPatientContacts(); i++) {
             dpc = source.getDoctorPatientContact(i);
             objPatient = new JSONObject();
@@ -190,7 +190,9 @@ public class DataSourceJSON implements DataSource {
     @Override
     public boolean hasNext() {
         try {
-            if(aPatients == null) this.loadJSONInMemory();
+            if(aPatients == null){
+                this.loadJSONInMemory();
+            }
             if(iteratorIndex >= aPatients.size()) return false;
             return true;
         } catch (Exception e) {
