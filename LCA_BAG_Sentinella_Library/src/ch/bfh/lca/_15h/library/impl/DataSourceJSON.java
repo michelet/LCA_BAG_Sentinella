@@ -193,7 +193,9 @@ public class DataSourceJSON implements DataSource {
             if(aPatients == null){
                 this.loadJSONInMemory();
             }
-            if(iteratorIndex >= aPatients.size()) return false;
+            if(iteratorIndex >= aPatients.size()){
+                return false;
+            }
             return true;
         } catch (Exception e) {
             throw new NoSuchElementException(e.getLocalizedMessage());  
@@ -206,7 +208,7 @@ public class DataSourceJSON implements DataSource {
             if(aPatients == null) this.loadJSONInMemory();
             if(!this.hasNext()) throw new NoSuchElementException();
             ++iteratorIndex;
-            return aPatients.get(iteratorIndex);
+            return aPatients.get(iteratorIndex-1);
         } catch (Exception e) {
             throw new NoSuchElementException(e.getLocalizedMessage());
         }
