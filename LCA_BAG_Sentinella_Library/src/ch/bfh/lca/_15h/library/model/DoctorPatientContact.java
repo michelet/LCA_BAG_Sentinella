@@ -56,11 +56,11 @@ public class DoctorPatientContact {
             String[] oldArray = this.getDiagnosis();
             String[] newArray = new String[newSize];
             
-            for(int i=0; i<newSize-1;i++) {
+            for(int i=0; i<oldArray.length;i++) {
                 newArray[i] = oldArray[i];
             }
             
-            newArray[newSize] = patDiagnosis;
+            newArray[newSize-1] = patDiagnosis;
             this.setDiagnosis(newArray);
             
         } else {
