@@ -220,5 +220,37 @@ public class DataSourceCSV implements DataSource {
     public void removeDoctorPatientContact(int index) throws Exception {
         aPatients.remove(index);
     }
+
+    @Override
+    public void removeDoctorPatientContactFromMemory(int index) throws Exception {
+        this.aPatients.remove(index);
+    }
+
+    @Override
+    public void removeDoctorPatientContactFromMemory(DoctorPatientContact object) throws Exception {
+        this.aPatients.remove(object);
+    }
+
+    @Override
+    public int getIndexOfDocctorPatientContact(DoctorPatientContact object) {
+        int i = 0;
+        for(DoctorPatientContact dpc : aPatients) {
+            if (object.equals(dpc)) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+
+    @Override
+    public void addDoctorPatientContact(DoctorPatientContact object) {
+        this.aPatients.add(object);
+    }
+
+    @Override
+    public Iterator<DoctorPatientContact> iterator() {
+        return this;
+    }
     
 }
