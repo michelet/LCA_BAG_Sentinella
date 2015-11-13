@@ -7,6 +7,7 @@ package ch.bfh.lca._15h.library.export;
 
 import ch.bfh.lca._15h.library.Database.DBResultRow;
 import ch.bfh.lca._15h.library.IResultRow;
+import ch.bfh.lca._15h.library.translation.Translation;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -46,7 +47,7 @@ public class ExportToExcelTest {
         try {
             IResultRow[] rows = new IResultRow[5];
             DBResultRow dbrr;
-            String[] colNames = {"Col0","Col1","Col2"};
+            String[] colNames = {"week","Col1","Col2"};
             Object[] values;
             
             for(int i=0; i<5; i++) {
@@ -62,7 +63,7 @@ public class ExportToExcelTest {
             
             String path = "c:\\output.xls";
             
-            ExportToExcel.exportToExcel(rows, path);
+            ExportToExcel.exportToExcel(Translation.TRANSLATION_LANGUAGE.FR, rows, path);
             
             //assertEquals("DataSourceCSV read 1st line patID","1",ds.getDoctorPatientContact(0).getPatID());
             //assertEquals("DataSourceCSV read 1st line patSalutation","Herrn",ds.getDoctorPatientContact(0).getPatSalutation());
