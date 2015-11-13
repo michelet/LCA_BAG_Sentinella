@@ -5,7 +5,7 @@
  */
 package ch.bfh.lca._15h.library.export;
 
-import ch.bfh.lca._15h.library.IResultRow;
+import ch.bfh.lca._15h.library.GenericResultRow;
 import ch.bfh.lca._15h.library.translation.Translation;
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,7 +38,7 @@ import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTTable;
  */
 public class ExportToExcel {
 
-    public static void exportToExcel(Translation.TRANSLATION_LANGUAGE language, String sheetTitle, String tableTitle, IResultRow[] rows, String excelFilePath) throws FileNotFoundException, IOException {
+    public static void exportToExcel(Translation.TRANSLATION_LANGUAGE language, String sheetTitle, String tableTitle, GenericResultRow[] rows, String excelFilePath) throws FileNotFoundException, IOException {
         //Workbook wb = new HSSFWorkbook(); //xls
         Workbook wb = new SXSSFWorkbook(); //xlsx
         //create new sheet

@@ -1,24 +1,24 @@
-package ch.bfh.lca._15h.library;
+package ch.bfh.lca._15h.library.model;
 
 /**
- * The IResultRow interface is made to implements classes which gets several information in one row. such as database results or
- * demilited files.
+ * The ResultRow interface is made to implements classes which gets several information in one row. such as database results or
+ demilited files.
  * 
  * The target ist to have one commen one to get informations from different datasources.
  * 
  * 
  * @author Stefan Schöpfer
  */
-public interface IResultRow {
+public interface ResultRow {
 
     /**
-     * Returns all the column names which are stored within an IResultRow Object.
+     * Returns all the column names which are stored within an ResultRow Object.
      * @return array of String
      */
     public String[] getColNames();
 
     /**
-     * Returns all the values which are stored within an IResultRow Object. It's important,
+     * Returns all the values which are stored within an ResultRow Object. It's important,
      * a value is at the same position as the assigned name.
      * @return
      */
