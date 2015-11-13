@@ -72,4 +72,21 @@ public class ExportToExcelTest {
             fail("ExportToExcel exception: " + ex.getLocalizedMessage());
         }
      }
+     
+     @Test
+     public void test_writeExcelAlterPyramid() {
+        
+         
+        try {          
+            String path = "c:\\test-pyramid.xlsx";
+            
+            ExportToExcel.exportToAgePyramid(Translation.TRANSLATION_LANGUAGE.FR, null, path);
+            
+            //assertEquals("DataSourceCSV read 1st line patID","1",ds.getDoctorPatientContact(0).getPatID());
+            //assertEquals("DataSourceCSV read 1st line patSalutation","Herrn",ds.getDoctorPatientContact(0).getPatSalutation());
+            //assertEquals("DataSourceCSV read 1st line longReserver1","6",ds.getDoctorPatientContact(0).getLongReserve1());
+        } catch (Exception ex) {
+            fail("ExportToExcel exception: " + ex.getLocalizedMessage());
+        }
+     }
 }
