@@ -23,7 +23,13 @@ import java.util.logging.Logger;
 public class DBDataSource implements DataSource {
 
     private DoctorPatientContact[] dpcList;
-    private final String aQuery = "SELECT DISTINCT Patient.PatNumber, Patient.PatBirthdate, Patient.PatSex, Patient.PatDiagnosis, Leistung.BehNumber, Leistung.Date FROM Patient INNER JOIN Leistung ON (Patient.PatLastBehNumber = Leistung.BehNumber) AND (Patient.PatNumber = Leistung.PatNumber) WHERE LEN(Patient.PatDiagnosis) > 0;";
+    private final String aQuery = "SELECT DISTINCT Patient.PatNumber, "
+            + "Patient.PatSex, "
+            + "Patient.PatBirthdate, "
+            + "Patient.PatDiagnosis, "
+            + "Leistung.Date "
+            + "FROM Patient INNER JOIN Leistung ON Patient.PatNumber = Leistung.PatNumber " 
+            + "WHERE Leistung.Code = '00.0010';";
     private final IDatabase databse;
     private int index = 0;
     
