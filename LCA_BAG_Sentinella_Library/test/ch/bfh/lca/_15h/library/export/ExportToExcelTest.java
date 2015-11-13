@@ -61,9 +61,9 @@ public class ExportToExcelTest {
                 rows[i] = dbrr;
             }
             
-            String path = "c:\\output.xls";
+            String path = "c:\\output.xlsx";
             
-            ExportToExcel.exportToExcel(Translation.TRANSLATION_LANGUAGE.FR, rows, path);
+            ExportToExcel.exportToExcel(Translation.TRANSLATION_LANGUAGE.FR, "Sentinella", "Weeks/Geschlecht", rows, path);
             
             //assertEquals("DataSourceCSV read 1st line patID","1",ds.getDoctorPatientContact(0).getPatID());
             //assertEquals("DataSourceCSV read 1st line patSalutation","Herrn",ds.getDoctorPatientContact(0).getPatSalutation());
