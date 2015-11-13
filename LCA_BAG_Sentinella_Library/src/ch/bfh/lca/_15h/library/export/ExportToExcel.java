@@ -25,7 +25,7 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
  */
 public class ExportToExcel {
 
-    public static void exportToExcel(Translation.TRANSLATION_LANGUAGE language, String sheetTitle, String tableTitle, IResultRow[] rows, String excelFilePath) throws FileNotFoundException, IOException {
+    public static void exportToExcel(Translation.TRANSLATION_LANGUAGE language, String sheetTitle, String tableTitle, ResultRow[] rows, String excelFilePath) throws FileNotFoundException, IOException {
         //Workbook wb = new HSSFWorkbook(); //xls
         Workbook wb = new SXSSFWorkbook(); //xlsx
         //create new sheet
