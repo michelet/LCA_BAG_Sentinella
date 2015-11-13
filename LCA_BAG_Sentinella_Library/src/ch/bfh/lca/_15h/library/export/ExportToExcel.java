@@ -94,7 +94,7 @@ public class ExportToExcel {
         wb.close();
     }
 
-    public static void exportToAgePyramid(Translation.TRANSLATION_LANGUAGE language, IResultRow[] rows, String excelFilePath) throws FileNotFoundException, IOException, InvalidFormatException {
+    public static void exportToAgePyramid(Translation.TRANSLATION_LANGUAGE language, GenericResultRow[] rows, String excelFilePath) throws FileNotFoundException, IOException, InvalidFormatException {
         //open template
         URL url = Translation.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/export/template/alter-pyramide-v2.xlsx");
         //Workbook wb = WorkbookFactory.create(new File(url.getPath()));
