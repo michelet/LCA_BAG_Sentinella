@@ -6,6 +6,7 @@
 package ch.bfh.lca._15h.library.export;
 
 import ch.bfh.lca._15h.library.IResultRow;
+import ch.bfh.lca._15h.library.translation.Translation;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,13 +22,14 @@ import org.apache.poi.ss.usermodel.Workbook;
  */
 public class ExportToExcel {
 
-    public static void exportToExcel(IResultRow[] rows, String excelFilePath) throws FileNotFoundException, IOException {
+    public static void exportToExcel(Translation.TRANSLATION_LANGUAGE language, IResultRow[] rows, String excelFilePath) throws FileNotFoundException, IOException {
         Workbook wb = new HSSFWorkbook();
 
         //create new sheet
         Sheet sheet1 = wb.createSheet("Sentinella");
         Row row;
         Cell cell;
+        String translation;
         
         for(int i=0; i<rows.length; i++) {
             //if first line, write col names
@@ -36,7 +38,11 @@ public class ExportToExcel {
                 
                 for(int j=0; j<rows[i].getColNames().length; j++) {
                     cell = row.createCell(j);
-                    cell.setCellValue(rows[i].getColNames()[j]);
+                    
+                    //look for translation
+                    translation = Translation.getForKey(language, rows[i].getColNames()[j]);
+                    if(translation == null) translation = rows[i].getColNames()[j]; //if doesn't found a translation for the column take name of col
+                    cell.setCellValue(translation);
                 }
             }
             
