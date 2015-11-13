@@ -57,7 +57,6 @@ public class OrCriteria implements Criteria {
               dest.addDoctorPatientContact(dpc);
           }  
         }
-        
         return dest;
     }
 }
