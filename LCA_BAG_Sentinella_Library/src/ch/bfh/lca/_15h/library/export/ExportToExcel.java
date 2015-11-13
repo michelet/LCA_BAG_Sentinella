@@ -5,7 +5,7 @@
  */
 package ch.bfh.lca._15h.library.export;
 
-import ch.bfh.lca._15h.library.model.ResultRow;
+import ch.bfh.lca._15h.library.GenericResultRow;
 import ch.bfh.lca._15h.library.translation.Translation;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -25,7 +25,7 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
  */
 public class ExportToExcel {
 
-    public static void exportToExcel(Translation.TRANSLATION_LANGUAGE language, String sheetTitle, String tableTitle, ResultRow[] rows, String excelFilePath) throws FileNotFoundException, IOException {
+    public static void exportToExcel(Translation.TRANSLATION_LANGUAGE language, String sheetTitle, String tableTitle, GenericResultRow[] rows, String excelFilePath) throws FileNotFoundException, IOException {
         //Workbook wb = new HSSFWorkbook(); //xls
         Workbook wb = new SXSSFWorkbook(); //xlsx
         //create new sheet
