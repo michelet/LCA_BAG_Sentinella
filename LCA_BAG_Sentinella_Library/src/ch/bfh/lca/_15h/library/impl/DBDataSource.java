@@ -187,7 +187,6 @@ public class DBDataSource implements DataSource {
         
         } catch (Exception ex) {
             Logger.getLogger(DBDataSource.class.getName()).log(Level.SEVERE, null, ex);
-            // Test
         }
     }
 
