@@ -6,7 +6,7 @@
 package ch.bfh.lca._15h.library.export;
 
 import ch.bfh.lca._15h.library.Database.DBResultRow;
-import ch.bfh.lca._15h.library.model.ResultRow;
+import ch.bfh.lca._15h.library.GenericResultRow;
 import ch.bfh.lca._15h.library.translation.Translation;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,7 +45,7 @@ public class ExportToExcelTest {
         
          
         try {
-            ResultRow[] rows = new ResultRow[5];
+            GenericResultRow[] rows = new GenericResultRow[5];
             DBResultRow dbrr;
             String[] colNames = {"week","Col1","Col2"};
             Object[] values;

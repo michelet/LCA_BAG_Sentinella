@@ -38,11 +38,11 @@ public class OrCriteria implements Criteria {
         return result;
     }
 
-    public void addAndCriteria(Criteria criteria) {
+    public void addOrCriteria(Criteria criteria) {
         this.criterias.add(criteria);
     }
     
-    public void removeAndCriteria(Criteria criteria) {
+    public void removeOrCriteria(Criteria criteria) {
         this.criterias.remove(criteria);
     }
        
@@ -58,5 +58,9 @@ public class OrCriteria implements Criteria {
           }  
         }
         return dest;
+    }
+    
+    public int CountCriterias() {
+        return this.criterias.size();
     }
 }

@@ -10,6 +10,7 @@ import ch.bfh.lca._15h.library.Database.DBResultRow;
 import ch.bfh.lca._15h.library.Database.DatabaseHandler;
 import ch.bfh.lca._15h.library.Database.IDatabase;
 import ch.bfh.lca._15h.library.DataSource;
+import ch.bfh.lca._15h.library.Database.IDBParameter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -23,7 +24,7 @@ import java.util.logging.Logger;
 public class DBDataSource implements DataSource {
 
     private DoctorPatientContact[] dpcList;
-    private final String aQuery = "SELECT DISTINCT Patient.PatNumber, "
+    private String aQuery = "SELECT DISTINCT Patient.PatNumber, "
             + "Patient.PatSex, "
             + "Patient.PatBirthdate, "
             + "Patient.PatDiagnosis, "
@@ -32,9 +33,17 @@ public class DBDataSource implements DataSource {
             + "WHERE Leistung.Code = '00.0010';";
     private final IDatabase databse;
     private int index = 0;
+    private IDBParameter[] params = null;
     
     public DBDataSource(IDatabase database) throws Exception {
         this.databse = database;
+        this.getDPCs();
+    }
+
+    public DBDataSource(IDatabase database, String query, IDBParameter[] params) throws Exception {
+        this.databse = database;
+        this.aQuery = query;
+        this.params = params;
         this.getDPCs();
     }
     
@@ -49,7 +58,7 @@ public class DBDataSource implements DataSource {
         */
         DatabaseHandler handler = new DatabaseHandler(this.databse);
         List<DBResultRow> results;
-        results = handler.fireSelectQuery(this.aQuery, null);
+        results = handler.fireSelectQuery(this.aQuery, this.params);
         
         this.dpcList = new DoctorPatientContact[results.size()];
         
