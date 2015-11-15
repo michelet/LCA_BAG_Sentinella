@@ -23,14 +23,16 @@ import static org.junit.Assert.*;
 public class DBDataSourceTest {
     
     DBDataSource instance = null;
-    final URL filePath = this.getClass().getClassLoader().getResource("ch/bfh/lca/_15h/library/Database/Leistungen.accdb");
+    
+    
     public DBDataSourceTest() {
         try {
-            this.instance = new DBDataSource(new MSAccessDatabase(filePath));
+            URL filePath = this.getClass().getClassLoader().getResource("ch/bfh/lca/_15h/library/Database/Leistungen.accdb");
+            this.instance = new DBDataSource(new MSAccessDatabase(filePath.getPath()));
             //this.instance.getDPCs();
         } catch (Exception ex) {
             Logger.getLogger(DBDataSourceTest.class.getName()).log(Level.SEVERE, null, ex);
-            fail("BAD");
+            fail("Was not able to read Access Databse");
         }
     }
     
@@ -49,7 +51,6 @@ public class DBDataSourceTest {
     public void testGetDPCs() throws Exception {
         System.out.println("getDPCs");
         
-        
         assertTrue(instance.hasNext());
     }
 
@@ -60,7 +61,7 @@ public class DBDataSourceTest {
     public void testGetSize() {
         System.out.println("getSize");
 
-        int expResult = 14;
+        int expResult = 938;
         int result = this.instance.getSize();
         assertEquals(expResult, result);
     }

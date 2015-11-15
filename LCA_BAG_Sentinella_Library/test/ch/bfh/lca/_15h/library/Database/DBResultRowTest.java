@@ -6,7 +6,6 @@
 package ch.bfh.lca._15h.library.Database;
 
 import java.net.URL;
-import java.sql.ResultSet;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;

@@ -65,8 +65,9 @@ public class DBDataSource implements DataSource {
         for (DBResultRow result : results) {
             DoctorPatientContact newDPC = new DoctorPatientContact();
             newDPC.setPatID(result.getValueAt(0).toString());
-            newDPC.setPatBirthdate(DoctorPatientContact.objectToDate(result.getValueAt(1)));
-            newDPC.setPatSex(DoctorPatientContact.intToSex((Integer) result.getValueAt(2)));
+            
+            newDPC.setPatSex(DoctorPatientContact.intToSex((Integer) result.getValueAt(1)));
+            newDPC.setPatBirthdate(DoctorPatientContact.objectToDate(result.getValueAt(2)));
             newDPC.setDiagnosis(DoctorPatientContact.stringToDiagnosis(result.getValueAt(3).toString()));
             newDPC.setContactDate(DoctorPatientContact.objectToDate(result.getValueAt(4)));
             this.dpcList[this.lastUsedIndex()] = newDPC;
