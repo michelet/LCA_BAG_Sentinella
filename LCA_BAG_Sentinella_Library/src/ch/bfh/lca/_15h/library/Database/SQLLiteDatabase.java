@@ -6,8 +6,6 @@
 package ch.bfh.lca._15h.library.Database;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,4 +40,14 @@ public class SQLLiteDatabase extends AbstractDatabase implements IDatabase {
         this.connectionString = connectionString;
     }
     
+    public void disableLogging() {
+        if (this.hasOpenConnection()) {
+            try {
+                this.connection.prepareCall("PRAGMA journal_mode=OFF");
+            } catch (SQLException ex) {
+                Logger.getLogger(SQLLiteDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }
 }
