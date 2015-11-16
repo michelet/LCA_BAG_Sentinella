@@ -5,6 +5,7 @@
  */
 package ch.bfh.lca._15h.library.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -13,6 +14,7 @@ public class DoctorPatientContact {
         public enum ESex {
         MALE(0),
         FEMALE(1);
+        
         
         private final int value;
         
@@ -93,15 +95,15 @@ public class DoctorPatientContact {
 
     public String getDiagnosisCommaDemilited() {
         String result = "";
-        
+        if (this.getDiagnosis() != null) {
         for(int i=0; i<this.getDiagnosis().length;i++) {
             if (i==0) {
                 result = result + this.getDiagosisAtIndex(i);
             } else {
-                result = "," + result + this.getDiagosisAtIndex(i);
+                result = result + "," + this.getDiagosisAtIndex(i);
             }
         }
-        
+        }
         return result;
     }
 
@@ -126,9 +128,11 @@ public class DoctorPatientContact {
         if (classString.equals(DOUBLECLASS)) {
             double dbl = (double) dateAsObject;
             dateAsLong = (new Double(dbl)).longValue();
+            
         }
-        
+        SimpleDateFormat DATEFORMAT = new SimpleDateFormat("dd.MM.yyyy");
         Date date = new Date(dateAsLong * 1000);
+        System.out.println("SACK:" + DATEFORMAT.format(date));
         return date;
     }
     
