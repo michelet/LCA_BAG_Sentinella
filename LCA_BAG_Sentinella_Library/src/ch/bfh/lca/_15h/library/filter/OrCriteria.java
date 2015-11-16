@@ -19,7 +19,8 @@ public class OrCriteria implements Criteria {
 
         ArrayList<Criteria> criterias;
     
-    public OrCriteria(ArrayList<Criteria> criterias) {
+    public OrCriteria(ArrayList<Criteria> criterias) 
+    {
         this.criterias = new ArrayList<>();
         this.criterias = criterias;
     }

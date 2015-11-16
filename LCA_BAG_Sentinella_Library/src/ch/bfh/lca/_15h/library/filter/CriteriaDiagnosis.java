@@ -29,7 +29,8 @@ public class CriteriaDiagnosis implements Criteria {
         for(DoctorPatientContact dpc : dataSource) {
             boolean containsCriteria = false;
             for(String diag : dpc.getDiagnosis()) {
-                if (diag.equals(this.targetValue)) {
+                if (diag.equals(this.targetValue)) 
+                {
                     containsCriteria = true;
                 }
             }

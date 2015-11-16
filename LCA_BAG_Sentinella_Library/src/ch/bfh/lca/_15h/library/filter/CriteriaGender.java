@@ -28,7 +28,8 @@ public class CriteriaGender implements Criteria {
     @Override
     public DataSource meetCrieria(DataSource dataSource) {
         dataSource.resetIncerementIndex();
-        for(DoctorPatientContact dpc : dataSource) {
+        for(DoctorPatientContact dpc : dataSource) 
+        {
             if (targetSex!=dpc.getPatSex()) {
                 try {
                     dataSource.removeDoctorPatientContactFromMemory(dpc);

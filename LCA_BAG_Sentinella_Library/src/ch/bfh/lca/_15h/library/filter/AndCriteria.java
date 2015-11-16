@@ -9,7 +9,7 @@ import ch.bfh.lca._15h.library.DataSource;
 import ch.bfh.lca._15h.library.model.Criteria;
 import java.util.ArrayList;
 
-/**
+/** 
  *
  * @author Stefan
  */
@@ -17,7 +17,8 @@ public class AndCriteria implements Criteria {
 
     ArrayList<Criteria> criterias;
     
-    public AndCriteria(ArrayList<Criteria> criterias) {
+    public AndCriteria(ArrayList<Criteria> criterias) 
+    {
         this.criterias = new ArrayList<>();
         this.criterias = criterias;
     }

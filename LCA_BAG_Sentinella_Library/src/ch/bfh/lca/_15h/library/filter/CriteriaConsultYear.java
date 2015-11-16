@@ -43,7 +43,8 @@ public class CriteriaConsultYear implements Criteria{
               
               if (this.targetYear!=activeYear)
               {
-              } else {
+              } else 
+              {
                   newDataSource.addDoctorPatientContact(dpc);
                 }
             }
