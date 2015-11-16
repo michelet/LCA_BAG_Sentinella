@@ -54,6 +54,24 @@ public class LCA_BAG_Sentinella_Server {
                     Logger.getLogger(LCA_BAG_Sentinella_Server.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            else if (args[0].equals("-tch") && args[2].equals("-db") && args[4].equals("-yyyy")) {
+                String jpgFilePath = args[1];
+                String dbFilePath = args[3];
+                int year = 0;
+                try {
+                    year  = Integer.parseInt(args[5]);
+                } catch(NumberFormatException exp) {
+                    System.out.println("Wrong Year format. Year is set to 2015");
+                    year = 2015;
+                }
+                System.out.println("Try to export");  
+                ExportHandler eh = new ExportHandler(new DatabaseExportHandler(new SQLLiteDatabase(dbFilePath)));
+                try {
+                    eh.ExportToPopulationChar(year, jpgFilePath);
+                } catch (IOException ex) {
+                    Logger.getLogger(LCA_BAG_Sentinella_Server.class.getName()).log(Level.SEVERE, null, ex);
+                }                
+            }
             else
             {
                 System.out.println("Wrong parameters. Please check the manuel");
