@@ -73,8 +73,9 @@ public class LCA_BAG_Sentinella_Client {
 
         try {
             MSAccessDatabase database = new MSAccessDatabase(msAccessFile.replace("\\", "/"));
+            database.openConnection();
             DBDataSource dataSource = new DBDataSource(database);
-           
+            database.closeConnection();
             //JsonDPCWriter jsonWrtier = new JsonDPCWriter(dstPath);
             //jsonWrtier.createDPCJson(dataSource);
             DataSourceJSON.writeBAGJSONToFile(dataSource, null, dstPath);
