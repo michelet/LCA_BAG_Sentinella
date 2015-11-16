@@ -120,7 +120,7 @@ public class DoctorPatientContact {
     
     public static Date objectToDate(Object dateAsObject) throws Exception {
         long dateAsLong = 0;
-        final String DOUBLECLASS = "dateAsObject.getClass().toString()";
+        final String DOUBLECLASS = "class java.lang.Double";
         String classString = dateAsObject.getClass().toString();
         
         if (classString.equals(DOUBLECLASS)) {

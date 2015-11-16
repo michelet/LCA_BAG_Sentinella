@@ -56,6 +56,7 @@ public class DatabaseHandlerTest {
         int expResult = 99;
         int result;
         List<DBResultRow> resultRows = handler.fireSelectQuery(query, params);
+        
         result = resultRows.size();
         
         assertEquals(expResult, result);

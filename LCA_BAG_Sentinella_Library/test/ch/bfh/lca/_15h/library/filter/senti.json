@@ -1,0 +1,6 @@
+{"SentinellaRecords":[
+{"PatSex":"0","ConsDate":"01.02.2015","DiagCode":["A4"],"PatNumber":"1","PatBirthdate":"01.06.1981"},
+{"PatSex":"1","ConsDate":"01.03.2083","DiagCode":["A3"],"PatNumber":"17","PatBirthdate":"01.08.1982"},
+{"PatSex":"1","ConsDate":"01.05.2015","DiagCode":["A3"],"PatNumber":"17","PatBirthdate":"01.07.1984"},
+{"PatSex":"1","ConsDate":"01.04.2015","DiagCode":["D5"],"PatNumber":"46","PatBirthdate":"01.09.1985"},
+{"PatSex":"1","ConsDate":"01.06.2015","DiagCode":["D5"],"PatNumber":"46","PatBirthdate":"01.10.1986"}]}

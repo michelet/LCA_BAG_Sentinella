@@ -6,7 +6,7 @@
 package ch.bfh.lca._15h.library.export;
 
 import ch.bfh.lca._15h.library.Database.DBResultRow;
-import ch.bfh.lca._15h.library.model.ResultRow;
+import ch.bfh.lca._15h.library.GenericResultRow;
 import ch.bfh.lca._15h.library.translation.Translation;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,7 +45,7 @@ public class ExportToExcelTest {
         
          
         try {
-            ResultRow[] rows = new ResultRow[5];
+            GenericResultRow[] rows = new GenericResultRow[5];
             DBResultRow dbrr;
             String[] colNames = {"week","Col1","Col2"};
             Object[] values;
@@ -64,6 +64,23 @@ public class ExportToExcelTest {
             String path = "c:\\output.xlsx";
             
             ExportToExcel.exportToExcel(Translation.TRANSLATION_LANGUAGE.FR, "Sentinella", "Weeks/Geschlecht", rows, path);
+            
+            //assertEquals("DataSourceCSV read 1st line patID","1",ds.getDoctorPatientContact(0).getPatID());
+            //assertEquals("DataSourceCSV read 1st line patSalutation","Herrn",ds.getDoctorPatientContact(0).getPatSalutation());
+            //assertEquals("DataSourceCSV read 1st line longReserver1","6",ds.getDoctorPatientContact(0).getLongReserve1());
+        } catch (Exception ex) {
+            fail("ExportToExcel exception: " + ex.getLocalizedMessage());
+        }
+     }
+     
+     @Test
+     public void test_writeExcelAlterPyramid() {
+        
+         
+        try {          
+            String path = "c:\\test-pyramid.xlsx";
+            
+            ExportToExcel.exportToAgePyramid(Translation.TRANSLATION_LANGUAGE.FR, null, path);
             
             //assertEquals("DataSourceCSV read 1st line patID","1",ds.getDoctorPatientContact(0).getPatID());
             //assertEquals("DataSourceCSV read 1st line patSalutation","Herrn",ds.getDoctorPatientContact(0).getPatSalutation());
