@@ -6,9 +6,8 @@
 package ch.bfh.lca._15h.library.Database;
 
 import java.net.URL;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -21,7 +20,7 @@ public class SQLLiteDatabase extends AbstractDatabase implements IDatabase {
     
     public SQLLiteDatabase(URL fileURL) {
         this.filePath = fileURL.getPath();
-        this.connectionString = DRIVERCLASS + this.filePath;
+        this.connectionString = DRIVERCLASS + this.filePath + ";Journal Mode=Off";
     }
 
      public SQLLiteDatabase(String filePath) {
@@ -40,14 +39,34 @@ public class SQLLiteDatabase extends AbstractDatabase implements IDatabase {
         this.connectionString = connectionString;
     }
     
-    public void disableLogging() {
-        if (this.hasOpenConnection()) {
+
+    @Override
+    public Date parseObjectToDate(Object dateAsObject) {
+        long dateAsLong = 0;
+        final String DOUBLECLASS = "class java.lang.Double";
+        String classString = dateAsObject.getClass().toString();
+        
+        if (classString.equals(DOUBLECLASS))
+        {
+            double dbl = (double) dateAsObject;
+            dateAsLong = (new Double(dbl)).longValue();
+        } 
+        else if (classString.equals("class java.lang.Integer"))
+        {
+            int dateAsInt = (Integer) dateAsObject;
+            dateAsLong = dateAsInt;
+        }
+        else { 
             try {
-                this.connection.prepareCall("PRAGMA journal_mode=OFF");
-            } catch (SQLException ex) {
-                Logger.getLogger(SQLLiteDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                dateAsLong = (Long) dateAsObject;
+            } catch(Exception exp) {
+                throw new IllegalArgumentException("Object is: " + classString + " - But Long or Integer excepted" );
             }
         }
         
+        SimpleDateFormat DATEFORMAT = new SimpleDateFormat("dd.MM.yyyy");
+        Date date = new Date(dateAsLong);
+        return date;
     }
+    
 }

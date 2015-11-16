@@ -2,6 +2,7 @@ package ch.bfh.lca._15h.library.Database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Date;
 
 public interface IDatabase {
 
@@ -41,5 +42,7 @@ public interface IDatabase {
      * @return boolean. True if the Object have an open java.sql.Connection
      */
     public boolean hasOpenConnection();
+    
+    public Date parseObjectToDate(Object Integer);
     
 }
