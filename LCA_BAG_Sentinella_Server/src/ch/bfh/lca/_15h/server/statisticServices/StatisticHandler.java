@@ -10,6 +10,7 @@ import ch.bfh.lca._15h.library.Database.DBResultRow;
 import ch.bfh.lca._15h.library.GenericResultRow;
 import ch.bfh.lca._15h.library.filter.CriteriaAge;
 import ch.bfh.lca._15h.library.filter.OrCriteria;
+import ch.bfh.lca._15h.library.model.Criteria;
 import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +26,13 @@ public class StatisticHandler {
         
         List<GenericResultRow> newList = new ArrayList<>();
         
-        for(int i=0; i<=100; i=i+6) {
-            DataSource filteredSource = this.generateAgeFilter(i, i+5).meetCrieria(dataSource);
+        for(int i=1; i<=100; i=i+5) {
+            Criteria ageCriterias =  this.generateAgeFilter(i, i+5);
+            DataSource filteredSource = ageCriterias.meetCrieria(dataSource);
             newList.add(this.genderFrequency(i + " bis " + Integer.toString(i+5), filteredSource));
         }
         
-        DataSource dc = this.generateAgeFilter(0, 5).meetCrieria(dataSource);
+        // DataSource dc = this.generateAgeFilter(0, 5).meetCrieria(dataSource);
         
         return newList;
     }
@@ -53,15 +55,16 @@ public class StatisticHandler {
         for(int age=minValue; age<maxValue; age++) {
             orCriteria.addOrCriteria(new CriteriaAge(age));
         }
+        
         return orCriteria;
     }
     
     private GenericResultRow genderFrequency(String name, DataSource dataSource) {
         Frequency freqGender = new Frequency();
         GenericResultRow grr = new DBResultRow();
-        
+
         for(DoctorPatientContact dpc : dataSource) {
-            freqGender.addValue(dpc.getPatSex());
+            freqGender.addValue(dpc.getPatSex().getValue());
         }
         
         String[] colName = {"AgeGroup", "Male", "Fenale"};

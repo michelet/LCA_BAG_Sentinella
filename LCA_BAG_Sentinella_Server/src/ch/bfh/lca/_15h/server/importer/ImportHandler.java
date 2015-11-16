@@ -7,6 +7,9 @@ package ch.bfh.lca._15h.server.importer;
 
 import ch.bfh.lca._15h.library.DataSource;
 import ch.bfh.lca._15h.library.Database.SQLLiteDatabase;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,21 +26,29 @@ public class ImportHandler {
     }
     
     public void importData() {
-        
-        DatabaseImportHandler dih = new DatabaseImportHandler(new SQLLiteDatabase(this.DEST_DB_FILEPATH));
-       
-        dih.createSentinellaDB();
 
-        System.out.println("Start import from :" + this.SOURCE_FILEPATH);
-        JsonImportHandler jih = new JsonImportHandler(this.SOURCE_FILEPATH);
-        
-        DataSource dataSource = jih.getDataSource();
-        boolean itWorks = dih.writeSentinellaRecordInDatabase(dataSource);
-        
-        if (itWorks) {
-            System.out.println("Import finished without errors");
-        } else {
-            System.out.println("Import finished with errors");
+            SQLLiteDatabase database = new SQLLiteDatabase(this.DEST_DB_FILEPATH);
+            
+            
+            DatabaseImportHandler dih = new DatabaseImportHandler(database);
+            dih.createSentinellaDB();
+            
+            System.out.println("Start import from :" + this.SOURCE_FILEPATH);
+            JsonImportHandler jih = new JsonImportHandler(this.SOURCE_FILEPATH);
+            
+            DataSource dataSource = jih.getDataSource();
+        try {            
+            database.openConnection();
+            boolean itWorks = dih.writeSentinellaRecordInDatabase(dataSource);
+            database.closeConnection();
+            
+            if (itWorks) {
+                System.out.println("Import finished without errors");
+            } else {
+                System.out.println("Import finished with errors");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ImportHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

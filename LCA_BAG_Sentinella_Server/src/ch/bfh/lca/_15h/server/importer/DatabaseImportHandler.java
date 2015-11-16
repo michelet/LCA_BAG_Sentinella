@@ -29,6 +29,7 @@ public class DatabaseImportHandler {
     
     public boolean writeSentinellaRecordInDatabase(DataSource datasource) {
         DatabaseHandler handler = new DatabaseHandler(this.database);
+        
         String query  = "INSERT INTO sentinellaRecord VALUES (?, ?, ?, ?, ?)";
         IDBParameter[] params = new IDBParameter[5];
         int i = 0;
@@ -39,7 +40,7 @@ public class DatabaseImportHandler {
                 params[2] = new LongDBParam(3, dpc.getPatBirthdate().getTime());
                 params[3] = new StringDBParam(4, dpc.getDiagnosisCommaDemilited());
                 params[4] = new LongDBParam(5, dpc.getContactDate().getTime());
-            
+                               
                 handler.fireIUDQuery(query, params);
                 i++;
             }
