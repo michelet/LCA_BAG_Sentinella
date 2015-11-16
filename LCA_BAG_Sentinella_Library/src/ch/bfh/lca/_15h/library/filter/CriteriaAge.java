@@ -42,7 +42,6 @@ public class CriteriaAge implements Criteria {
             Calendar birthdate = this.getCalendar(dpc.getPatBirthdate());
             
             int diff = calToday.get(YEAR) - birthdate.get(YEAR);
-            System.out.println(calToday.get(YEAR) + " --- " +birthdate.get(YEAR) + " === " + diff + " ???? " + this.targetAge);
             if (diff != this.targetAge) {
             } else {
                 newDataSource.addDoctorPatientContact(dpc);
