@@ -9,7 +9,6 @@ import ch.bfh.lca._15h.library.DataSource;
 import ch.bfh.lca._15h.library.GenericResultRow;
 import ch.bfh.lca._15h.library.export.ExportToExcel;
 import ch.bfh.lca._15h.library.filter.CriteriaConsultYear;
-import ch.bfh.lca._15h.library.translation.Translation;
 import ch.bfh.lca._15h.library.translation.Translation.TRANSLATION_LANGUAGE;
 import ch.bfh.lca._15h.server.statisticServices.StatisticHandler;
 import java.io.IOException;
@@ -41,14 +40,15 @@ public class ExportHandler {
     public void ExportToExcelByYearAndAgeCategories(int year, String path) throws IOException {
         CriteriaConsultYear ccy = new CriteriaConsultYear(year);
         DataSource dataSourceByYear;
+        
         try {
-            dataSourceByYear = ccy.meetCrieria(this.getDataSource(year));
+        System.out.println(year);
+        DataSource ds = this.getDataSource(year);
+        dataSourceByYear = ccy.meetCrieria(ds);
         StatisticHandler sh = new StatisticHandler();
         List<GenericResultRow> lines = sh.getResultRowByAgeGroups(dataSourceByYear);
-        /*
-        Translation.TRANSLATION_LANGUAGE language, String sheetTitle, String tableTitle, ResultRow[] rows, String excelFilePath
-        */
-        // ExportToExcel.exportToExcel(TRANSLATION_LANGUAGE.DE, "Mauz", lines, path);
+
+        
         GenericResultRow[] arrResults = new GenericResultRow[lines.size()];
         int i = 0;
         for(GenericResultRow grr : lines) {
