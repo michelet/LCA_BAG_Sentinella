@@ -67,4 +67,6 @@ public interface DataSource extends Iterator<DoctorPatientContact>, Iterable<Doc
      * @param index 
      */
     public void removeDoctorPatientContact(int index) throws Exception;
+    
+    public void resetIncerementIndex();
 }
