@@ -67,9 +67,9 @@ public class DBDataSource implements DataSource {
             newDPC.setPatID(result.getValueAt(0).toString());
             
             newDPC.setPatSex(DoctorPatientContact.intToSex((Integer) result.getValueAt(1)));
-            newDPC.setPatBirthdate(DoctorPatientContact.objectToDate(result.getValueAt(2)));
+            newDPC.setPatBirthdate(this.databse.parseObjectToDate(result.getValueAt(2)));
             newDPC.setDiagnosis(DoctorPatientContact.stringToDiagnosis(result.getValueAt(3).toString()));
-            newDPC.setContactDate(DoctorPatientContact.objectToDate(result.getValueAt(4)));
+            newDPC.setContactDate(this.databse.parseObjectToDate(result.getValueAt(4)));
             this.dpcList[this.lastUsedIndex()] = newDPC;
             this.setNextIndex();
         }
@@ -220,5 +220,10 @@ public class DBDataSource implements DataSource {
         } catch (Exception ex) {
             Logger.getLogger(DBDataSource.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public void resetIncerementIndex() {
+        this.index = 0;
     }
 }

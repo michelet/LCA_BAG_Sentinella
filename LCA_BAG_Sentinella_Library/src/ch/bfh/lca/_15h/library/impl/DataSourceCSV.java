@@ -252,5 +252,10 @@ public class DataSourceCSV implements DataSource {
     public Iterator<DoctorPatientContact> iterator() {
         return this;
     }
+
+    @Override
+    public void resetIncerementIndex() {
+       this.iteratorIndex = 0;
+    }
     
 }

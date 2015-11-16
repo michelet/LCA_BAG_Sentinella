@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import org.json.simple.JSONArray;
@@ -30,6 +31,8 @@ import org.json.simple.parser.ParseException;
  * @author Cédric Michelet
  */
 public class DataSourceJSON implements DataSource {
+    
+    private final SimpleDateFormat DATEFORMAT = new SimpleDateFormat("dd.MM.yyyy");
     /**
      *  Store path of the JSON file containing the data.
      */
@@ -92,7 +95,8 @@ public class DataSourceJSON implements DataSource {
                         dpc.setPatSex(DoctorPatientContact.intToSex(Integer.parseInt((String)((JSONObject) item).get(key))));
                         break;
                     case "PatBirthdate":
-                        dpc.setPatBirthdate(DoctorPatientContact.objectToDate((String)((JSONObject) item).get(key)));
+                        dpc.setPatBirthdate(DATEFORMAT.parse((String)((JSONObject) item).get(key)));
+                        // dpc.setPatBirthdate(DoctorPatientContact.objectToDate((String)((JSONObject) item).get(key)));
                         break;
                     case "DiagCode":
                         diagCodes = (JSONArray)((JSONObject) item).get(key);
@@ -102,7 +106,7 @@ public class DataSourceJSON implements DataSource {
                         //dpc.setDiagnosis(DoctorPatientContact.stringToDiagnosis((String)((JSONObject) item).get(key)));
                         break;
                     case "ConsDate":
-                        dpc.setContactDate(DoctorPatientContact.objectToDate((String)((JSONObject) item).get(key)));
+                        dpc.setContactDate(DATEFORMAT.parse((String)((JSONObject) item).get(key)));
                         break;
                 }
             }   
@@ -242,5 +246,10 @@ public class DataSourceJSON implements DataSource {
     @Override
     public Iterator<DoctorPatientContact> iterator() {
         return this;
+    }
+
+    @Override
+    public void resetIncerementIndex() {
+        this.iteratorIndex = 0;
     }
 }
