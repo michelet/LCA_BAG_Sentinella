@@ -6,12 +6,11 @@
 package ch.bfh.lca._15h.library.filter;
 
 import ch.bfh.lca._15h.library.DataSource;
+import ch.bfh.lca._15h.library.impl.GenericDataSource;
 import ch.bfh.lca._15h.library.model.Criteria;
 import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -29,23 +28,28 @@ public class CriteriaConsultYear implements Criteria{
     
     @Override
     public DataSource meetCrieria(DataSource dataSource) {
-                for(DoctorPatientContact dpc: dataSource) {
+
+        GenericDataSource newDataSource = new GenericDataSource();
+        dataSource.resetIncerementIndex();
+        
+        for(DoctorPatientContact dpc: dataSource) {
+            if (dpc != null) {
+              Calendar cal = Calendar.getInstance();
+              cal.setTime(dpc.getContactDate());
             
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(dpc.getContactDate());
-                       
-            if (this.targetYear != cal.get(Calendar.YEAR));
-            {
-                try {
-                    dataSource.removeDoctorPatientContactFromMemory(dpc);
-                } catch (Exception ex) {
-                    Logger.getLogger(CriteriaAge.class.getName()).log(Level.SEVERE, null, ex);
+              int activeYear = cal.get(Calendar.YEAR);
+              String strTargetYear = Integer.toString(this.targetYear);
+              String compareYear = Integer.toString(activeYear);
+              
+              if (this.targetYear!=activeYear)
+              {
+              } else {
+                  newDataSource.addDoctorPatientContact(dpc);
                 }
             }
             
         }
-        
-        return dataSource;
+        return newDataSource;
     }
     
 }

@@ -30,7 +30,7 @@ public class AndCriteria implements Criteria {
     @Override
     public DataSource meetCrieria(DataSource dataSource) {
 
-        
+        dataSource.resetIncerementIndex();
         DataSource result = this.addFirstCriteriaResultIntoList(dataSource);
         
         for (int i=1; i<criterias.size(); i++) {

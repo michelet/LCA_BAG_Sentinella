@@ -18,6 +18,8 @@ import java.util.logging.Logger;
  */
 public class CriteriaGender implements Criteria {
     
+    
+    
     ESex targetSex;
     public CriteriaGender(ESex targetSex) {
         this.targetSex = targetSex;
@@ -25,6 +27,7 @@ public class CriteriaGender implements Criteria {
 
     @Override
     public DataSource meetCrieria(DataSource dataSource) {
+        dataSource.resetIncerementIndex();
         for(DoctorPatientContact dpc : dataSource) {
             if (targetSex!=dpc.getPatSex()) {
                 try {

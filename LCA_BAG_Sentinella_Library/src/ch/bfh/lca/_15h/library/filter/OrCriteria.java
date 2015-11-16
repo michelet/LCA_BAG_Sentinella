@@ -6,6 +6,7 @@
 package ch.bfh.lca._15h.library.filter;
 
 import ch.bfh.lca._15h.library.DataSource;
+import ch.bfh.lca._15h.library.impl.GenericDataSource;
 import ch.bfh.lca._15h.library.model.Criteria;
 import ch.bfh.lca._15h.library.model.DoctorPatientContact;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class OrCriteria implements Criteria {
     }
     @Override
     public DataSource meetCrieria(DataSource dataSource) {
+        
         DataSource result = this.addFirstCriteriaResultIntoList(dataSource);
         
         for(int i=1; i<criterias.size(); i++) {
@@ -38,11 +40,11 @@ public class OrCriteria implements Criteria {
         return result;
     }
 
-    public void addAndCriteria(Criteria criteria) {
+    public void addOrCriteria(Criteria criteria) {
         this.criterias.add(criteria);
     }
     
-    public void removeAndCriteria(Criteria criteria) {
+    public void removeOrCriteria(Criteria criteria) {
         this.criterias.remove(criteria);
     }
        
@@ -58,5 +60,9 @@ public class OrCriteria implements Criteria {
           }  
         }
         return dest;
+    }
+    
+    public int CountCriterias() {
+        return this.criterias.size();
     }
 }

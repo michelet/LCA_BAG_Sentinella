@@ -24,6 +24,7 @@ public class CriteriaDiagnosis implements Criteria {
 
     @Override
     public DataSource meetCrieria(DataSource dataSource) {
+        dataSource.resetIncerementIndex();
         
         for(DoctorPatientContact dpc : dataSource) {
             boolean containsCriteria = false;
