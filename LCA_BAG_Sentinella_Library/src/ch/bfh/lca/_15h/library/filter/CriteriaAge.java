@@ -27,7 +27,6 @@ public class CriteriaAge implements Criteria {
     public CriteriaAge(int target) {
         
         this.targetAge = target;
-        System.out.println("KACKBRATEN: " + target);
     }
     
     @Override
