@@ -39,68 +39,45 @@ public class ExportHandler {
     {
         this.databaseExportHandler = databaseExportHandler;
     }
-    
+
+    public void ExportToExcelByYearAndAge(int year, String path) throws IOException {
+
+        StatisticHandler sh = new StatisticHandler();
+        List<GenericResultRow> lines = sh.getResultRowByAge(this.getDataSourceByYear(year));
+        
+        this.writeToExcel(lines, year, path);
+    }    
     
     public void ExportToExcelByYearAndAgeCategories(int year, String path) throws IOException {
-        CriteriaConsultYear ccy = new CriteriaConsultYear(year);
-        DataSource dataSourceByYear;
-        
-        try {
-        System.out.println(year);
-        DataSource ds = this.getDataSource(year);
-        dataSourceByYear = ccy.meetCrieria(ds);
         StatisticHandler sh = new StatisticHandler();
-        List<GenericResultRow> lines = sh.getResultRowByAgeGroups(dataSourceByYear);
-
+        List<GenericResultRow> lines = sh.getResultRowByAgeGroups(this.getDataSourceByYear(year));
         
-        GenericResultRow[] arrResults = new GenericResultRow[lines.size()];
-        int i = 0;
-        for(GenericResultRow grr : lines) {
-            arrResults[i] = grr;
-            i++;
-        }
-        
-        ExportToExcel.exportToExcel(TRANSLATION_LANGUAGE.DE, Integer.toString(year), "SentinellaExport", arrResults, path);
-        
-        } catch (Exception ex) {
-            Logger.getLogger(ExportHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.writeToExcel(lines, year, path);
     }
     
-    public void ExportToPopulationChar(int year, String path) throws IOException {
-        CriteriaConsultYear ccy = new CriteriaConsultYear(year);
-        DataSource dataSourceByYear;
-        
-        try {
-        System.out.println(year);
-        DataSource ds = this.getDataSource(year);
-        dataSourceByYear = ccy.meetCrieria(ds);
-        StatisticHandler sh = new StatisticHandler();
-        List<GenericResultRow> lines = sh.getResultRowByAgeGroups(dataSourceByYear);
+    public void ExportToPopulationCharByAgeGroup(int year, String path) throws IOException {
 
+        StatisticHandler sh = new StatisticHandler();
+        List<GenericResultRow> lines = sh.getResultRowByAgeGroups(this.getDataSourceByYear(year));
         
-        GenericResultRow[] arrResults = new GenericResultRow[lines.size()];
-        int i = 0;
-        for(GenericResultRow grr : lines) {
-            arrResults[i] = grr;
-            i++;
-        }
-        
-        ChartHandler ch = new ChartHandler();
-        JFreeChart chart = ch.generatesPopulationChart(arrResults);
-        
-        this.saveChartToJPG(chart, path, 800, 1024);
-        
-        } catch (Exception ex) {
-            Logger.getLogger(ExportHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.writeToChartFile(lines, year, path);
+
     }
+
+    public void ExportToPopulationCharByAge(int year, String path) throws IOException {
+
+        StatisticHandler sh = new StatisticHandler();
+        List<GenericResultRow> lines = sh.getResultRowByAge(this.getDataSourceByYear(year));
+        
+        this.writeToChartFile(lines, year, path);
+
+    }    
     
     private DataSource getDataSource(int year) throws Exception {
         return this.databaseExportHandler.getElemntsByYear(year);
     }
     
-    private final String saveChartToJPG(final JFreeChart chart, String fileName, final int width, final int height) throws IOException {
+    private String saveChartToJPG(final JFreeChart chart, String fileName, final int width, final int height) throws IOException {
         String result = null;
         
         if (chart != null) {
@@ -119,4 +96,58 @@ public class ExportHandler {
         return result;
     }//saveChartToJPG()
     
+    private DataSource getDataSourceByYear (int year) {
+        try {
+            CriteriaConsultYear ccy = new CriteriaConsultYear(year);
+            DataSource dataSourceByYear;
+            
+            System.out.println(year);
+            DataSource ds = this.getDataSource(year);
+            dataSourceByYear = ccy.meetCrieria(ds);
+            
+            return dataSourceByYear;
+        } catch (Exception ex) {
+            Logger.getLogger(ExportHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+
+    }
+    
+    private void writeToExcel(List<GenericResultRow> lines, int year, String path) {
+        
+        try {
+            
+            ExportToExcel.exportToExcel(TRANSLATION_LANGUAGE.DE, Integer.toString(year), "SentinellaExport", this.ResultRowListToArray(lines), path);
+        
+            } catch (Exception ex) {
+                Logger.getLogger(ExportHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void writeToChartFile(List<GenericResultRow> lines, int year, String path) {
+        try {
+                   
+            ChartHandler ch = new ChartHandler();
+            JFreeChart chart = ch.generatesPopulationChart(this.ResultRowListToArray(lines));
+        
+            this.saveChartToJPG(chart, path, 800, 1200);
+        
+        } catch (Exception ex) {
+            Logger.getLogger(ExportHandler.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+    }
+    private GenericResultRow[]  ResultRowListToArray(List<GenericResultRow> lines) {
+        GenericResultRow[] arrResults = new GenericResultRow[lines.size()];
+        int i = 0;
+        
+        for(GenericResultRow grr : lines) {
+            arrResults[i] = grr;
+            i++;
+        }
+        
+        return arrResults;
+    }
+    
+
 }

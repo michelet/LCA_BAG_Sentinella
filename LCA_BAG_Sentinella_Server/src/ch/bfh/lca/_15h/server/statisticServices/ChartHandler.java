@@ -40,8 +40,8 @@ public class ChartHandler {
                // create the chart...
           JFreeChart chart = ChartFactory.createStackedBarChart(
             "Arzt-Patientenkontakte (APK)",
-            "Age Group",     // domain axis label
-            "Population (millions)", // range axis label
+            "Alter",     // domain axis label
+            "Arzt-Patientenkontakte (APK)", // range axis label
             data,         // data
             PlotOrientation.HORIZONTAL,
             true,            // include legend

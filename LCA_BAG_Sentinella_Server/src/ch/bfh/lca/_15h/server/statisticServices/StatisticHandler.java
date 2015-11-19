@@ -44,7 +44,7 @@ public class StatisticHandler {
         for(int i=0; i<=100; i++) {
             CriteriaAge criteria = new CriteriaAge(i);
             DataSource filteredSource = criteria.meetCrieria(dataSource);
-            newList.add(this.genderFrequency(i + " bis " + Integer.toString(i+5), filteredSource));
+            newList.add(this.genderFrequency(i + " Jahr(e)", filteredSource));
         }
         return newList;
     }    
