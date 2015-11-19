@@ -76,6 +76,7 @@ public class DataSourceCSV implements DataSource {
         int patSexColIndex;
         int patDiagnosisColIndex;
         int patDateColIndex;
+        int patActivityCode;
 
         //******************************************LOAD PATIENTS
         CSVReader reader = new CSVReader(new FileReader(this.patientsCSVPath), cvsSplitBy);
@@ -84,6 +85,7 @@ public class DataSourceCSV implements DataSource {
         
         //@TODO check file is csv and conform to the format (column)
         while ((nextLine = reader.readNext()) != null) {
+            //firstline = name of columns
             if (isFirstLine) {
                 isFirstLine = false;
                 //search position of each col
@@ -131,13 +133,15 @@ public class DataSourceCSV implements DataSource {
         }
             
         reader = new CSVReader(new FileReader(this.activitiesCSVPath), cvsSplitBy);
-        patNumberColIndex = patDateColIndex = -1;
+        patNumberColIndex = patDateColIndex = patActivityCode = -1;
         isFirstLine = true;
         String activityDate;
         String activityPatNumber;
+        String activityCode;
 
         //@TODO check file is csv and conform to the format (column)
         while ((nextLine = reader.readNext()) != null) {
+            //firstline = name of columns
             if (isFirstLine) {
                 isFirstLine = false;
                 //search position of each col
@@ -149,21 +153,37 @@ public class DataSourceCSV implements DataSource {
                         case "Date":
                             patDateColIndex = i;
                             break;
+                        case "Code":
+                            patActivityCode = i;
+                            break;
                     }
             } else {
                 activityDate = null;
                 activityPatNumber = null;
+                activityCode = null;
                 
                 if(patNumberColIndex > -1)
                     activityPatNumber = nextLine[patNumberColIndex];
                 if(patDateColIndex > -1)
                     activityDate = nextLine[patDateColIndex];
+                if(patActivityCode > -1)
+                    activityCode = nextLine[patActivityCode];
                
-                 //search patient
-                if(activityPatNumber != null && activityDate != null) {
-                    dpc = patientsCache.get(activityPatNumber);
-                    if(dpc != null) {
-                        dpc.setContactDate(DoctorPatientContact.objectToDate(activityDate));
+                //take only activity linked to first minutes of consultation
+                if (activityCode.equals("00.0010")) {
+                    //search patient
+                    if (activityPatNumber != null && activityDate != null) {
+                        dpc = patientsCache.get(activityPatNumber);
+                        //do we have a patient?
+                        if (dpc != null) {
+                            //has the patient already a date? (because he is already linked to another consultation)
+                            if(dpc.getContactDate() != null) {
+                                //duplicate the record for the new consultation
+                                dpc = new DoctorPatientContact(dpc);
+                                aPatients.add(dpc);
+                            }
+                            dpc.setContactDate(DoctorPatientContact.objectToDate(activityDate));
+                        }
                     }
                 }
             }
