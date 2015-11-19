@@ -33,7 +33,28 @@ public class DoctorPatientContact {
     private String[] patDiagnosis;
     private Date contactDate;
         
+    /**
+     * Constructor
+     */
+    public DoctorPatientContact() {
+    }
         
+    /**
+     * Constructor by copy
+     * @param copyFrom 
+     */
+    public DoctorPatientContact(DoctorPatientContact copyFrom) {
+        this.setPatID(copyFrom.getPatID());
+        this.setPatSex(copyFrom.getPatSex());
+        this.setPatBirthdate(copyFrom.getPatBirthdate());
+        this.setContactDate(copyFrom.getContactDate());
+        
+        this.patDiagnosis = new String[copyFrom.patDiagnosis.length];
+        for(int i=0; i<copyFrom.patDiagnosis.length; i++) {
+            this.patDiagnosis[i] = new String(copyFrom.patDiagnosis[i]);
+        }
+    }
+    
     public void setPatSex(ESex patSex) {
         this.patSex = patSex;
     }
