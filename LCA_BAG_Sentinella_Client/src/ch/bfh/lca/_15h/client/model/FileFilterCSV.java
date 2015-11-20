@@ -17,6 +17,7 @@ public class FileFilterCSV extends FileFilter {
 
     @Override
     public boolean accept(File f) {
+        if(this.getExtension(f) == null) return false;
         if(this.getExtension(f).equals("csv")) return true;
         return false;
     }
