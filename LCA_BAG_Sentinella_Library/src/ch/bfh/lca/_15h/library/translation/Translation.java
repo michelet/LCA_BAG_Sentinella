@@ -94,8 +94,9 @@ public class Translation {
      */
     public String getTranslationForKey(TRANSLATION_LANGUAGE language, String key) {
         if(language == TRANSLATION_LANGUAGE.FR) return frTranslations.getProperty(key);
+        if(language == TRANSLATION_LANGUAGE.DE) return deTranslations.getProperty(key);
         
-        return deTranslations.getProperty(key);
+        return enTranslations.getProperty(key);
     }
     
     /**
