@@ -101,7 +101,11 @@ public class Translation {
      * @param key
      * @return 
      */
-    public static String getForKey(TRANSLATION_LANGUAGE language, String key) throws IOException {
-        return Translation.getInstance().getTranslationForKey(language, key);
+    public static String getForKey(TRANSLATION_LANGUAGE language, String key) {
+        try {
+            return Translation.getInstance().getTranslationForKey(language, key);
+        } catch(Exception e) {
+            return null;
+        }
     }
 }
