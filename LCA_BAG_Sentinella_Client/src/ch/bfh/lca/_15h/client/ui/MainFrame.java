@@ -5,6 +5,7 @@
  */
 package ch.bfh.lca._15h.client.ui;
 
+import ch.bfh.lca._15h.client.model.FileFilterCSV;
 import ch.bfh.lca._15h.client.model.RecordsTableModel;
 import ch.bfh.lca._15h.library.DataSource;
 import ch.bfh.lca._15h.library.Database.MSAccessDatabase;
@@ -411,7 +412,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void jBCSVFileActivitySearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCSVFileActivitySearchActionPerformed
         //select a CSV file for activities
         JFileChooser fc = new JFileChooser();
-        //@TODO filter file to CSV only
+        fc.setFileFilter(new FileFilterCSV());
         int returnVal = fc.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
@@ -422,8 +423,9 @@ public class MainFrame extends javax.swing.JFrame {
     private void jBCSVFilePatientSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCSVFilePatientSearchActionPerformed
        //select a CSV file for patient
         JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(new FileFilterCSV());
         int returnVal = fc.showOpenDialog(this);
-        //@TODO filter file to CSV only
+        fc.setFileFilter(new FileFilterCSV());
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             jTFCSVFilePatient.setText(file.getAbsolutePath());
