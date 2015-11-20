@@ -5,11 +5,16 @@
  */
 package ch.bfh.lca._15h.client.ui;
 
+import ch.bfh.lca._15h.client.model.FileFilterCSV;
+import ch.bfh.lca._15h.client.model.RecordsTableModel;
+import ch.bfh.lca._15h.library.DataSource;
+import ch.bfh.lca._15h.library.Database.MSAccessDatabase;
+import ch.bfh.lca._15h.library.impl.DBDataSource;
 import ch.bfh.lca._15h.library.impl.DataSourceCSV;
 import ch.bfh.lca._15h.library.impl.DataSourceJSON;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import ch.bfh.lca._15h.library.translation.Translation;
+import java.io.File;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -17,11 +22,31 @@ import java.nio.file.StandardOpenOption;
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    private RecordsTableModel recordsTableModel = null;
+    private DataSource inputSource = null;
+    private Translation.TRANSLATION_LANGUAGE currentLanguage = Translation.TRANSLATION_LANGUAGE.EN;
+    
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        
+        //load translations file
+        try {
+        Translation.getInstance().addTranslations(Translation.TRANSLATION_LANGUAGE.FR, "ch/bfh/lca/_15h/client/translation/fr_client.properties");
+        Translation.getInstance().addTranslations(Translation.TRANSLATION_LANGUAGE.DE, "ch/bfh/lca/_15h/client/translation/de_client.properties");
+        Translation.getInstance().addTranslations(Translation.TRANSLATION_LANGUAGE.EN, "ch/bfh/lca/_15h/client/translation/en_client.properties");
+        } catch (Exception e) {
+            //@TODO show/log error
+        }
+      
+        //init table model
+        recordsTableModel = new RecordsTableModel(null);
+        jTRecords.setModel(recordsTableModel);
+        
+        //translate GUI
+        translateGUIAccordingToCurrentLanguage();
     }
 
     /**
@@ -33,76 +58,462 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jTFInputFolder = new javax.swing.JTextField();
+        jLJsonPath = new javax.swing.JLabel();
+        jTJSONPath = new javax.swing.JTextField();
         jBConvertToJSON = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLCSVPatient = new javax.swing.JLabel();
+        jLCSVActivity = new javax.swing.JLabel();
+        jTFCSVFilePatient = new javax.swing.JTextField();
+        jTFCSVFileActivity = new javax.swing.JTextField();
+        jBCSVFileActivitySearch = new javax.swing.JButton();
+        jBCSVFilePatientSearch = new javax.swing.JButton();
+        jBCSVLoad = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLDBPath = new javax.swing.JLabel();
+        jTFDBFile = new javax.swing.JTextField();
+        jBDBFilePatientSearch = new javax.swing.JButton();
+        jBDBLoad = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTRecords = new javax.swing.JTable();
+        jBCSVFileJSONSearch = new javax.swing.JButton();
+        jLStep2 = new javax.swing.JLabel();
+        jLStep1 = new javax.swing.JLabel();
+        jLStep3 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMFile = new javax.swing.JMenu();
+        jMLanguage = new javax.swing.JMenu();
+        jRBEnglish = new javax.swing.JRadioButtonMenuItem();
+        jRBGerman = new javax.swing.JRadioButtonMenuItem();
+        jRBFrench = new javax.swing.JRadioButtonMenuItem();
+        jMIQuit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Input folder :");
+        jLJsonPath.setText("Output to JSON file:");
 
-        jTFInputFolder.setText("c:\\sentinella\\");
-            jTFInputFolder.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jTFInputFolderActionPerformed(evt);
-                }
-            });
+        jTJSONPath.setText("c:\\sentinella\\test.json");
+        jTJSONPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTJSONPathActionPerformed(evt);
+            }
+        });
 
-            jBConvertToJSON.setText("Convert to JSON");
-            jBConvertToJSON.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jBConvertToJSONActionPerformed(evt);
-                }
-            });
+        jBConvertToJSON.setText("Export");
+        jBConvertToJSON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBConvertToJSONActionPerformed(evt);
+            }
+        });
 
-            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-            getContentPane().setLayout(layout);
-            layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jLabel1)
-                    .addGap(43, 43, 43)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jBConvertToJSON)
-                        .addComponent(jTFInputFolder, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(135, Short.MAX_VALUE))
-            );
-            layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(20, 20, 20)
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setText("Sentinella Client (v1.0)");
+
+        jLCSVPatient.setText("Patient CSV file:");
+
+        jLCSVActivity.setText("Activities CSV file:");
+
+        jTFCSVFilePatient.setText("C:\\sentinella\\Patient.csv");
+
+        jTFCSVFileActivity.setText("C:\\sentinella\\Leistung.csv");
+
+        jBCSVFileActivitySearch.setText("...");
+        jBCSVFileActivitySearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCSVFileActivitySearchActionPerformed(evt);
+            }
+        });
+
+        jBCSVFilePatientSearch.setText("...");
+        jBCSVFilePatientSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCSVFilePatientSearchActionPerformed(evt);
+            }
+        });
+
+        jBCSVLoad.setText("Load");
+        jBCSVLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCSVLoadActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLCSVPatient)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTFCSVFilePatient, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBCSVFilePatientSearch)))
+                .addGap(57, 57, 57)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLCSVActivity)
+                        .addContainerGap(425, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTFCSVFileActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBCSVFileActivitySearch)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBCSVLoad)
+                        .addGap(81, 81, 81))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLCSVPatient)
+                    .addComponent(jLCSVActivity))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTFCSVFilePatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jBCSVFilePatientSearch)
+                        .addComponent(jTFCSVFileActivity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBCSVFileActivitySearch)
+                        .addComponent(jBCSVLoad)))
+                .addContainerGap(45, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("CSV file", jPanel1);
+
+        jLDBPath.setText("MS Access Path:");
+
+        jTFDBFile.setText("C:\\sentinella\\Leistungen.accdb");
+
+        jBDBFilePatientSearch.setText("...");
+        jBDBFilePatientSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBDBFilePatientSearchActionPerformed(evt);
+            }
+        });
+
+        jBDBLoad.setText("Load");
+        jBDBLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBDBLoadActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLDBPath)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jTFDBFile, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBDBFilePatientSearch)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBDBLoad)))
+                .addContainerGap(495, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLDBPath)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTFDBFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jBDBFilePatientSearch)
+                        .addComponent(jBDBLoad)))
+                .addContainerGap(45, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("MS Access DB", jPanel2);
+
+        jTRecords.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTRecords);
+
+        jBCSVFileJSONSearch.setText("...");
+        jBCSVFileJSONSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCSVFileJSONSearchActionPerformed(evt);
+            }
+        });
+
+        jLStep2.setBackground(new java.awt.Color(51, 204, 255));
+        jLStep2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLStep2.setText("2. View");
+        jLStep2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLStep2.setOpaque(true);
+
+        jLStep1.setBackground(new java.awt.Color(102, 255, 51));
+        jLStep1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLStep1.setText("1. Import");
+        jLStep1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLStep1.setOpaque(true);
+
+        jLStep3.setBackground(new java.awt.Color(255, 153, 153));
+        jLStep3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLStep3.setText("3. Export");
+        jLStep3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLStep3.setOpaque(true);
+
+        jMFile.setText("File");
+
+        jMLanguage.setText("Language");
+
+        jRBEnglish.setSelected(true);
+        jRBEnglish.setText("English");
+        jRBEnglish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBEnglishActionPerformed(evt);
+            }
+        });
+        jMLanguage.add(jRBEnglish);
+
+        jRBGerman.setText("Deutsch");
+        jRBGerman.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBGermanActionPerformed(evt);
+            }
+        });
+        jMLanguage.add(jRBGerman);
+
+        jRBFrench.setText("Français");
+        jRBFrench.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBFrenchActionPerformed(evt);
+            }
+        });
+        jMLanguage.add(jRBFrench);
+
+        jMFile.add(jMLanguage);
+
+        jMIQuit.setText("Quit");
+        jMIQuit.setToolTipText("");
+        jMIQuit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIQuitActionPerformed(evt);
+            }
+        });
+        jMFile.add(jMIQuit);
+
+        jMenuBar1.add(jMFile);
+
+        setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(jLStep2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLStep3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLStep1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTabbedPane1)
+                                    .addComponent(jScrollPane1)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLJsonPath, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTJSONPath, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBCSVFileJSONSearch)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jBConvertToJSON))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(4, 4, 4)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLStep1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLStep2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(jTFInputFolder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(63, 63, 63)
-                    .addComponent(jBConvertToJSON)
-                    .addContainerGap(291, Short.MAX_VALUE))
-            );
+                        .addComponent(jLJsonPath)
+                        .addComponent(jTJSONPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBConvertToJSON)
+                        .addComponent(jBCSVFileJSONSearch))
+                    .addComponent(jLStep3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
+        );
 
-            pack();
-        }// </editor-fold>//GEN-END:initComponents
+        jTabbedPane1.getAccessibleContext().setAccessibleName("CSV file");
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
     private void jBConvertToJSONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBConvertToJSONActionPerformed
-        //try to convert csv to json
-        String patientCSVPath = jTFInputFolder.getText() + "Patient.csv";
-        String activitiesCSVPath = jTFInputFolder.getText() + "Leistung.csv";
-        String outputJSONPath = jTFInputFolder.getText() + "output_json.json";
+        //check that we have an input source
+        if(inputSource == null) return;
 
-        DataSourceCSV dsCSV = new DataSourceCSV(patientCSVPath, activitiesCSVPath);
+        //check output path
+        //@TODO check file path is valid
+        File output = new File(jTJSONPath.getText());
         
         try {
-            //String json = DataSourceJSON.toBAGJSON(dsCSV);
-            //Files.write(Paths.get(outputJSONPath), json.getBytes(), StandardOpenOption.CREATE);
-            DataSourceJSON.writeBAGJSONToFile(dsCSV, null, outputJSONPath);
+            DataSourceJSON.writeBAGJSONToFile(inputSource, null, output.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jBConvertToJSONActionPerformed
 
-    private void jTFInputFolderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFInputFolderActionPerformed
+    private void jTJSONPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTJSONPathActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTFInputFolderActionPerformed
+    }//GEN-LAST:event_jTJSONPathActionPerformed
+
+    private void jMIQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIQuitActionPerformed
+       System.exit(0);
+    }//GEN-LAST:event_jMIQuitActionPerformed
+
+    private void jRBEnglishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBEnglishActionPerformed
+        //change current language
+        currentLanguage = Translation.TRANSLATION_LANGUAGE.EN;
+        //reload translations
+        translateGUIAccordingToCurrentLanguage();
+    }//GEN-LAST:event_jRBEnglishActionPerformed
+
+    private void jBCSVFileActivitySearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCSVFileActivitySearchActionPerformed
+        //select a CSV file for activities
+        JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(new FileFilterCSV());
+        int returnVal = fc.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            jTFCSVFileActivity.setText(file.getAbsolutePath());
+        }
+    }//GEN-LAST:event_jBCSVFileActivitySearchActionPerformed
+
+    private void jBCSVFilePatientSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCSVFilePatientSearchActionPerformed
+       //select a CSV file for patient
+        JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(new FileFilterCSV());
+        int returnVal = fc.showOpenDialog(this);
+        fc.setFileFilter(new FileFilterCSV());
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            jTFCSVFilePatient.setText(file.getAbsolutePath());
+        }
+    }//GEN-LAST:event_jBCSVFilePatientSearchActionPerformed
+
+    private void jBCSVLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCSVLoadActionPerformed
+        File fPatient, fActivity;
+        
+        //check both files exists
+        fPatient = new File(jTFCSVFilePatient.getText());
+        fActivity = new File(jTFCSVFileActivity.getText());
+        
+        if(!fPatient.exists()) {
+            //@TODO show error
+            return;
+        }
+        
+        if(!fActivity.exists()) {
+            //@TODO show error
+            return;
+        }
+        
+        //create datasource in memory
+        inputSource = new DataSourceCSV(fPatient.getAbsolutePath(), fActivity.getAbsolutePath());
+        
+        //reload table
+        recordsTableModel.setDataSource(inputSource);
+    }//GEN-LAST:event_jBCSVLoadActionPerformed
+
+    private void jBCSVFileJSONSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCSVFileJSONSearchActionPerformed
+        //select a json output
+        JFileChooser fc = new JFileChooser();
+        //@TODO filter file to json only
+        int returnVal = fc.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            jTJSONPath.setText(file.getAbsolutePath());
+        }
+    }//GEN-LAST:event_jBCSVFileJSONSearchActionPerformed
+
+    private void jBDBFilePatientSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDBFilePatientSearchActionPerformed
+       //select a CSV file for patient
+        JFileChooser fc = new JFileChooser();
+        int returnVal = fc.showOpenDialog(this);
+        //@TODO filter file to accdb only
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            jTFDBFile.setText(file.getAbsolutePath());
+        }
+    }//GEN-LAST:event_jBDBFilePatientSearchActionPerformed
+
+    private void jBDBLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDBLoadActionPerformed
+        File fDB;
+        
+        //check file exists
+        fDB = new File(jTFDBFile.getText());
+        
+        if(!fDB.exists()) {
+            //@TODO show error
+            return;
+        }
+        
+        try {
+            //create datasource in memory
+            inputSource = new DBDataSource(new MSAccessDatabase(fDB.getAbsolutePath()));
+        } catch (Exception ex) {
+            //@TODO show/log error
+            inputSource = null;
+        }
+        
+        //reload table
+        recordsTableModel.setDataSource(inputSource);
+    }//GEN-LAST:event_jBDBLoadActionPerformed
+
+    private void jRBGermanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBGermanActionPerformed
+        //change current language
+        currentLanguage = Translation.TRANSLATION_LANGUAGE.DE;
+        //reload translations
+        translateGUIAccordingToCurrentLanguage();
+    }//GEN-LAST:event_jRBGermanActionPerformed
+
+    private void jRBFrenchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBFrenchActionPerformed
+        //change current language
+        currentLanguage = Translation.TRANSLATION_LANGUAGE.FR;
+        //reload translations
+        translateGUIAccordingToCurrentLanguage();
+    }//GEN-LAST:event_jRBFrenchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,10 +549,67 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void translateGUIAccordingToCurrentLanguage() {
+        //check correct menu
+        jRBEnglish.setSelected(currentLanguage == Translation.TRANSLATION_LANGUAGE.EN ? true : false);
+        jRBFrench.setSelected(currentLanguage == Translation.TRANSLATION_LANGUAGE.FR ? true : false);
+        jRBGerman.setSelected(currentLanguage == Translation.TRANSLATION_LANGUAGE.DE ? true : false);
+         
+        //translate GUI
+        jLCSVPatient.setText(Translation.getForKey(currentLanguage, "main.csv.patientPath"));
+        jLCSVActivity.setText(Translation.getForKey(currentLanguage, "main.csv.activityPath"));
+        jBCSVLoad.setText(Translation.getForKey(currentLanguage, "main.load"));
+        
+        jBDBLoad.setText(Translation.getForKey(currentLanguage, "main.load"));
+        jLDBPath.setText(Translation.getForKey(currentLanguage, "main.access.path"));
+        
+        jLJsonPath.setText(Translation.getForKey(currentLanguage, "main.json.path"));
+        jBConvertToJSON.setText(Translation.getForKey(currentLanguage, "main.export"));
+        
+        jMFile.setText(Translation.getForKey(currentLanguage, "main.menu.file"));
+        jMIQuit.setText(Translation.getForKey(currentLanguage, "main.menu.quit"));
+        jMLanguage.setText(Translation.getForKey(currentLanguage, "main.menu.languages"));
+        
+        jTabbedPane1.setTitleAt(0, Translation.getForKey(currentLanguage, "main.tab.csv"));
+        jTabbedPane1.setTitleAt(1, Translation.getForKey(currentLanguage, "main.tab.db"));
+        
+        jLStep1.setText(Translation.getForKey(currentLanguage, "main.step.1"));
+        jLStep2.setText(Translation.getForKey(currentLanguage, "main.step.2"));
+        jLStep3.setText(Translation.getForKey(currentLanguage, "main.step.3"));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBCSVFileActivitySearch;
+    private javax.swing.JButton jBCSVFileJSONSearch;
+    private javax.swing.JButton jBCSVFilePatientSearch;
+    private javax.swing.JButton jBCSVLoad;
     private javax.swing.JButton jBConvertToJSON;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField jTFInputFolder;
+    private javax.swing.JButton jBDBFilePatientSearch;
+    private javax.swing.JButton jBDBLoad;
+    private javax.swing.JLabel jLCSVActivity;
+    private javax.swing.JLabel jLCSVPatient;
+    private javax.swing.JLabel jLDBPath;
+    private javax.swing.JLabel jLJsonPath;
+    private javax.swing.JLabel jLStep1;
+    private javax.swing.JLabel jLStep2;
+    private javax.swing.JLabel jLStep3;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMFile;
+    private javax.swing.JMenuItem jMIQuit;
+    private javax.swing.JMenu jMLanguage;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JRadioButtonMenuItem jRBEnglish;
+    private javax.swing.JRadioButtonMenuItem jRBFrench;
+    private javax.swing.JRadioButtonMenuItem jRBGerman;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTFCSVFileActivity;
+    private javax.swing.JTextField jTFCSVFilePatient;
+    private javax.swing.JTextField jTFDBFile;
+    private javax.swing.JTextField jTJSONPath;
+    private javax.swing.JTable jTRecords;
+    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }
