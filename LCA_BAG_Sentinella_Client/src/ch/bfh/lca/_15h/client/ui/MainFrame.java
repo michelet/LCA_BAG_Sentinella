@@ -11,12 +11,8 @@ import ch.bfh.lca._15h.library.Database.MSAccessDatabase;
 import ch.bfh.lca._15h.library.impl.DBDataSource;
 import ch.bfh.lca._15h.library.impl.DataSourceCSV;
 import ch.bfh.lca._15h.library.impl.DataSourceJSON;
+import ch.bfh.lca._15h.library.translation.Translation;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
@@ -27,6 +23,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private RecordsTableModel recordsTableModel = null;
     private DataSource inputSource = null;
+    private Translation.TRANSLATION_LANGUAGE currentLanguage = Translation.TRANSLATION_LANGUAGE.EN;
     
     /**
      * Creates new form MainFrame
@@ -34,9 +31,21 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         
+        //load translations file
+        try {
+        Translation.getInstance().addTranslations(Translation.TRANSLATION_LANGUAGE.FR, "ch/bfh/lca/_15h/client/translation/fr_client.properties");
+        Translation.getInstance().addTranslations(Translation.TRANSLATION_LANGUAGE.DE, "ch/bfh/lca/_15h/client/translation/de_client.properties");
+        Translation.getInstance().addTranslations(Translation.TRANSLATION_LANGUAGE.EN, "ch/bfh/lca/_15h/client/translation/en_client.properties");
+        } catch (Exception e) {
+            //@TODO show/log error
+        }
+      
         //init table model
         recordsTableModel = new RecordsTableModel(null);
         jTRecords.setModel(recordsTableModel);
+        
+        //translate GUI
+        translateGUIAccordingToCurrentLanguage();
     }
 
     /**
@@ -48,14 +57,14 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jLJsonPath = new javax.swing.JLabel();
         jTJSONPath = new javax.swing.JTextField();
         jBConvertToJSON = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jLCSVPatient = new javax.swing.JLabel();
+        jLCSVActivity = new javax.swing.JLabel();
         jTFCSVFilePatient = new javax.swing.JTextField();
         jTFCSVFileActivity = new javax.swing.JTextField();
         jBCSVFileActivitySearch = new javax.swing.JButton();
@@ -70,7 +79,7 @@ public class MainFrame extends javax.swing.JFrame {
         jTRecords = new javax.swing.JTable();
         jBCSVFileJSONSearch = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jMFile = new javax.swing.JMenu();
         jMLanguage = new javax.swing.JMenu();
         jRBEnglish = new javax.swing.JRadioButtonMenuItem();
         jRBGerman = new javax.swing.JRadioButtonMenuItem();
@@ -79,7 +88,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Output to JSON file:");
+        jLJsonPath.setText("Output to JSON file:");
 
         jTJSONPath.setText("c:\\sentinella\\test.json");
         jTJSONPath.addActionListener(new java.awt.event.ActionListener() {
@@ -98,9 +107,9 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Sentinella Client (v1.0)");
 
-        jLabel3.setText("Patient CSV file:");
+        jLCSVPatient.setText("Patient CSV file:");
 
-        jLabel4.setText("Activities CSV file:");
+        jLCSVActivity.setText("Activities CSV file:");
 
         jTFCSVFilePatient.setText("C:\\sentinella\\Patient.csv");
 
@@ -137,14 +146,14 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jBCSVLoad)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
+                            .addComponent(jLCSVPatient)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jTFCSVFilePatient, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jBCSVFilePatientSearch)))
                         .addGap(57, 57, 57)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
+                            .addComponent(jLCSVActivity)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jTFCSVFileActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -156,8 +165,8 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                    .addComponent(jLCSVPatient)
+                    .addComponent(jLCSVActivity))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTFCSVFilePatient, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -244,7 +253,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jMenu1.setText("File");
+        jMFile.setText("File");
 
         jMLanguage.setText("Language");
 
@@ -258,12 +267,22 @@ public class MainFrame extends javax.swing.JFrame {
         jMLanguage.add(jRBEnglish);
 
         jRBGerman.setText("Deutsch");
+        jRBGerman.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBGermanActionPerformed(evt);
+            }
+        });
         jMLanguage.add(jRBGerman);
 
         jRBFrench.setText("Français");
+        jRBFrench.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBFrenchActionPerformed(evt);
+            }
+        });
         jMLanguage.add(jRBFrench);
 
-        jMenu1.add(jMLanguage);
+        jMFile.add(jMLanguage);
 
         jMIQuit.setText("Quit");
         jMIQuit.setToolTipText("");
@@ -272,9 +291,9 @@ public class MainFrame extends javax.swing.JFrame {
                 jMIQuitActionPerformed(evt);
             }
         });
-        jMenu1.add(jMIQuit);
+        jMFile.add(jMIQuit);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(jMFile);
 
         setJMenuBar(jMenuBar1);
 
@@ -296,7 +315,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel1)
+                        .addComponent(jLJsonPath)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTJSONPath, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -316,7 +335,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(jLJsonPath)
                     .addComponent(jTJSONPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBConvertToJSON)
                     .addComponent(jBCSVFileJSONSearch))
@@ -352,7 +371,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIQuitActionPerformed
 
     private void jRBEnglishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBEnglishActionPerformed
-        // TODO add your handling code here:
+        //change current language
+        currentLanguage = Translation.TRANSLATION_LANGUAGE.EN;
+        //reload translations
+        translateGUIAccordingToCurrentLanguage();
     }//GEN-LAST:event_jRBEnglishActionPerformed
 
     private void jBCSVFileActivitySearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCSVFileActivitySearchActionPerformed
@@ -446,6 +468,20 @@ public class MainFrame extends javax.swing.JFrame {
         recordsTableModel.setDataSource(inputSource);
     }//GEN-LAST:event_jBDBLoadActionPerformed
 
+    private void jRBGermanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBGermanActionPerformed
+        //change current language
+        currentLanguage = Translation.TRANSLATION_LANGUAGE.DE;
+        //reload translations
+        translateGUIAccordingToCurrentLanguage();
+    }//GEN-LAST:event_jRBGermanActionPerformed
+
+    private void jRBFrenchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBFrenchActionPerformed
+        //change current language
+        currentLanguage = Translation.TRANSLATION_LANGUAGE.FR;
+        //reload translations
+        translateGUIAccordingToCurrentLanguage();
+    }//GEN-LAST:event_jRBFrenchActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -480,6 +516,31 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void translateGUIAccordingToCurrentLanguage() {
+        //check correct menu
+        jRBEnglish.setSelected(currentLanguage == Translation.TRANSLATION_LANGUAGE.EN ? true : false);
+        jRBFrench.setSelected(currentLanguage == Translation.TRANSLATION_LANGUAGE.FR ? true : false);
+        jRBGerman.setSelected(currentLanguage == Translation.TRANSLATION_LANGUAGE.DE ? true : false);
+         
+        //translate GUI
+        jLCSVPatient.setText(Translation.getForKey(currentLanguage, "main.csv.patientPath"));
+        jLCSVActivity.setText(Translation.getForKey(currentLanguage, "main.csv.activityPath"));
+        jBCSVLoad.setText(Translation.getForKey(currentLanguage, "main.load"));
+        
+        jBDBLoad.setText(Translation.getForKey(currentLanguage, "main.load"));
+        jTFDBFile.setText(Translation.getForKey(currentLanguage, "main.access.path"));
+        
+        jLJsonPath.setText(Translation.getForKey(currentLanguage, "main.json.path"));
+        jBConvertToJSON.setText(Translation.getForKey(currentLanguage, "main.export"));
+        
+        jMFile.setText(Translation.getForKey(currentLanguage, "main.menu.file"));
+        jMIQuit.setText(Translation.getForKey(currentLanguage, "main.menu.quit"));
+        jMLanguage.setText(Translation.getForKey(currentLanguage, "main.menu.languages"));
+        
+        jTabbedPane1.setTitleAt(0, Translation.getForKey(currentLanguage, "main.tab.csv"));
+        jTabbedPane1.setTitleAt(1, Translation.getForKey(currentLanguage, "main.tab.db"));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBCSVFileActivitySearch;
@@ -489,14 +550,14 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jBConvertToJSON;
     private javax.swing.JButton jBDBFilePatientSearch;
     private javax.swing.JButton jBDBLoad;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLCSVActivity;
+    private javax.swing.JLabel jLCSVPatient;
+    private javax.swing.JLabel jLJsonPath;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JMenu jMFile;
     private javax.swing.JMenuItem jMIQuit;
     private javax.swing.JMenu jMLanguage;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
