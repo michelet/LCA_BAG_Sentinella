@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 
@@ -73,7 +74,26 @@ public class ExportHandler {
 
     }    
     
-    private DataSource getDataSource(int year) throws Exception {
+    public JFreeChart getChartByAgeGroup(int year){
+        
+        StatisticHandler sh = new StatisticHandler();
+        List<GenericResultRow> lines = sh.getResultRowByAgeGroups(this.getDataSourceByYear(year));        
+        ChartHandler ch = new ChartHandler();
+        JFreeChart chart = ch.generatesPopulationChart(this.ResultRowListToArray(lines));
+              
+        return chart;
+    } 
+    public JFreeChart getChartByAge(int year){
+        
+        StatisticHandler sh = new StatisticHandler();
+        List<GenericResultRow> lines = sh.getResultRowByAge(this.getDataSourceByYear(year));        
+        ChartHandler ch = new ChartHandler();
+        JFreeChart chart = ch.generatesPopulationChart(this.ResultRowListToArray(lines));
+              
+        return chart;
+    }     
+    
+    public DataSource getDataSource(int year) throws Exception {
         return this.databaseExportHandler.getElemntsByYear(year);
     }
     
@@ -96,7 +116,7 @@ public class ExportHandler {
         return result;
     }//saveChartToJPG()
     
-    private DataSource getDataSourceByYear (int year) {
+    public DataSource getDataSourceByYear (int year) {
         try {
             CriteriaConsultYear ccy = new CriteriaConsultYear(year);
             DataSource dataSourceByYear;

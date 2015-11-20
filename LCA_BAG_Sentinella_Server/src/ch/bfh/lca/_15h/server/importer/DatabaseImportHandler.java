@@ -13,7 +13,15 @@ import ch.bfh.lca._15h.library.Database.IntegerDBParam;
 import ch.bfh.lca._15h.library.Database.LongDBParam;
 import ch.bfh.lca._15h.library.Database.StringDBParam;
 import ch.bfh.lca._15h.library.model.DoctorPatientContact;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -26,7 +34,7 @@ public class DatabaseImportHandler {
     public DatabaseImportHandler(IDatabase databse) {
         this.database = databse;
     }
-    
+       
     public boolean writeSentinellaRecordInDatabase(DataSource datasource) {
         DatabaseHandler handler = new DatabaseHandler(this.database);
         

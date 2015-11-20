@@ -10,6 +10,7 @@ import ch.bfh.lca._15h.library.Database.SQLLiteDatabase;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -37,9 +38,11 @@ public class ImportHandler {
             JsonImportHandler jih = new JsonImportHandler(this.SOURCE_FILEPATH);
             
             DataSource dataSource = jih.getDataSource();
+             boolean itWorks = false;
         try {            
             database.openConnection();
-            boolean itWorks = dih.writeSentinellaRecordInDatabase(dataSource);
+            itWorks = dih.writeSentinellaRecordInDatabase(dataSource);
+            
             database.closeConnection();
             
             if (itWorks) {
