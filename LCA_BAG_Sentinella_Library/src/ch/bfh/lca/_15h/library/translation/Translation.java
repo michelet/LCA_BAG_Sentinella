@@ -80,6 +80,9 @@ public class Translation {
             case DE:
                 deTranslations.putAll(translations); //
                 break;
+            case EN:
+                enTranslations.putAll(translations); //
+                break;
         } 
     }
     
