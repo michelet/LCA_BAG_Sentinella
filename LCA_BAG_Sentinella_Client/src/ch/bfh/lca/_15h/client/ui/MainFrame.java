@@ -78,6 +78,9 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTRecords = new javax.swing.JTable();
         jBCSVFileJSONSearch = new javax.swing.JButton();
+        jLStep2 = new javax.swing.JLabel();
+        jLStep1 = new javax.swing.JLabel();
+        jLStep3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMFile = new javax.swing.JMenu();
         jMLanguage = new javax.swing.JMenu();
@@ -152,7 +155,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLCSVActivity)
-                        .addContainerGap(490, Short.MAX_VALUE))
+                        .addContainerGap(425, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jTFCSVFileActivity, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -213,7 +216,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jBDBFilePatientSearch)
                         .addGap(18, 18, 18)
                         .addComponent(jBDBLoad)))
-                .addContainerGap(560, Short.MAX_VALUE))
+                .addContainerGap(495, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,6 +253,24 @@ public class MainFrame extends javax.swing.JFrame {
                 jBCSVFileJSONSearchActionPerformed(evt);
             }
         });
+
+        jLStep2.setBackground(new java.awt.Color(51, 204, 255));
+        jLStep2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLStep2.setText("2. View");
+        jLStep2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLStep2.setOpaque(true);
+
+        jLStep1.setBackground(new java.awt.Color(102, 255, 51));
+        jLStep1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLStep1.setText("1. Import");
+        jLStep1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLStep1.setOpaque(true);
+
+        jLStep3.setBackground(new java.awt.Color(255, 153, 153));
+        jLStep3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLStep3.setText("3. Export");
+        jLStep3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLStep3.setOpaque(true);
 
         jMFile.setText("File");
 
@@ -302,39 +323,54 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(jLStep2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLStep3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLStep1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTabbedPane1)
+                                    .addComponent(jScrollPane1)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLJsonPath, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTJSONPath, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBCSVFileJSONSearch)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jBConvertToJSON))))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLJsonPath)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTJSONPath, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBCSVFileJSONSearch)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jBConvertToJSON)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(4, 4, 4)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLJsonPath)
-                    .addComponent(jTJSONPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBConvertToJSON)
-                    .addComponent(jBCSVFileJSONSearch))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLStep1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLStep2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLJsonPath)
+                        .addComponent(jTJSONPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBConvertToJSON)
+                        .addComponent(jBCSVFileJSONSearch))
+                    .addComponent(jLStep3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
         );
 
         jTabbedPane1.getAccessibleContext().setAccessibleName("CSV file");
@@ -535,6 +571,10 @@ public class MainFrame extends javax.swing.JFrame {
         
         jTabbedPane1.setTitleAt(0, Translation.getForKey(currentLanguage, "main.tab.csv"));
         jTabbedPane1.setTitleAt(1, Translation.getForKey(currentLanguage, "main.tab.db"));
+        
+        jLStep1.setText(Translation.getForKey(currentLanguage, "main.step.1"));
+        jLStep2.setText(Translation.getForKey(currentLanguage, "main.step.2"));
+        jLStep3.setText(Translation.getForKey(currentLanguage, "main.step.3"));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -549,6 +589,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLCSVPatient;
     private javax.swing.JLabel jLDBPath;
     private javax.swing.JLabel jLJsonPath;
+    private javax.swing.JLabel jLStep1;
+    private javax.swing.JLabel jLStep2;
+    private javax.swing.JLabel jLStep3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMFile;
     private javax.swing.JMenuItem jMIQuit;
