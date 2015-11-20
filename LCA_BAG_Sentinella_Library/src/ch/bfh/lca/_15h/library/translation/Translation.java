@@ -20,11 +20,12 @@ public class Translation {
 
     public enum TRANSLATION_LANGUAGE {
 
-        FR, DE
+        FR, DE, EN
     }
     
     Properties frTranslations;
     Properties deTranslations;
+    Properties enTranslations;
 
     /**
      * Constructor as private because it's a singleton.
@@ -33,10 +34,11 @@ public class Translation {
         //load translations
         frTranslations = new Properties();
         deTranslations = new Properties();
-        
+        enTranslations = new Properties();
         
         this.addTranslations(TRANSLATION_LANGUAGE.FR, "ch/bfh/lca/_15h/library/translation/fr.properties");
         this.addTranslations(TRANSLATION_LANGUAGE.DE, "ch/bfh/lca/_15h/library/translation/de.properties");
+        this.addTranslations(TRANSLATION_LANGUAGE.EN, "ch/bfh/lca/_15h/library/translation/en.properties");
     }
 
     /**
