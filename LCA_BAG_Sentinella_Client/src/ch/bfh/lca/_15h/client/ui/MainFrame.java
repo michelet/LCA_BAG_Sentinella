@@ -71,7 +71,7 @@ public class MainFrame extends javax.swing.JFrame {
         jBCSVFilePatientSearch = new javax.swing.JButton();
         jBCSVLoad = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        jLDBPath = new javax.swing.JLabel();
         jTFDBFile = new javax.swing.JTextField();
         jBDBFilePatientSearch = new javax.swing.JButton();
         jBDBLoad = new javax.swing.JButton();
@@ -181,7 +181,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("CSV file", jPanel1);
 
-        jLabel5.setText("MS Access Path:");
+        jLDBPath.setText("MS Access Path:");
 
         jTFDBFile.setText("C:\\sentinella\\Leistungen.accdb");
 
@@ -207,7 +207,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addComponent(jLDBPath)
                         .addContainerGap(784, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jTFDBFile, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -221,7 +221,7 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
+                .addComponent(jLDBPath)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTFDBFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -529,7 +529,7 @@ public class MainFrame extends javax.swing.JFrame {
         jBCSVLoad.setText(Translation.getForKey(currentLanguage, "main.load"));
         
         jBDBLoad.setText(Translation.getForKey(currentLanguage, "main.load"));
-        jTFDBFile.setText(Translation.getForKey(currentLanguage, "main.access.path"));
+        jLDBPath.setText(Translation.getForKey(currentLanguage, "main.access.path"));
         
         jLJsonPath.setText(Translation.getForKey(currentLanguage, "main.json.path"));
         jBConvertToJSON.setText(Translation.getForKey(currentLanguage, "main.export"));
@@ -552,9 +552,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jBDBLoad;
     private javax.swing.JLabel jLCSVActivity;
     private javax.swing.JLabel jLCSVPatient;
+    private javax.swing.JLabel jLDBPath;
     private javax.swing.JLabel jLJsonPath;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMFile;
     private javax.swing.JMenuItem jMIQuit;
     private javax.swing.JMenu jMLanguage;
