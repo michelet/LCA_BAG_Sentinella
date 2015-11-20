@@ -34,15 +34,9 @@ public class Translation {
         frTranslations = new Properties();
         deTranslations = new Properties();
         
-        InputStream input = null;
         
-        URL url = Translation.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/translation/fr.properties");
-        input = url.openStream();
-	frTranslations.load(input);
-        
-        url = Translation.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/translation/de.properties");
-        input = url.openStream();
-	deTranslations.load(input);
+        this.addTranslations(TRANSLATION_LANGUAGE.FR, "ch/bfh/lca/_15h/library/translation/fr.properties");
+        this.addTranslations(TRANSLATION_LANGUAGE.DE, "ch/bfh/lca/_15h/library/translation/de.properties");
     }
 
     /**
@@ -60,6 +54,39 @@ public class Translation {
         return INSTANCE;
     }
     
+    /**
+     * Allow to load translations properties file
+     * @param language Language of the properties file
+     * @param translationsPath internal path of the properties file
+     * @throws IOException 
+     */
+    public void addTranslations(TRANSLATION_LANGUAGE language, String translationsPath) throws IOException {
+        //load translation
+        Properties translations = new Properties();
+        
+        InputStream input = null;
+        
+        URL url = Translation.class.getClassLoader().getResource(translationsPath);
+        input = url.openStream();
+	translations.load(input);
+        
+        //merge with existings loaded properties
+        switch(language) {
+            case FR:
+                frTranslations.putAll(translations);
+                break;
+            case DE:
+                deTranslations.putAll(translations); //
+                break;
+        } 
+    }
+    
+    /**
+     * Return the translation in a specific language for a specifiy key
+     * @param language
+     * @param key
+     * @return 
+     */
     public String getTranslationForKey(TRANSLATION_LANGUAGE language, String key) {
         if(language == TRANSLATION_LANGUAGE.FR) return frTranslations.getProperty(key);
         
