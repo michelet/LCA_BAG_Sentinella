@@ -15,6 +15,11 @@ import javax.swing.filechooser.FileFilter;
  */
 public class FileFilterCSV extends FileFilter {
 
+    /**
+     * Determin if a file should be displayed or not.
+     * @param f
+     * @return 
+     */
     @Override
     public boolean accept(File f) {
         if(this.getExtension(f) == null) return false;
@@ -22,13 +27,17 @@ public class FileFilterCSV extends FileFilter {
         return false;
     }
 
+    /**
+     * Name of the filter displayed in the dialog to the user
+     * @return 
+     */
     @Override
     public String getDescription() {
         return "CSV";
     }
     
     /**
-     * Get extension of a file
+     * Extract extension of a file
      * @param f
      * @return 
      */
