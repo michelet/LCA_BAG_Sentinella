@@ -5,15 +5,14 @@
  */
 package ch.bfh.lca._15h.library.translation;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
 /**
- *
+ * Class to handle translation between differents languages.
+ * Translation are stored in properties files.
  * @author Cédric Michelet
  */
 public class Translation {
@@ -48,6 +47,8 @@ public class Translation {
 
     /**
      * Getter of singleton
+     * @return 
+     * @throws java.io.IOException
      */
     public static Translation getInstance() throws IOException {
         if(INSTANCE == null)
@@ -66,7 +67,7 @@ public class Translation {
         //load translation
         Properties translations = new Properties();
         
-        InputStream input = null;
+        InputStream input;
         
         URL url = Translation.class.getClassLoader().getResource(translationsPath);
         input = url.openStream();
