@@ -136,7 +136,6 @@ public class DataSourceJSON implements DataSource {
      */
     public static String toBAGJSON(DataSource source, DoctorPatientContactFilter doctorPatientContactFilter) throws Exception {
         //Library => https://code.google.com/p/json-simple/
-        System.out.println("NEW JSON!");
         JSONArray array = new JSONArray();
         JSONObject objPatient;
         JSONArray diagnosisArray;
