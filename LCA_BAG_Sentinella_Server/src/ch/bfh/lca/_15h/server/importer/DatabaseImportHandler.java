@@ -31,10 +31,20 @@ public class DatabaseImportHandler {
     
     IDatabase database;
     
+    /**
+     * Creates an DatabaseImporterHandler Object and sets the Database Object
+     * @param databse 
+     */
     public DatabaseImportHandler(IDatabase databse) {
         this.database = databse;
     }
        
+    /**
+     * Writes a row into the Sentinalla database. Using the following Query:
+     *   INSERT INTO sentinellaRecord VALUES (?, ?, ?, ?, ?)
+     * @param datasource DataSource Object with DPCs stored
+     * @return 
+     */
     public boolean writeSentinellaRecordInDatabase(DataSource datasource) {
         DatabaseHandler handler = new DatabaseHandler(this.database);
         
@@ -60,13 +70,16 @@ public class DatabaseImportHandler {
         }
         return true;
     }
-    
-    public DataSource readFromSentinallaDatabase() {
-        DataSource dataSource = null;
-        
-        return dataSource;
-    }
-    
+       
+    /**
+     * Createes the Sentinella Database with the following query:
+     *  CREATE TABLE IF NOT EXISTS sentinellaRecord
+     *      (PatNumber TEXT,
+     *       PatSex INT,
+     *       PatBirthdate NUM,
+     *       PatDiagnosis TEXT,
+     *       ContactDate NUM)
+     */
     public void createSentinellaDB() {
         DatabaseHandler handler = new DatabaseHandler(this.database);
         

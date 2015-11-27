@@ -16,15 +16,28 @@ import java.util.logging.Logger;
 /**
  *
  * @author Stefan
+ * Class to get Sentinella Records from a Databse
  */
 public class DatabaseExportHandler {
     
     IDatabase databse;
     
+    /**
+     * Constructor of Database Exporthandler.
+     * @param database 
+     */
     public DatabaseExportHandler(IDatabase database) {
         this.databse = database;
     }
     
+    /**
+     * Gets Elemts by Year. 
+     * @deprecated Actually there is no Year filter implemented in the Query.
+     *   Use getElements instead.
+     * @param year Year from which you want the records.
+     * @return
+     * @throws Exception 
+     */
     public DataSource getElemntsByYear(int year) throws Exception {
        
         String query = "SELECT * FROM sentinellaRecord";
@@ -41,5 +54,22 @@ public class DatabaseExportHandler {
             this.databse.closeConnection();
         }
     }
+    
+    public DataSource getElemnts() throws Exception {
+       
+        String query = "SELECT * FROM sentinellaRecord";
+        
+        DatabaseHandler db = new DatabaseHandler(this.databse);
+        try {
+            this.databse.openConnection();
+            DBDataSource dataSource = new DBDataSource(this.databse, query, null);
+            return dataSource;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseExportHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }finally {
+            this.databse.closeConnection();
+        }
+    }    
     
 }

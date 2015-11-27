@@ -22,6 +22,12 @@ import org.apache.commons.math3.stat.Frequency;
  */
 public class StatisticHandler {
       
+    
+    /**
+     * Gets a list of GenericResultRows which conatins the the Frequencies of genders (male & female) by age groups
+     * @param dataSource Have to be a Doctor Patient Contact dataSource
+     * @return Calculated List of Population by age, which had an doctor contact.
+     */
     public List<GenericResultRow> getResultRowByAgeGroups(DataSource dataSource) {
         
         List<GenericResultRow> newList = new ArrayList<>();
@@ -32,11 +38,14 @@ public class StatisticHandler {
             newList.add(this.genderFrequency(i + " bis " + Integer.toString(i+5), filteredSource));
         }
         
-        // DataSource dc = this.generateAgeFilter(0, 5).meetCrieria(dataSource);
-        
         return newList;
     }
 
+    /**
+     * Gets a list of GenericResultRows which conatins the the Frequencies of genders (male & female) by Age
+     * @param dataSource Have to be a Doctor Patient Contact dataSource
+     * @return Calculated List of Population by age, which had an doctor contact.
+     */
     public List<GenericResultRow> getResultRowByAge(DataSource dataSource) {
         
         List<GenericResultRow> newList = new ArrayList<>();
@@ -49,6 +58,12 @@ public class StatisticHandler {
         return newList;
     }    
     
+    /**
+     * Creates an Or-Criteria for Age Groups. Age from (minValue) to (maxValue)
+     * @param minValue Integer which represents the lowest age within the age group
+     * @param maxValue Integer which represents the highest age within the age group
+     * @return an OrCriteria to get the Entries within the Age group
+     */
     private OrCriteria generateAgeFilter(int minValue, int maxValue){
         OrCriteria orCriteria = new OrCriteria();
         
@@ -59,6 +74,14 @@ public class StatisticHandler {
         return orCriteria;
     }
     
+    /**
+     * Calculates the frequencies of genders within an dataSource. The result is given in a GenericResultRow
+     * @param name Name of Age (group)
+     * @param dataSource Source with datas of DPCs
+     * @return GenericResultRow (Contains in field 0 the description of the Age (group),
+     *   in field 1 the amount of male within that group
+     *   in field 2 the amount of females within the group.
+     */
     private GenericResultRow genderFrequency(String name, DataSource dataSource) {
         Frequency freqGender = new Frequency();
         GenericResultRow grr = new DBResultRow();

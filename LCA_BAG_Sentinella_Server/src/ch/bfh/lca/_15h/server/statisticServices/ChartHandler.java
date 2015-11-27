@@ -19,10 +19,21 @@ import org.jfree.data.general.DefaultKeyedValues2DDataset;
  * @author Stefan
  */
 public class ChartHandler {
-   public ChartHandler() {
+   /**
+    * Empty constructor of class. 
+    */
+    public ChartHandler() {
        
    } 
    
+    /**
+     * Generates a JFreeChart object, which represents an age-pyramide diagramm.
+     * @param arrResults an array of GenericResultRow objects. The following assignement has to be done:
+     * Value at Position 0 = Categorie (such as Age 25 to 30)
+     * Value at Position 1 = Count of males
+     * Value at Position 2 = Count of females
+     * @return an JFreeChart Object
+     */
    public JFreeChart generatesPopulationChart(GenericResultRow[] arrResults){
        
        DefaultKeyedValues2DDataset data = new DefaultKeyedValues2DDataset();
