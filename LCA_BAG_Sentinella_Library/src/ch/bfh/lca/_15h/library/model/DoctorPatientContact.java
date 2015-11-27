@@ -141,19 +141,25 @@ public class DoctorPatientContact {
         }
     }
     
-    public static Date objectToDate(Object dateAsObject) throws Exception {
+    public static Date accessObjectToDate(Object dateAsObject) throws Exception {
         long dateAsLong = 0;
-        final String DOUBLECLASS = "class java.lang.Double";
+        //final String DOUBLECLASS = "class java.lang.Double";
         String classString = dateAsObject.getClass().toString();
         
-        if (classString.equals(DOUBLECLASS)) {
+        if (classString.equals(Double.class.toString())) {
             double dbl = (double) dateAsObject;
             dateAsLong = (new Double(dbl)).longValue();
-            
         }
-        SimpleDateFormat DATEFORMAT = new SimpleDateFormat("dd.MM.yyyy");
-        Date date = new Date(dateAsLong * 1000);
-        System.out.println("SACK:" + DATEFORMAT.format(date));
+        else if(classString.equals(String.class.toString())) {
+            dateAsLong = new Double((String)dateAsObject).longValue();
+        }
+        else {
+            throw new IllegalArgumentException("Long or Double or String excepted");
+        }
+        
+        //MSAccess reference date = 01.01.1990 - Java reference date = 01.01.1970
+        Date date = new Date((dateAsLong  - 25569) * 86400000);
+     
         return date;
     }
     

@@ -109,7 +109,7 @@ public class DataSourceCSV implements DataSource {
                 if(patNumberColIndex > -1)
                     dpc.setPatID(nextLine[patNumberColIndex]);
                 if(patBirthdateColIndex > -1)
-                    dpc.setPatBirthdate(DoctorPatientContact.objectToDate(nextLine[patBirthdateColIndex]));
+                    dpc.setPatBirthdate(DoctorPatientContact.accessObjectToDate(nextLine[patBirthdateColIndex]));
                 if(patSexColIndex > -1)
                     dpc.setPatSex(DoctorPatientContact.intToSex(Integer.parseInt(nextLine[patSexColIndex])));
                 if(patDiagnosisColIndex > -1)
@@ -182,7 +182,7 @@ public class DataSourceCSV implements DataSource {
                                 dpc = new DoctorPatientContact(dpc);
                                 aPatients.add(dpc);
                             }
-                            dpc.setContactDate(DoctorPatientContact.objectToDate(activityDate));
+                            dpc.setContactDate(DoctorPatientContact.accessObjectToDate(activityDate));
                         }
                     }
                 }
