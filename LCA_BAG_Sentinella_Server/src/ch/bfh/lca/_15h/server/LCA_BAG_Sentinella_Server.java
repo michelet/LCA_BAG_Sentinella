@@ -8,6 +8,7 @@ package ch.bfh.lca._15h.server;
 import ch.bfh.lca._15h.library.Database.SQLLiteDatabase;
 import ch.bfh.lca._15h.server.exporter.DatabaseExportHandler;
 import ch.bfh.lca._15h.server.exporter.ExportHandler;
+import ch.bfh.lca._15h.server.gui.MainWindowServer;
 import ch.bfh.lca._15h.server.importer.ImportHandler;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -90,10 +91,15 @@ public class LCA_BAG_Sentinella_Server {
             }
             else
             {
-                System.out.println("Wrong parameters. Please check the manuel");
+                MainWindowServer mws = new MainWindowServer();
+                mws.setVisible(true);
             }
         }
-                
+        else
+        {
+            MainWindowServer mws = new MainWindowServer();
+            mws.setVisible(true);
+        }                
     }
     
     
