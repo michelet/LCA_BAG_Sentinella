@@ -33,11 +33,22 @@ import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTTable;
 
 
 /**
- *
+ * Class to handle export to Excel file.
  * @author Cédric Michelet
  */
 public class ExportToExcel {
 
+    /***
+     * Generate an Excel file based on a list of results.
+     * Use the name of the fields described in the GenericResultRow to label the columns.
+     * @param language Language of the label in the Excel file
+     * @param sheetTitle Title of the sheet in the Excel file
+     * @param tableTitle Title of the table in the Excel file
+     * @param rows Arrays of rows to include in the listing
+     * @param excelFilePath Path of the outputed file
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public static void exportToExcel(Translation.TRANSLATION_LANGUAGE language, String sheetTitle, String tableTitle, GenericResultRow[] rows, String excelFilePath) throws FileNotFoundException, IOException {
         //Workbook wb = new HSSFWorkbook(); //xls
         Workbook wb = new SXSSFWorkbook(); //xlsx
@@ -94,6 +105,16 @@ public class ExportToExcel {
         wb.close();
     }
 
+    /***
+     * Prototype function. Not yet functional.
+     * Allow to generate an age pyramid graphic in Excel by using an existing Excel Template.
+     * @param language Language of the label in the Excel file
+     * @param rows Arrays of rows to include in the listing
+     * @param excelFilePath Path of the outputed file
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws InvalidFormatException 
+     */
     public static void exportToAgePyramid(Translation.TRANSLATION_LANGUAGE language, GenericResultRow[] rows, String excelFilePath) throws FileNotFoundException, IOException, InvalidFormatException {
         //open template
         URL url = Translation.class.getClassLoader().getResource("ch/bfh/lca/_15h/library/export/template/alter-pyramide-v2.xlsx");
