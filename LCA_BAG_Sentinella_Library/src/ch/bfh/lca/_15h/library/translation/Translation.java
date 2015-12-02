@@ -17,13 +17,27 @@ import java.util.Properties;
  */
 public class Translation {
 
+    /***
+     * Enumaration of languages
+     */
     public enum TRANSLATION_LANGUAGE {
 
         FR, DE, EN
     }
     
+    /***
+     * Store translations in French
+     */
     Properties frTranslations;
+    
+    /***
+     * Store translations in German
+     */
     Properties deTranslations;
+    
+    /**
+     * Store translations in English
+     */
     Properties enTranslations;
 
     /**
